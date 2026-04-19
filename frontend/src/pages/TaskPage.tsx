@@ -4,7 +4,7 @@ import ArrowRight from "../assets/arrow_right.svg";
 import Checkbox from "../components/ui/Checkbox.tsx";
 import Dot from "../assets/dot.svg";
 const TaskPage = () => {
-  const [showCreateModal, setShowCreateModal] = useState<boolean>(false);
+  const [showCreateModal, setShowCreateModal] = useState<boolean>(true);
   return (
     <div className="grid grid-cols-3 bg-white">
       <div className={`w-full ${showCreateModal ? "col-span-2" : "col-span-3"}`}>
@@ -17,11 +17,11 @@ const TaskPage = () => {
               <img src={Dot} alt="Dot" className="" />
             </div>
           </div>
-          <div className="border border-gray-200 rounded-md w-full bg-white overflow-x-auto scroll-smooth">
+          <div className="border border-gray-200 rounded-md w-full bg-white overflow-x-auto scroll-smooth ">
             <table className="w-full min-w-[1000px] ">
               <div className="text-sm text-neutral-800 font-inter my-2">
                 <thead>
-                  <th className=" w-[100px] border-r text-left px-1"><Checkbox size="sm"/><span className="ml-2">Id</span></th>
+                  <th className=" w-[100px] border-r text-left px-1 flex items-center"><Checkbox size="sm"/><span className="ml-2">Id</span></th>
                   <th className="w-[320px] border-r text-center">Task</th>
                   <th className=" w-[100px] border-r text-center">Status</th>
                   <th className=" w-[100px] border-r text-center">Project</th>
