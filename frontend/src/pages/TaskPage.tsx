@@ -4,7 +4,20 @@ import ArrowRight from "../assets/arrow_right.svg";
 import Checkbox from "../components/ui/Checkbox.tsx";
 import Dot from "../assets/dot.svg";
 const TaskPage = () => {
-  const [showCreateModal, setShowCreateModal] = useState<boolean>(true);
+  const [showCreateModal, setShowCreateModal] = useState<boolean>(false);
+  const [tasks, setTasks] = useState<Array<{ id: number; task: string; status: string; project: string; estDuration: string; startDate: string; dueDate: string; startTIme: string; }>>([
+    {
+      id: 1111,
+      task: "FIX: Resolve login issue",
+      status: "In Progress",
+      project: "Project Alpha",
+      estDuration: "2h",
+      startDate: "10 April, 2026",
+      dueDate: "10 April, 2026",
+      startTIme: "9:00 AM",
+      
+    },
+  ]);
   return (
     <div className="grid grid-cols-3 bg-white">
       <div className={`w-full ${showCreateModal ? "col-span-2" : "col-span-3"}`}>
@@ -38,20 +51,27 @@ const TaskPage = () => {
               <div className="h-px bg-gray-200 w-full"></div>
               <div className="text-[12px] text-gray-600 font-poppins my-2">
                 <tbody className="">
-                  <tr>
-                    <td className=" w-[100px] text-left px-1"><Checkbox size="sm"/><span className="ml-2">#TASK-1111</span></td>
-                    <td className="w-[320px]  text-center px-2">FIX: Resolve login issue</td>
-                    <td className=" w-[100px]  text-center">In Progress</td>
-                    <td className=" w-[100px]  text-center">Project Alpha</td>
+                  {
+                    tasks.map((task,index) => {
+                return  <>
+                  <tr key={task.id}>
+                    <td className=" w-[100px] text-left px-1"><Checkbox size="sm"/><span className="ml-2">#TASK-{task.id}</span></td>
+                    <td className="w-[320px]  text-center px-2">{task.task}</td>
+                    <td className=" w-[100px]  text-center">{task.status}</td>
+                    <td className=" w-[100px]  text-center">{task.project}</td>
                     <td className=" w-[110px] text-center">
-                      2h
+                      {task.estDuration}
                     </td>
                     <td className=" w-[110px]  text-center">
-                      10 April, 2026
+                      {task.startDate}
                     </td>
-                    <td className=" w-[110px]  text-center">10 April, 2026</td>
-                    <td className=" w-[110px] text-center">09:00 AM</td>
+                    <td className=" w-[110px]  text-center">{task.dueDate}</td>
+                    <td className=" w-[110px] text-center">{task.startTIme}</td>
                   </tr>
+                  </>
+                      
+                    })
+                  }
                 </tbody>
               </div>
               

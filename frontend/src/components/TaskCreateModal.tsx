@@ -1,9 +1,8 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import type { SubmitHandler } from "react-hook-form";
 import Plus from "../assets/plus.svg";
-import { format, set } from "date-fns";
-import { ChevronDownIcon } from "lucide-react";
+import { format } from "date-fns";
+import { ChevronDownIcon, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -35,38 +34,66 @@ const TaskCreateModal = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
+
   const [startDate, setStartDate] = useState<Date | undefined>(new Date());
   const [dueDate, setDueDate] = useState<Date | undefined>(new Date());
   const [startTime, setStartTime] = useState<Dayjs | null>(dayjs(new Date()));
   const [subtaskInput, setSubtaskInput] = useState("");
-  const [subtasks, setSubtasks] = useState<Array<{ id: number; name: string }>>([
-    {
-      id:1111,
-      name: "Work on frontend",
-    },
-    {
-      id:2222,
-      name: "Work on backend",
-    },
-  ]);
-  const onSubmit = (data) => console.log(data);
+  const [subtasks, setSubtasks] = useState<Array<{ id: number; name: string }>>(
+    [
+      { id: 1111, name: "Work on frontend" },
+      { id: 2222, name: "Work on backend" },
+    ]
+  );
+  const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set());
 
-  
+  const onSubmit = (data: any) => console.log(data);
 
-  const addSubtask = (e,name: string) => {
-   e.preventDefault();
-    if (name === "") return;
-    setSubtasks((prev) => [...prev, { id: Math.floor(Math.random() * 9000) + 1000, name: name }]);
-   
+  const addSubtask = (e: React.MouseEvent | React.KeyboardEvent, name: string) => {
+    e.preventDefault();
+    if (name.trim() === "") return;
+    setSubtasks((prev) => [
+      ...prev,
+      { id: Math.floor(Math.random() * 9000) + 1000, name: name.trim() },
+    ]);
+    setSubtaskInput("");
+  };
+
+  const allSelected = subtasks.length > 0 && selectedIds.size === subtasks.length;
+
+  // Header checkbox: if all selected → deselect all, else → select all
+  const toggleSelectAll = () => {
+    if (allSelected) {
+      setSelectedIds(new Set());
+    } else {
+      setSelectedIds(new Set(subtasks.map((s) => s.id)));
+    }
+  };
+
+   const toggleSelect = (id: number) => {
+    setSelectedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) { next.delete(id); } else { next.add(id); }
+      return next;
+    });
+  };
+
+
+  // Delete only the selected subtasks
+  const deleteSelected = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setSubtasks((prev) => prev.filter((s) => !selectedIds.has(s.id)));
+    setSelectedIds(new Set());
   };
 
   return (
     <div className="p-4 w-full min-h-screen border-l border-gray-200">
-      <form action="" onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        {/* Task name */}
         <div className="mt-5">
           <label
             htmlFor="task"
-            className="text-lg font-inter font-semibold text-neutral-800 "
+            className="text-lg font-inter font-semibold text-neutral-800"
           >
             Your Task
           </label>
@@ -89,68 +116,105 @@ const TaskCreateModal = () => {
             </span>
           )}
         </div>
+
+        {/* Subtask input */}
         <div className="mt-5">
-          <div className="flex items-center  gap-1">
+          <div className="flex items-center gap-1">
             <Input
               type="text"
               id="subtask"
               placeholder="Enter the subtask"
               className="text-sm p-2 h-10 text-neutral-600"
-              onChange={(e)=>setSubtaskInput(e.target.value)}
-             
+              value={subtaskInput}
+              onChange={(e) => setSubtaskInput(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") addSubtask(e, subtaskInput);
+              }}
             />
-            <button onClick={(e)=>addSubtask(e,subtaskInput)} className="bg-cyan-400 text-white h-10 px-1 w-[100px] text-sm flex items-center justify-center cursor-pointer hover:bg-cyan-500 transition-all duration-250 ease-in-out rounded font-poppins font-semibold rounded-lg">
-              <img
-                src={Plus}
-                alt="add subtask"
-                className="invert-100 h-5 w-5"
-              />
+            <button
+              onClick={(e) => addSubtask(e, subtaskInput)}
+              className="bg-cyan-400 text-white h-10 px-1 w-[100px] text-sm flex items-center justify-center cursor-pointer hover:bg-cyan-500 transition-all duration-250 ease-in-out rounded font-poppins font-semibold rounded-lg"
+            >
+              <img src={Plus} alt="add subtask" className="invert-100 h-5 w-5" />
               <span>ADD</span>
             </button>
           </div>
         </div>
-        {
-        subtasks.length > 0 &&
-        <div className="w-full border rounded-lg mt-5">
-          <table className="w-full">
-            <div className="text-[13px] text-neutral-800 font-inter my-1">
-              <thead>
-                <th className="w-[85px] border-r text-left px-1 flex items-center">
-                  <Checkbox size="xs" />
-                  <span className="ml-2">Id</span>
-                </th>
-                <th className="text-center w-[270px]">Subtask</th>
-              </thead>
-            </div>
-            <div className="h-px bg-gray-200 w-full"></div>
-            <div className="text-[10px] text-gray-600 font-poppins my-2">
-              <tbody className="text-[10px] text-gray-600 font-poppins">
-                {subtasks.map((item, index) => (
-                  <>
-                    <tr key={item.id} >
-                      <td className="w-[85px] px-1 text-left">
-                        <Checkbox size="xs" />
-                        <span className="ml-1">#SUB-{item.id}</span>
-                      </td>
-                      <td className="w-[270px] px-2 text-center">
-                        {item.name}
-                      </td>
-                    </tr>
 
-                    {index !== subtasks.length - 1 && (
-                      <tr>
-                        <td colSpan={2}>
-                          <div className="h-px w-full bg-gray-200 my-1" />
+        {/* Subtasks table + delete button attached below at bottom-right */}
+        {subtasks.length > 0 && (
+          <div className="mt-5">
+            <div className="w-full border rounded-lg">
+              <table className="w-full">
+                <thead>
+                  <tr className="text-[13px] text-neutral-800 font-inter">
+                    <th className="w-[100px] border-r text-left px-2 my-1.5">
+                      <div className="flex items-center gap-1.5">
+                        {/* Header checkbox selects / deselects all */}
+                        <Checkbox
+                          size="xs"
+                          checked={allSelected}
+                          onChange={toggleSelectAll}
+                        />
+                        <span>Id</span>
+                      </div>
+                    </th>
+                    <th className="text-center py-1.5">Subtask</th>
+                  </tr>
+                  <tr>
+                    <td colSpan={2}>
+                      <div className="h-px w-full bg-gray-200" />
+                    </td>
+                  </tr>
+                </thead>
+                <tbody className="text-[10px] text-gray-600 font-poppins">
+                  {subtasks.map((item, index) => (
+                    <>
+                      <tr key={item.id}>
+                        <td className="w-[100px] px-2 py-1.5 border-r">
+                          <div className="flex items-center gap-1.5">
+                            <Checkbox
+                              size="xs"
+                              checked={selectedIds.has(item.id)}
+                              onChange={() => toggleSelect(item.id)}
+                            />
+                            <span>#SUB-{item.id}</span>
+                          </div>
                         </td>
+                        <td className="px-2 text-center">{item.name}</td>
                       </tr>
-                    )}
-                  </>
-                ))}
-              </tbody>
+                      {index !== subtasks.length - 1 && (
+                        <tr key={`divider-${item.id}`}>
+                          <td colSpan={2}>
+                            <div className="h-px w-full bg-gray-200" />
+                          </td>
+                        </tr>
+                      )}
+                    </>
+                  ))}
+                </tbody>
+              </table>
             </div>
-          </table>
-        </div>
+
+            {/* Delete button — sits flush below the table at bottom-right, only shown when rows are selected */}
+            {selectedIds.size > 0 &&
+            <div className="flex justify-end">
+              <button
+                onClick={deleteSelected}
+                disabled={selectedIds.size === 0}
+                className={`flex items-center gap-1 text-[11px] font-poppins font-semibold px-2.5 py-1 rounded border transition-colors duration-150 bg-gray-800 border-neutral-200 text-white hover:bg-gray-600 cursor-pointer mt-1
+                `}
+              >
+                <Trash2 className="h-3 w-3" />
+                Delete
+              </button>
+            </div>
         }
+          </div>
+        
+        )}
+
+        {/* Start & Due Date */}
         <div className="mt-10 flex items-center gap-4">
           <div className="w-1/2">
             <span className="text-lg font-inter font-semibold text-neutral-800 mb-2">
@@ -165,11 +229,7 @@ const TaskCreateModal = () => {
                   data-empty={!startDate}
                   className="w-[160px] justify-between text-left font-normal data-[empty=true]:text-muted-foreground text-neutral-600"
                 >
-                  {startDate ? (
-                    format(startDate, "PPP")
-                  ) : (
-                    <span>Pick a date</span>
-                  )}
+                  {startDate ? format(startDate, "PPP") : <span>Pick a date</span>}
                   <ChevronDownIcon />
                 </Button>
               </PopoverTrigger>
@@ -223,6 +283,8 @@ const TaskCreateModal = () => {
             </div>
           )}
         </div>
+
+        {/* Start Time */}
         <div className="mt-10">
           <div className="text-lg font-inter font-semibold text-neutral-800 mb-2">
             Start Time
@@ -235,13 +297,13 @@ const TaskCreateModal = () => {
               <StaticTimePicker
                 value={startTime}
                 onChange={setStartTime}
-                slotProps={{
-                  actionBar: { actions: [] },
-                }}
+                slotProps={{ actionBar: { actions: [] } }}
               />
             </ThemeProvider>
           </LocalizationProvider>
         </div>
+
+        {/* Est. Duration & Status */}
         <div className="mt-10 flex items-center gap-4">
           <div className="w-1/2">
             <span className="text-lg font-inter font-semibold text-neutral-800 mb-2">
@@ -256,17 +318,10 @@ const TaskCreateModal = () => {
                 className="col-span-2 text-neutral-600"
                 {...register("estimatedDuration", {
                   required: "Estimated duration is required",
-                  min: {
-                    value: 1,
-                    message: "Estimated duration must be at least 1 min.",
-                  },
+                  min: { value: 1, message: "Estimated duration must be at least 1 min." },
                 })}
               />
-              <Select
-                {...register("estimatedDurationUnit", {
-                  required: "Unit is required",
-                })}
-              >
+              <Select {...register("estimatedDurationUnit", { required: "Unit is required" })}>
                 <SelectTrigger className="w-full col-span-3 text-neutral-600">
                   <SelectValue placeholder="Unit" />
                 </SelectTrigger>
@@ -320,6 +375,8 @@ const TaskCreateModal = () => {
             )}
           </div>
         </div>
+
+        {/* Project */}
         <div className="mt-5">
           <span className="text-lg font-inter font-semibold text-neutral-800 mb-2">
             Project
@@ -343,6 +400,8 @@ const TaskCreateModal = () => {
             </p>
           )}
         </div>
+
+        {/* Footer buttons */}
         <div className="w-full flex items-center justify-end mt-10 gap-2">
           <Button variant="outline" className="px-2 py-4 m-0 text-neutral-800">
             Cancel
