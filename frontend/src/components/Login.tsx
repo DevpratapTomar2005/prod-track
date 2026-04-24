@@ -21,7 +21,7 @@ const Register = () => {
   const onSubmit: SubmitHandler<LoginInputs> = (data) => console.log(data);
 
   return (
-    <div className="flex ">
+    <div className="flex">
       <div className="w-full  border-r border-gray-200  min-h-[calc(100vh-61px)]">
         <div className="m-10 mb-0">
           <h1 className="font-inter text-8xl font-bold text-neutral-800 px-3">
@@ -36,7 +36,7 @@ const Register = () => {
         </div>
         <div className="w-[250%] bg-gray-200 h-px  relative left-[-100%] z-0 mt-10"></div>
         <div className="w-full h-[300px] bg-[repeating-linear-gradient(45deg,transparent,transparent_15px,#e5e7eb_15px,#e5e7eb_16px)]"></div>
-        <div className="w-[250%] bg-gray-200 h-px  relative left-[-100%] mb-10 z-0 "></div>
+        <div className="w-[250%] bg-gray-200 h-px  relative left-[-100%] mb-0 z-0 "></div>
       </div>
       <div className="w-2/3 bg-white relative z-1">
         <div className="mx-10 mb-6 mt-15">

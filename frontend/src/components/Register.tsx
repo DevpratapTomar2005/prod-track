@@ -29,7 +29,7 @@ const Register = () => {
 
   return (
     <div className="flex ">
-      <div className="w-full  border-r border-gray-200 min-h-[calc(100vh-61px)]">
+      <div className="w-full border-r border-gray-200 min-h-[calc(100vh-61px)]">
         <div className="m-10 mb-0">
           <h1 className="font-inter text-8xl font-bold text-neutral-800 px-3">
             Register!

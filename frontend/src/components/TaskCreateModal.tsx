@@ -28,7 +28,7 @@ import {
 import { Input } from "@/components/ui/input";
 import Checkbox from "./ui/Checkbox.tsx";
 
-const TaskCreateModal = () => {
+const TaskCreateModal = ({onCancel}) => {
   const {
     register,
     handleSubmit,
@@ -43,13 +43,16 @@ const TaskCreateModal = () => {
     [
       { id: 1111, name: "Work on frontend" },
       { id: 2222, name: "Work on backend" },
-    ]
+    ],
   );
   const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set());
 
   const onSubmit = (data: any) => console.log(data);
 
-  const addSubtask = (e: React.MouseEvent | React.KeyboardEvent, name: string) => {
+  const addSubtask = (
+    e: React.MouseEvent | React.KeyboardEvent,
+    name: string,
+  ) => {
     e.preventDefault();
     if (name.trim() === "") return;
     setSubtasks((prev) => [
@@ -59,9 +62,9 @@ const TaskCreateModal = () => {
     setSubtaskInput("");
   };
 
-  const allSelected = subtasks.length > 0 && selectedIds.size === subtasks.length;
+  const allSelected =
+    subtasks.length > 0 && selectedIds.size === subtasks.length;
 
-  // Header checkbox: if all selected → deselect all, else → select all
   const toggleSelectAll = () => {
     if (allSelected) {
       setSelectedIds(new Set());
@@ -70,16 +73,18 @@ const TaskCreateModal = () => {
     }
   };
 
-   const toggleSelect = (id: number) => {
+  const toggleSelect = (id: number) => {
     setSelectedIds((prev) => {
       const next = new Set(prev);
-      if (next.has(id)) { next.delete(id); } else { next.add(id); }
+      if (next.has(id)) {
+        next.delete(id);
+      } else {
+        next.add(id);
+      }
       return next;
     });
   };
 
-
-  // Delete only the selected subtasks
   const deleteSelected = (e: React.MouseEvent) => {
     e.preventDefault();
     setSubtasks((prev) => prev.filter((s) => !selectedIds.has(s.id)));
@@ -87,7 +92,7 @@ const TaskCreateModal = () => {
   };
 
   return (
-    <div className="p-4 w-full min-h-screen border-l border-gray-200">
+    <div className="p-4 w-full bg-white h-[calc(100vh-53px)] overflow-y-auto relative z-2 [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-thumb]:bg-cyan-100 [&::-webkit-scrollbar-track]:bg-gray-100/40">
       <form onSubmit={handleSubmit(onSubmit)}>
         {/* Task name */}
         <div className="mt-5">
@@ -135,7 +140,11 @@ const TaskCreateModal = () => {
               onClick={(e) => addSubtask(e, subtaskInput)}
               className="bg-cyan-400 text-white h-10 px-1 w-[100px] text-sm flex items-center justify-center cursor-pointer hover:bg-cyan-500 transition-all duration-250 ease-in-out rounded font-poppins font-semibold rounded-lg"
             >
-              <img src={Plus} alt="add subtask" className="invert-100 h-5 w-5" />
+              <img
+                src={Plus}
+                alt="add subtask"
+                className="invert-100 h-5 w-5"
+              />
               <span>ADD</span>
             </button>
           </div>
@@ -197,21 +206,20 @@ const TaskCreateModal = () => {
             </div>
 
             {/* Delete button — sits flush below the table at bottom-right, only shown when rows are selected */}
-            {selectedIds.size > 0 &&
-            <div className="flex justify-end">
-              <button
-                onClick={deleteSelected}
-                disabled={selectedIds.size === 0}
-                className={`flex items-center gap-1 text-[11px] font-poppins font-semibold px-2.5 py-1 rounded border transition-colors duration-150 bg-gray-800 border-neutral-200 text-white hover:bg-gray-600 cursor-pointer mt-1
+            {selectedIds.size > 0 && (
+              <div className="flex justify-end">
+                <button
+                  onClick={deleteSelected}
+                  disabled={selectedIds.size === 0}
+                  className={`flex items-center gap-1 text-[11px] font-poppins font-semibold px-2.5 py-1 rounded border transition-colors duration-150 bg-gray-800 border-neutral-200 text-white hover:bg-gray-600 cursor-pointer mt-1
                 `}
-              >
-                <Trash2 className="h-3 w-3" />
-                Delete
-              </button>
-            </div>
-        }
+                >
+                  <Trash2 className="h-3 w-3" />
+                  Delete
+                </button>
+              </div>
+            )}
           </div>
-        
         )}
 
         {/* Start & Due Date */}
@@ -229,7 +237,11 @@ const TaskCreateModal = () => {
                   data-empty={!startDate}
                   className="w-[160px] justify-between text-left font-normal data-[empty=true]:text-muted-foreground text-neutral-600"
                 >
-                  {startDate ? format(startDate, "PPP") : <span>Pick a date</span>}
+                  {startDate ? (
+                    format(startDate, "PPP")
+                  ) : (
+                    <span>Pick a date</span>
+                  )}
                   <ChevronDownIcon />
                 </Button>
               </PopoverTrigger>
@@ -318,10 +330,17 @@ const TaskCreateModal = () => {
                 className="col-span-2 text-neutral-600"
                 {...register("estimatedDuration", {
                   required: "Estimated duration is required",
-                  min: { value: 1, message: "Estimated duration must be at least 1 min." },
+                  min: {
+                    value: 1,
+                    message: "Estimated duration must be at least 1 min.",
+                  },
                 })}
               />
-              <Select {...register("estimatedDurationUnit", { required: "Unit is required" })}>
+              <Select
+                {...register("estimatedDurationUnit", {
+                  required: "Unit is required",
+                })}
+              >
                 <SelectTrigger className="w-full col-span-3 text-neutral-600">
                   <SelectValue placeholder="Unit" />
                 </SelectTrigger>
@@ -403,7 +422,7 @@ const TaskCreateModal = () => {
 
         {/* Footer buttons */}
         <div className="w-full flex items-center justify-end mt-10 gap-2">
-          <Button variant="outline" className="px-2 py-4 m-0 text-neutral-800">
+          <Button variant="outline" onClick={onCancel} className="px-2 py-4 m-0 text-neutral-800">
             Cancel
           </Button>
           <Button
