@@ -3,12 +3,9 @@ import { Button } from "@/components/ui/button";
 import Timer from "../components/Timer.tsx";
 import { Trash2 } from "lucide-react";
 import Checkbox from "./ui/Checkbox.tsx";
-const ViewTaskModal = ({onClose}) => {
-const [subtasks, setSubtasks] = useState<Array<{ id: number; name: string }>>(
-    [
-      { id: 1111, name: "Work on frontend" },
-      { id: 2222, name: "Work on backend" },
-    ],
+const ViewTaskModal = ({onClose = () => {}, task}) => {
+const [subtasks, setSubtasks] = useState<Array<{ id: number; subtask: string }>>(
+    task.subtasks
   );
   const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set());
  
@@ -48,7 +45,7 @@ const [subtasks, setSubtasks] = useState<Array<{ id: number; name: string }>>(
           <h2>Task ID</h2>
         </div>
         <div className="text-sm tracking-widest font-roboto text-cyan-400 mt-1 border border-cyan-100 rounded px-1 bg-cyan-50/30 w-fit">
-          <p>#TASK-2358</p>
+          <p>#TASK-{task.id}</p>
         </div>
       </div>
       <div>
@@ -56,12 +53,12 @@ const [subtasks, setSubtasks] = useState<Array<{ id: number; name: string }>>(
           <h2>Task</h2>
         </div>
         <div className="text-sm font-poppins text-neutral-500 p-2 border border-gray-300 rounded-lg border-dotted border-2 mt-1 italic bg-cyan-50/20">
-          <p>FIX: Resolve login issue</p>
+          <p>{task.task}</p>
         </div>
       </div>
       <div className="mt-8">
         
-        <Timer value={2.1}  unit="hours" label="Allocated Time" onStop={() => {}} />
+        <Timer value={task.estDuration}  unit={task.estDurationUnit} label="Allocated Time" onStop={() => {}} />
       </div>
        {/* Subtasks table */}
       {subtasks.length > 0 && (
@@ -105,7 +102,7 @@ const [subtasks, setSubtasks] = useState<Array<{ id: number; name: string }>>(
                           <span>#SUB-{item.id}</span>
                         </div>
                       </td>
-                      <td className="px-2 text-center">{item.name}</td>
+                      <td className="px-2 text-center">{item.subtask}</td>
                     </tr>
                     {index !== subtasks.length - 1 && (
                       <tr key={`divider-${item.id}`}>
@@ -142,7 +139,7 @@ const [subtasks, setSubtasks] = useState<Array<{ id: number; name: string }>>(
           <h2>Project</h2>
         </div>
         <div className="text-sm font-poppins text-neutral-500 p-2 border border-gray-300 rounded-lg mt-1">
-          <p>Project Alpha</p>
+          <p>{task.project}</p>
         </div>
         </div>
         <div className="w-1/3">
@@ -150,7 +147,7 @@ const [subtasks, setSubtasks] = useState<Array<{ id: number; name: string }>>(
           <h2>Status</h2>
         </div>
         <div className="text-sm font-poppins text-neutral-500 p-2 border border-gray-300 rounded-lg mt-1">
-          <p>In Progress</p>
+          <p>{task.status}</p>
         </div>
         </div>
         <div className="w-1/3">
@@ -158,7 +155,7 @@ const [subtasks, setSubtasks] = useState<Array<{ id: number; name: string }>>(
           <h2>Start Time</h2>
         </div>
         <div className="text-sm font-poppins text-neutral-500 p-2 border border-gray-300 rounded-lg  mt-1">
-          <p>09:00 AM</p>
+          <p>{task.startTime}</p>
         </div>
         </div>
       </div>
@@ -169,7 +166,7 @@ const [subtasks, setSubtasks] = useState<Array<{ id: number; name: string }>>(
           <h2>Start Date</h2>
         </div>
         <div className="text-sm font-poppins text-neutral-500 p-2 border border-gray-300 rounded-lg  mt-1">
-          <p>10 April, 2026</p>
+          <p>{task.startDate}</p>
         </div>
         </div>
       
@@ -178,7 +175,7 @@ const [subtasks, setSubtasks] = useState<Array<{ id: number; name: string }>>(
           <h2>Due Date</h2>
         </div>
         <div className="text-sm font-poppins text-neutral-500 p-2 border border-gray-300 rounded-lg  mt-1">
-          <p>12 April, 2026</p>
+          <p>{task.dueDate}</p>
         </div>
       </div>
       </div>
