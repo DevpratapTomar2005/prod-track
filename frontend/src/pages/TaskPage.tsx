@@ -132,7 +132,8 @@ const TaskPage = () => {
                 </tr>
               </thead>
               <tbody className="text-[12px] text-gray-600 font-poppins">
-                {tasks.map((task) => (
+                {tasks.map((task,index) => (
+                  <> 
                   <tr
                     key={task.id}
                     className="hover:bg-gray-50 cursor-pointer"
@@ -154,6 +155,14 @@ const TaskPage = () => {
                     <td className="w-[110px] text-center py-2">{task.dueDate}</td>
                     <td className="w-[110px] text-center py-2">{task.startTime}</td>
                   </tr>
+                   {index !== tasks.length - 1 && (
+                      <tr key={`divider-${task.id}`}>
+                        <td colSpan={9}>
+                          <div className="h-px w-full bg-gray-200" />
+                        </td>
+                      </tr>
+                    )}
+                  </>
                 ))}
               </tbody>
             </table>
@@ -190,7 +199,8 @@ const TaskPage = () => {
                 </tr>
               </thead>
               <tbody className="text-[12px] text-gray-600 font-poppins">
-                {tasks.map((task) => (
+                {tasks.map((task,index) => (
+                  <>
                   <tr
                     key={task.id}
                     className="hover:bg-gray-50 cursor-pointer"
@@ -210,6 +220,14 @@ const TaskPage = () => {
                     <td className="w-[110px] text-center py-2">{task.dueDate}</td>
                     <td className="w-[110px] text-center py-2">{task.startTime}</td>
                   </tr>
+                  {index !== tasks.length - 1 && (
+                      <tr key={`divider-${task.id}`}>
+                        <td colSpan={9}>
+                          <div className="h-px w-full bg-gray-200" />
+                        </td>
+                      </tr>
+                    )}
+                    </>
                 ))}
               </tbody>
             </table>
@@ -246,7 +264,8 @@ const TaskPage = () => {
                 </tr>
               </thead>
               <tbody className="text-[12px] text-gray-600 font-poppins">
-                {tasks.map((task) => (
+                {tasks.map((task,index) => (
+                  <>
                   <tr
                     key={task.id}
                     className="hover:bg-gray-50 cursor-pointer"
@@ -266,6 +285,14 @@ const TaskPage = () => {
                     <td className="w-[110px] text-center py-2">{task.dueDate}</td>
                     <td className="w-[110px] text-center py-2">{task.startTime}</td>
                   </tr>
+                   {index !== tasks.length - 1 && (
+                      <tr key={`divider-${task.id}`}>
+                        <td colSpan={9}>
+                          <div className="h-px w-full bg-gray-200" />
+                        </td>
+                      </tr>
+                    )}
+                  </>
                 ))}
               </tbody>
             </table>

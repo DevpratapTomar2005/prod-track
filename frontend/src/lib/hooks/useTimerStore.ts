@@ -6,6 +6,7 @@ export interface TaskTimerRecord {
   state: TimerState;
   elapsedSec: number;
   startedAt: string | null;
+  runningsince: string | null;
 }
 
 interface StoreShape {
@@ -19,13 +20,29 @@ const defaultRecord = (): TaskTimerRecord => ({
   state: "idle",
   elapsedSec: 0,
   startedAt: null,
+  runningsince: null,
 });
+
+function reconstructElapsed(record: TaskTimerRecord): TaskTimerRecord {
+  if (record.state === "running" && record.runningsince) {
+    const secondsSinceLastRun = Math.floor(
+      (Date.now() - new Date(record.runningsince).getTime()) / 1000
+    );
+    return { ...record, elapsedSec: record.elapsedSec + secondsSinceLastRun };
+  }
+  return record;
+}
 
 function readStore(): StoreShape {
   try {
     const raw = localStorage.getItem(STORE_KEY);
     if (!raw) return { activeTaskId: null, timers: {} };
-    return JSON.parse(raw) as StoreShape;
+    const parsed = JSON.parse(raw) as StoreShape;
+    const timers: StoreShape["timers"] = {};
+    for (const [key, record] of Object.entries(parsed.timers)) {
+      timers[Number(key)] = reconstructElapsed(record);
+    }
+    return { ...parsed, timers };
   } catch {
     return { activeTaskId: null, timers: {} };
   }
@@ -54,13 +71,23 @@ export function useTimerStore() {
 
   const patchTaskTimer = useCallback(
     (id: number, patch: Partial<TaskTimerRecord>) => {
-      commit((prev) => ({
-        ...prev,
-        timers: {
-          ...prev.timers,
-          [id]: { ...(prev.timers[id] ?? defaultRecord()), ...patch },
-        },
-      }));
+      commit((prev) => {
+        const existing = prev.timers[id] ?? defaultRecord();
+        const merged = { ...existing, ...patch };
+
+        if (patch.state === "running" && existing.state !== "running") {
+          merged.runningsince = new Date().toISOString();
+        }
+
+        if (patch.state === "paused" || patch.state === "stopped") {
+          merged.runningsince = null;
+        }
+
+        return {
+          ...prev,
+          timers: { ...prev.timers, [id]: merged },
+        };
+      });
     },
     [commit]
   );
