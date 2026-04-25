@@ -2,11 +2,20 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import { Play, Pause, Square } from "lucide-react";
 
 type TimerUnit = "minutes" | "hours";
+export type TimerStateValue = "idle" | "running" | "paused" | "stopped";
+
+export interface TimerRecord {
+  state: TimerStateValue;
+  elapsedSec: number;
+  startedAt: string | null;
+}
 
 interface TimerProps {
   value: number;
   unit: TimerUnit;
   label?: string;
+  timerRecord?: TimerRecord;
+  onStateChange?: (record: TimerRecord) => void;
   onStop?: (result: TimerResult) => void;
 }
 
@@ -45,35 +54,61 @@ function formatTime(date: Date): string {
   });
 }
 
-type TimerState = "idle" | "running" | "paused" | "stopped";
-
-const Timer: React.FC<TimerProps> = ({ value, unit, label, onStop }) => {
+const Timer: React.FC<TimerProps> = ({
+  value,
+  unit,
+  label,
+  timerRecord,
+  onStateChange,
+  onStop,
+}) => {
   const allocatedSec = toSeconds(value, unit);
+  const isControlled = timerRecord !== undefined && onStateChange !== undefined;
 
-  const [state, setState] = useState<TimerState>("idle");
-  const [elapsedSec, setElapsedSec] = useState(0);
-  const [startedAt, setStartedAt] = useState<Date | null>(null);
-  const [result, setResult] = useState<TimerResult | null>(null);
+  const [internalElapsed, setInternalElapsed] = useState(0);
+  const [internalState, setInternalState] = useState<TimerStateValue>("idle");
+  const [internalStartedAt, setInternalStartedAt] = useState<string | null>(null);
   const [clockFontSize, setClockFontSize] = useState(64);
 
-  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const timerRecordRef = useRef(timerRecord);
+  const onStateChangeRef = useRef(onStateChange);
+
+  useEffect(() => {
+    timerRecordRef.current = timerRecord;
+    onStateChangeRef.current = onStateChange;
+  });
+
+  const state = isControlled ? timerRecord!.state : internalState;
+  const elapsedSec = isControlled ? timerRecord!.elapsedSec : internalElapsed;
+  const startedAt = isControlled ? timerRecord!.startedAt : internalStartedAt;
+
+  const setRecord = useCallback(
+    (patch: Partial<TimerRecord>) => {
+      if (isControlled) {
+        onStateChange!({ ...timerRecord!, ...patch });
+      } else {
+        if (patch.state !== undefined) setInternalState(patch.state);
+        if (patch.elapsedSec !== undefined) setInternalElapsed(patch.elapsedSec);
+        if (patch.startedAt !== undefined) setInternalStartedAt(patch.startedAt);
+      }
+    },
+    [isControlled, timerRecord, onStateChange]
+  );
 
   const remaining = allocatedSec - elapsedSec;
   const isOverrun = remaining < 0;
   const progress = Math.min((elapsedSec / allocatedSec) * 100, 100);
   const displaySeconds = isOverrun ? Math.abs(remaining) : remaining;
 
-  // Auto-scale font size to always fit container width using ResizeObserver
   useEffect(() => {
     if (!containerRef.current) return;
-
     const updateFontSize = () => {
-      const containerWidth = containerRef.current?.offsetWidth ?? 300;
-      const fitted = (containerWidth * 0.88) / (8 * 0.62);
+      const w = containerRef.current?.offsetWidth ?? 300;
+      const fitted = (w * 0.88) / (8 * 0.62);
       setClockFontSize(Math.min(96, Math.max(24, Math.floor(fitted))));
     };
-
     updateFontSize();
     const ro = new ResizeObserver(updateFontSize);
     ro.observe(containerRef.current);
@@ -87,26 +122,35 @@ const Timer: React.FC<TimerProps> = ({ value, unit, label, onStop }) => {
     }
   }, []);
 
-  const startTick = useCallback(() => {
-    clearTick();
-    intervalRef.current = setInterval(() => {
-      setElapsedSec((prev) => prev + 1);
-    }, 1000);
-  }, [clearTick]);
-
   useEffect(() => () => clearTick(), [clearTick]);
+
+  useEffect(() => {
+    if (state === "running") {
+      clearTick();
+      intervalRef.current = setInterval(() => {
+        if (isControlled) {
+          const latest = timerRecordRef.current!;
+          onStateChangeRef.current!({
+            ...latest,
+            elapsedSec: latest.elapsedSec + 1,
+          });
+        } else {
+          setInternalElapsed((prev) => prev + 1);
+        }
+      }, 1000);
+    } else {
+      clearTick();
+    }
+  }, [state]);
 
   const handleStartPause = () => {
     if (state === "idle") {
-      setStartedAt(new Date());
-      setState("running");
-      startTick();
+      const now = formatTime(new Date());
+      setRecord({ state: "running", startedAt: now });
     } else if (state === "running") {
-      clearTick();
-      setState("paused");
+      setRecord({ state: "paused" });
     } else if (state === "paused") {
-      startTick();
-      setState("running");
+      setRecord({ state: "running" });
     }
   };
 
@@ -119,14 +163,13 @@ const Timer: React.FC<TimerProps> = ({ value, unit, label, onStop }) => {
       allocatedSeconds: allocatedSec,
       overrunSeconds: overrun,
       completedWithinTime: elapsedSec <= allocatedSec,
-      startedAt: startedAt ? formatTime(startedAt) : "—",
+      startedAt: startedAt ?? "—",
       endedAt: formatTime(endedAt),
       formattedElapsed: formatDuration(elapsedSec),
       formattedAllocated: formatDuration(allocatedSec),
       formattedOverrun: overrun > 0 ? formatDuration(overrun) : "00:00:00",
     };
-    setResult(res);
-    setState("stopped");
+    setRecord({ state: "stopped" });
     onStop?.(res);
   };
 
@@ -141,11 +184,10 @@ const Timer: React.FC<TimerProps> = ({ value, unit, label, onStop }) => {
     );
 
   return (
-    <div ref={containerRef} className="w-full bg-white font-inter flex flex-col items-center ">
-      {/* Header */}
+    <div ref={containerRef} className="w-full bg-white font-inter flex flex-col items-center">
       <div className="flex items-center justify-between mb-3 w-full gap-2 min-w-0">
-        <span className="text-[12px] font-semibold text-neutral-500  tracking-widest font-roboto border-b-3 border-cyan-100 truncate">
-          {label ?? "Timer"}
+        <span className="text-[12px] font-semibold text-neutral-500 tracking-widest font-roboto border-b-3 border-cyan-100 truncate">
+          {label ?? "Choose a task and start the timer"}
         </span>
         <span className="text-[11px] text-gray-400 font-poppins whitespace-nowrap shrink-0">
           {value}
@@ -153,7 +195,6 @@ const Timer: React.FC<TimerProps> = ({ value, unit, label, onStop }) => {
         </span>
       </div>
 
-      {/* Clock display — font size driven by ResizeObserver */}
       <div
         className={`font-inter mt-3 font-semibold tracking-widest text-center py-4 w-full transition-colors duration-300 whitespace-nowrap ${
           isOverrun && state !== "stopped"
@@ -167,7 +208,6 @@ const Timer: React.FC<TimerProps> = ({ value, unit, label, onStop }) => {
           : formatDuration(displaySeconds)}
       </div>
 
-      {/* Overrun badge */}
       <div className="h-5 flex items-center justify-center mb-2 w-full overflow-hidden">
         {isOverrun && state !== "stopped" && (
           <span className="text-[11px] font-poppins font-semibold text-red-500 bg-red-50 border border-red-200 px-2 py-0.5 rounded truncate max-w-full">
@@ -176,7 +216,6 @@ const Timer: React.FC<TimerProps> = ({ value, unit, label, onStop }) => {
         )}
       </div>
 
-      {/* Progress bar */}
       <div className="w-full h-1.5 bg-gray-100 rounded-full overflow-hidden mb-4">
         <div
           className={`h-full rounded-full transition-all duration-500 ${
@@ -188,11 +227,11 @@ const Timer: React.FC<TimerProps> = ({ value, unit, label, onStop }) => {
         />
       </div>
 
-      {/* Buttons */}
       {state !== "stopped" ? (
         <div className="flex items-center gap-2 w-fit">
           <button
             onClick={handleStartPause}
+           
             className="flex items-center justify-center bg-cyan-400 hover:bg-cyan-500 text-white text-sm font-semibold font-poppins px-4 h-9 rounded-lg transition-all duration-200 ease-in-out cursor-pointer flex-1 shadow"
           >
             {startPauseIcon}
