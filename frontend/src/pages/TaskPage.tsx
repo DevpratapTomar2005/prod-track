@@ -139,7 +139,7 @@ const TaskPage = () => {
                     className="hover:bg-gray-50 cursor-pointer"
                     onClick={() => handleToggleViewTaskModal(task)}
                   >
-                    <td className="w-[110px] text-left px-1 py-2">
+                    <td className="w-[110px] text-left px-1 py-2" onClick={(e) => e.stopPropagation()}>
                       <span className="flex items-center gap-1.5">
                         <Checkbox size="sm" />
                         <span>#TASK-{task.id}</span>
@@ -206,7 +206,7 @@ const TaskPage = () => {
                     className="hover:bg-gray-50 cursor-pointer"
                     onClick={() => handleToggleViewTaskModal(task)}
                   >
-                    <td className="w-[110px] text-left px-1 py-2">
+                    <td className="w-[110px] text-left px-1 py-2" onClick={(e) => e.stopPropagation()}>
                       <span className="flex items-center gap-1.5">
                         <Checkbox size="sm" />
                         <span>#TASK-{task.id}</span>
@@ -271,7 +271,7 @@ const TaskPage = () => {
                     className="hover:bg-gray-50 cursor-pointer"
                     onClick={() => handleToggleViewTaskModal(task)}
                   >
-                    <td className="w-[110px] text-left px-1 py-2">
+                    <td className="w-[110px] text-left px-1 py-2" onClick={(e) => e.stopPropagation()}>
                       <span className="flex items-center gap-1.5">
                         <Checkbox size="sm" />
                         <span>#TASK-{task.id}</span>

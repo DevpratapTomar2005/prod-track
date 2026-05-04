@@ -1,5 +1,4 @@
 import Logo from "../assets/temp_logo.svg";
-import ArrowRight from "../assets/arrow_right.svg";
 import { Link } from "react-router";
 const Navbar = () => {
   return (
@@ -16,9 +15,9 @@ const Navbar = () => {
             Login
           </button>
           <Link to="choose-path">
-          <button className="relative px-3 py-2 font-semibold text-white cursor-pointer group shadow rounded active:shadow-none transition-all duration-100 ease-in-out ">
-            <div className="absolute inset-0 bg-neutral-800 rounded transition-all duration-100 ease-in-out group-active:scale-97"></div>
-            <span className="relative flex items-center justify-center gap-1"><p>Get Started</p> <img src={ArrowRight} alt="arrow right" className=" invert-100" /></span>
+          <button className="relative px-3 py-2 font-semibold text-white cursor-pointer group shadow rounded active:shadow-none transition-all duration-100 ease-in-out group">
+            <div className="absolute inset-0 bg-neutral-800 rounded transition-all duration-100 ease-in-out group-active:scale-97 group-hover:bg-neutral-700"></div>
+            <span className="relative flex items-center justify-center gap-1 text-sm">Get Started</span>
           </button>
           </Link>
         </div>

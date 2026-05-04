@@ -8,6 +8,7 @@ import Login from "./components/Login.tsx"
 import VerifyOTP from "./components/VerifyOTP.tsx"
 import MainLayout from "./pages/MainLayout.tsx"
 import TaskPage from "./pages/TaskPage.tsx"
+import ProjectsPage from "./pages/ProjectsPage.tsx"
 
 function App() {
   
@@ -26,6 +27,7 @@ function App() {
       </Route>
       <Route path="/:name" element={<MainLayout />}>
         <Route path="tasks" element={<TaskPage />} />
+        <Route path="projects" element={<ProjectsPage />} />
       </Route>
     </Routes>
     </div>
