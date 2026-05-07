@@ -54,7 +54,7 @@ const Sidebar = () => {
         <NavLink
           to="/devpratap/manage-agents"
           className={({ isActive }) =>
-            `w-full flex items-center gap-3 py-1 px-2 rounded-md cursor-pointer my-4 ${isActive ? "bg-gray-100" : "hover:bg-gray-100"}`
+            `w-full flex items-center gap-3 py-1.5 px-2 rounded-md cursor-pointer my-4 ${isActive ? "bg-gray-100" : "hover:bg-gray-100"}`
           }
         >
           <img src={BotIcon} alt="Bot Icon" className="h-5 w-5" />
