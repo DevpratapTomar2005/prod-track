@@ -10,7 +10,7 @@ const MainLayout = () => {
         <div className="fixed left-0 top-0">
         <Sidebar />
         </div>
-        <div className="ml-[200px] w-[calc(100%-200px)] relative">
+        <div className="ml-[200px] w-[calc(100%-200px)] relative overflow-hidden">
           <Topbar />
           <Outlet />
         </div>
