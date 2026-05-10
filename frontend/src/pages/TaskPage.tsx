@@ -8,7 +8,7 @@ import ViewTaskModal from "../components/ViewTaskModal.tsx";
 import { useTimerStore } from "../lib/hooks/useTimerStore.ts";
 
 const TaskPage = () => {
-  const [showCreateModal, setShowCreateModal] = useState<boolean>(true);
+  const [showCreateModal, setShowCreateModal] = useState<boolean>(false);
   const [showViewTaskModal, setShowViewTaskModal] = useState<boolean>(false);
   const [tasks] = useState<
     Array<{
