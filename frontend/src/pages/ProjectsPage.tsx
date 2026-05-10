@@ -110,8 +110,8 @@ const ProjectsPage = () => {
     { id: 2003, project: "Fintech Dashboard",  status: "Done",        progress: 100, startDate: "5 May, 2026",  estEndDate: "7 May, 2026"  },
     { id: 2004, project: "E-commerce Website", status: "To Do",       progress: 0,   startDate: "6 May, 2026",  estEndDate: "8 May, 2026"  },
     { id: 2995, project: "AI Chatbot",         status: "In Progress", progress: 2,   startDate: "7 May, 2026",  estEndDate: "9 May, 2026"  },
-    { id: 2006, project: "Social Media App",   status: "Done",        progress: 100, startDate: "8 May, 2026",  estEndDate: "10 May, 2026" },
-    { id: 2007, project: "Portfolio Website",  status: "To Do",       progress: 0,   startDate: "9 May, 2026",  estEndDate: "11 May, 2026" },
+    { id: 2006, project: "Social Media App",   status: "To Do",        progress: 0, startDate: "8 May, 2026",  estEndDate: "10 May, 2026" },
+    { id: 2007, project: "Portfolio Website",  status: "Done",       progress: 100,   startDate: "9 May, 2026",  estEndDate: "11 May, 2026" },
     { id: 2008, project: "E-commerce Website", status: "To Do",       progress: 0,   startDate: "10 May, 2026", estEndDate: "12 May, 2026" },
     { id: 2009, project: "AI Extension",       status: "To Do",       progress: 0,   startDate: "11 May, 2026", estEndDate: "13 May, 2026" },
     { id: 2010, project: "Social Media App",   status: "To Do",       progress: 0,   startDate: "12 May, 2026", estEndDate: "14 May, 2026" },
@@ -169,19 +169,19 @@ const ProjectsPage = () => {
             {/* Status donut */}
             <div className="bg-white border border-gray-200 rounded-md p-4">
               <p className="text-[12px] font-semibold text-gray-700 font-inter">Status breakdown</p>
-              <p className="text-[10px] text-gray-400 font-poppins mb-3">Projects by current status</p>
+              <p className="text-[10px] text-gray-400 font-poppins mb-1">Projects by current status</p>
 
               <div className="flex items-center gap-3 ">
                 {/* Donut via shadcn ChartContainer */}
-                <ChartContainer config={statusChartConfig} className="h-[130px] w-[130px] flex-shrink-0">
+                <ChartContainer config={statusChartConfig} className="h-[200px] w-[200px] flex-shrink-0">
                   <PieChart>
                     <ChartTooltip content={<ChartTooltipContent hideLabel nameKey="name" />} />
                     <Pie
                       data={statusPieData}
                       dataKey="value"
                       nameKey="name"
-                      innerRadius={46}
-                      outerRadius={66}
+                      innerRadius={58}
+                      outerRadius={86}
                       strokeWidth={2}
                       stroke="white"
                       labelLine={false}
@@ -193,7 +193,7 @@ const ProjectsPage = () => {
                 </ChartContainer>
 
                 {/* Custom legend */}
-                <div className="flex flex-col gap-2.5 flex-1">
+                <div className="flex flex-col gap-2.5 flex-1 mr-5">
                   {statusPieData.map((s) => (
                     <div key={s.name} className="flex items-center justify-between">
                       <div className="flex items-center gap-1.5">
@@ -221,11 +221,11 @@ const ProjectsPage = () => {
             <div className="bg-white border border-gray-200 rounded-md p-4">
               <p className="text-[12px] font-semibold text-gray-700 font-inter">Progress distribution</p>
               <p className="text-[10px] text-gray-400 font-poppins mb-2">Completion % for active projects</p>
-              <ChartContainer config={progressChartConfig} className="h-[140px] w-full">
+              <ChartContainer config={progressChartConfig} className="h-[200px] w-full">
                 <BarChart
                   data={progressBarData}
                   layout="vertical"
-                  margin={{ top: 0, right: 8, bottom: 0, left: 0 }}
+                  margin={{ top: 0, right: 18, bottom: 0, left: 10 }}
                   barSize={9}
                 >
                   <CartesianGrid horizontal={false} strokeDasharray="3 3" stroke="#f3f4f6" />
@@ -319,7 +319,7 @@ const ProjectsPage = () => {
                     width={24}
                     allowDecimals={false}
                   />
-                  <ChartTooltip content={<ChartTooltipContent />} />
+                  <ChartTooltip  content={<ChartTooltipContent />} />
                   <Area
                     type="monotone"
                     dataKey="Completed"
