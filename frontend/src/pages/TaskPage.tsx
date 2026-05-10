@@ -8,9 +8,9 @@ import ViewTaskModal from "../components/ViewTaskModal.tsx";
 import { useTimerStore } from "../lib/hooks/useTimerStore.ts";
 
 const TaskPage = () => {
-  const [showCreateModal, setShowCreateModal] = useState<boolean>(false);
+  const [showCreateModal, setShowCreateModal] = useState<boolean>(true);
   const [showViewTaskModal, setShowViewTaskModal] = useState<boolean>(false);
-  const [tasks, setTasks] = useState<
+  const [tasks] = useState<
     Array<{
       id: number;
       task: string;
@@ -59,10 +59,10 @@ const TaskPage = () => {
   const activeTask = tasks.find((t) => t.id === activeTaskId) ?? null;
   const activeTimerRecord = activeTaskId !== null ? getTaskTimer(activeTaskId) : null;
 
-  const handleToggleCreateTaskModal = () => {
-    setShowViewTaskModal(false);
-    setShowCreateModal(true);
-  };
+  // const handleToggleCreateTaskModal = () => {
+  //   setShowViewTaskModal(false);
+  //   setShowCreateModal(true);
+  // };
 
   const handleToggleViewTaskModal = (task: any) => {
     setShowCreateModal(false);

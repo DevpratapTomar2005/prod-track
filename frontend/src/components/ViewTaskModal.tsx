@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import Timer from "../components/Timer.tsx";
 import { Trash2 } from "lucide-react";
 import Checkbox from "./ui/Checkbox.tsx";
-import type { TaskTimerRecord } from "../hooks/useTimerStore.ts";
+import type { TaskTimerRecord } from "../lib/hooks/useTimerStore.tsx";
 
 interface ViewTaskModalProps {
   onClose?: () => void;

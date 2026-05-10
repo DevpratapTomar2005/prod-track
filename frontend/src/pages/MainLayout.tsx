@@ -1,4 +1,3 @@
-import React from "react";
 import { Outlet } from "react-router";
 import Topbar from "../components/Topbar.tsx";
 import Sidebar from "../components/Sidebar.tsx";

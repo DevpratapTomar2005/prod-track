@@ -28,7 +28,7 @@ import {
 import { Input } from "@/components/ui/input";
 import Checkbox from "./ui/Checkbox.tsx";
 
-const TaskCreateModal = ({onCancel}) => {
+const TaskCreateModal = ({onCancel}: {onCancel: () => void}) => {
   const {
     register,
     handleSubmit,

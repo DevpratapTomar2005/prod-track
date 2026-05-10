@@ -1,4 +1,3 @@
-import React from 'react'
 import Plus from "../assets/plus.svg";
 const Topbar = () => {
   return (
