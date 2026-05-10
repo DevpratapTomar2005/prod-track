@@ -9,7 +9,7 @@ const Navbar = () => {
           <span className="p-1 bg-black rounded">
             <img src={Logo} alt="logo" className="invert-100 h-5 w-5" />
           </span>
-          <span className="ml-2 font-bold text-lg">Time Clarity</span>
+          <span className="ml-2 font-bold text-lg">Prod Track</span>
         </div>
         <div className="flex items-center space-x-7 ">
           <button className="text-gray-500 hover:text-gray-700 font-semibold cursor-pointer" onClick={() => navigate("/auth/login")}>
