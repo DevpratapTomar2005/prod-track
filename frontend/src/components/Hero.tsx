@@ -1,5 +1,6 @@
 import HeroInputIcon from '../assets/hero-input-icon.svg';
 import Play from '../assets/play.svg';
+
 const Hero = () => {
   return (
     <div className="mt-30 w-full">

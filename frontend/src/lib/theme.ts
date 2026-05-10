@@ -1,4 +1,5 @@
 import { createTheme } from "@mui/material/styles";
+import type { Components } from "@mui/material/styles";
 
 export const timePickerTheme = createTheme({
     palette: {
@@ -19,7 +20,15 @@ export const timePickerTheme = createTheme({
       borderRadius: 6,
     },
     components: {
-      
+      MuiPickersToolbar: {
+        styleOverrides: {
+          root: {
+            backgroundColor: "#ffffff",
+            borderBottom: "1px solid #e5e5e5",
+            paddingBottom: "12px",
+          },
+        },
+      },
       MuiPickersToolbarText: {
         styleOverrides: {
           root: {
@@ -99,5 +108,5 @@ export const timePickerTheme = createTheme({
           },
         },
       },
-    },
+    } as Components,
   });

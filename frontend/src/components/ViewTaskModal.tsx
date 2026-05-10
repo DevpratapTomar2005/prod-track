@@ -4,6 +4,7 @@ import Timer from "../components/Timer.tsx";
 import { Trash2 } from "lucide-react";
 import Checkbox from "./ui/Checkbox.tsx";
 import type { TaskTimerRecord } from "../lib/hooks/useTimerStore.tsx";
+type TimerRecord = Partial<TaskTimerRecord> & Pick<TaskTimerRecord, "state">;
 
 interface ViewTaskModalProps {
   onClose?: () => void;
@@ -58,11 +59,11 @@ const ViewTaskModal = ({
     setSelectedIds(new Set());
   };
 
-  const handleTimerStateChange = (record: TaskTimerRecord) => {
+  const handleTimerStateChange = (record: TimerRecord) => {
     if (!isSameAsActive && record.state === "running") {
       activateTask(task.id);
     }
-    patchTaskTimer(task.id, record);
+    patchTaskTimer(task.id, record as Partial<TaskTimerRecord>);
   };
 
   return (
