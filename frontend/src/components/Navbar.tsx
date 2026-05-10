@@ -1,6 +1,7 @@
 import Logo from "../assets/temp_logo.svg";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 const Navbar = () => {
+  const navigate = useNavigate();
   return (
     <div className="bg-white text-black w-full fixed top-0 left-0 z-10 border-b border-gray-200">
       <div className="flex items-center justify-between px-4 py-2 mx-2">
@@ -11,7 +12,7 @@ const Navbar = () => {
           <span className="ml-2 font-bold text-lg">Time Clarity</span>
         </div>
         <div className="flex items-center space-x-7 ">
-          <button className="text-gray-500 hover:text-gray-700 font-semibold cursor-pointer">
+          <button className="text-gray-500 hover:text-gray-700 font-semibold cursor-pointer" onClick={() => navigate("/auth/login")}>
             Login
           </button>
           <Link to="choose-path">

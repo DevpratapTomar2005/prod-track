@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { FormStateSubscribe, useForm } from "react-hook-form";
 import type { SubmitHandler } from "react-hook-form";
 import { useParams } from "react-router";
 import EyeOpen from "../assets/eye_open.svg";
 import EyeClose from "../assets/eye_off.svg";
+import {useNavigate} from "react-router";
 
 interface RegisterInputs {
   firstName?: string;
@@ -15,6 +16,7 @@ interface RegisterInputs {
 }
 
 const Register = () => {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -25,7 +27,10 @@ const Register = () => {
   const { roleType } = useParams<{ roleType: string }>();
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
-  const onSubmit: SubmitHandler<RegisterInputs> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<RegisterInputs> = (data) => {
+    console.log(data);
+    navigate(`/${getValues("firstName")??getValues("organizationName")}/dashboard`);
+  };
 
   return (
     <div className="flex ">
@@ -228,6 +233,7 @@ const Register = () => {
               <button
                 type="submit"
                 className="rounded-lg w-full bg-neutral-800 px-10 py-3 font-bold text-white cursor-pointer mt-5 shadow hover:bg-neutral-700 transition-colors duration-150 ease-in-out"
+                
               >
                 Submit
               </button>

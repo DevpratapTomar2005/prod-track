@@ -1,24 +1,28 @@
-
 import { useForm } from "react-hook-form";
 import type { SubmitHandler } from "react-hook-form";
-
+import {useNavigate} from "react-router";
 
 interface LoginInputs {
   email: string;
   password: string;
 }
 
-const Register = () => {
+const Login = () => {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
+    getValues,
     formState: { errors },
     
   } = useForm<LoginInputs>();
 
  
 
-  const onSubmit: SubmitHandler<LoginInputs> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<LoginInputs> = (data) => {
+    console.log(data);
+    navigate(`/${getValues("email").split("@")[0]}/dashboard`);
+  };
 
   return (
     <div className="flex">
@@ -153,4 +157,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default Login;

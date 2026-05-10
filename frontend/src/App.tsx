@@ -9,7 +9,8 @@ import VerifyOTP from "./components/VerifyOTP.tsx"
 import MainLayout from "./pages/MainLayout.tsx"
 import TaskPage from "./pages/TaskPage.tsx"
 import ProjectsPage from "./pages/ProjectsPage.tsx"
-
+import Dashboard from "./components/Dashboard.tsx"
+import ManageAgents from "./components/ManageAgents.tsx"
 function App() {
   
 
@@ -28,6 +29,8 @@ function App() {
       <Route path="/:name" element={<MainLayout />}>
         <Route path="tasks" element={<TaskPage />} />
         <Route path="projects" element={<ProjectsPage />} />
+        <Route path="dashboard" element={<Dashboard />} />
+        <Route path="manage-agents" element={<ManageAgents />} />
       </Route>
     </Routes>
     </div>
