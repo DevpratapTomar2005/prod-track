@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React,{ useState, useEffect } from "react";
 import ArrowRight from "../assets/arrow_right.svg";
 import Checkbox from "../components/ui/Checkbox.tsx";
 import Dot from "../assets/dot.svg";
-
+import ProjectCreateModal from "../components/ProjectCreateModal.tsx";
+import { useDispatch, useSelector } from "react-redux";
+import {resetGlobalModalState} from "../slices/globalModalStateSlice.ts";
 // shadcn chart primitives (wraps recharts)
 import {
   ChartContainer,
@@ -104,6 +106,9 @@ const completionChartConfig: ChartConfig = {
 // ─── Main component ───────────────────────────────────────────────────────────
 
 const ProjectsPage = () => {
+  const [showCreateProjectModal, setShowCreateProjectModal] = useState(false);
+  const dispatch = useDispatch();
+  const globalModalState = useSelector((state: any) => state.globalModalState);
   const [projects] = useState<Project[]>([
     { id: 2001, project: "Project Alpha",      status: "Done",        progress: 100, startDate: "1 May, 2026",  estEndDate: "1 May, 2026"  },
     { id: 2002, project: "Nexis Quiz App",     status: "In Progress", progress: 90,  startDate: "2 May, 2026",  estEndDate: "4 May, 2026"  },
@@ -116,8 +121,22 @@ const ProjectsPage = () => {
     { id: 2009, project: "AI Extension",       status: "To Do",       progress: 0,   startDate: "11 May, 2026", estEndDate: "13 May, 2026" },
     { id: 2010, project: "Social Media App",   status: "To Do",       progress: 0,   startDate: "12 May, 2026", estEndDate: "14 May, 2026" },
   ]);
-
   // ── Derived chart data ─────────────────────────────────────────────────────
+
+  useEffect(() => {
+    if (globalModalState.type === "createProject" && globalModalState.isOpen) {
+      setShowCreateProjectModal(true);
+    }
+    else{
+      setShowCreateProjectModal(false);
+    }
+   
+  }, [globalModalState]);
+
+  const handleCloseModal = () => {
+    setShowCreateProjectModal(false);
+    dispatch(resetGlobalModalState());
+  };
 
   const statusCounts = projects.reduce<Record<string, number>>((acc, p) => {
     acc[p.status] = (acc[p.status] ?? 0) + 1;
@@ -425,6 +444,7 @@ const ProjectsPage = () => {
 
         </div>
       </div>
+      {showCreateProjectModal && <ProjectCreateModal  onCancel={handleCloseModal}/>}
     </div>
   );
 };

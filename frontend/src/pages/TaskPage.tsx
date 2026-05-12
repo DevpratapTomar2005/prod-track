@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React,{ useState, useEffect } from "react";
 import TaskCreateModal from "../components/TaskCreateModal.tsx";
 import ArrowRight from "../assets/arrow_right.svg";
 import Checkbox from "../components/ui/Checkbox.tsx";
@@ -6,7 +6,8 @@ import Dot from "../assets/dot.svg";
 import Timer from "../components/Timer.tsx";
 import ViewTaskModal from "../components/ViewTaskModal.tsx";
 import { useTimerStore } from "../lib/hooks/useTimerStore.ts";
-
+import { useDispatch, useSelector } from "react-redux";
+import {resetGlobalModalState} from "../slices/globalModalStateSlice.ts";
 const TaskPage = () => {
   const [showCreateModal, setShowCreateModal] = useState<boolean>(false);
   const [showViewTaskModal, setShowViewTaskModal] = useState<boolean>(false);
@@ -53,19 +54,29 @@ const TaskPage = () => {
     }
   ]);
 
+  const dispatch = useDispatch();
+
+  const globalModalState = useSelector((state: any) => state.globalModalState);
+
+  useEffect(() => {
+    if (globalModalState.isOpen && globalModalState.type === "createTask") {
+      setShowCreateModal(true);
+    } else {
+      setShowCreateModal(false);
+    }
+  }, [globalModalState]);
+
   const [viewTask, setViewTask] = useState<any>(null);
   const { activeTaskId, getTaskTimer, patchTaskTimer, activateTask } = useTimerStore();
 
   const activeTask = tasks.find((t) => t.id === activeTaskId) ?? null;
   const activeTimerRecord = activeTaskId !== null ? getTaskTimer(activeTaskId) : null;
 
-  // const handleToggleCreateTaskModal = () => {
-  //   setShowViewTaskModal(false);
-  //   setShowCreateModal(true);
-  // };
+ 
 
   const handleToggleViewTaskModal = (task: any) => {
     setShowCreateModal(false);
+    dispatch(resetGlobalModalState());
     setViewTask(task);
     setShowViewTaskModal(true);
   };
@@ -74,8 +85,10 @@ const TaskPage = () => {
     setShowViewTaskModal(false);
   };
 
+
   const closeCreateTaskModal = () => {
     setShowCreateModal(false);
+    dispatch(resetGlobalModalState());
   };
 
   return (
@@ -133,7 +146,7 @@ const TaskPage = () => {
               </thead>
               <tbody className="text-[12px] text-gray-600 font-poppins">
                 {tasks.map((task,index) => (
-                  <> 
+                  <React.Fragment key={task.id}>
                   <tr
                     key={task.id}
                     className="hover:bg-gray-50 cursor-pointer"
@@ -162,7 +175,7 @@ const TaskPage = () => {
                         </td>
                       </tr>
                     )}
-                  </>
+                  </React.Fragment>
                 ))}
               </tbody>
             </table>
@@ -200,7 +213,7 @@ const TaskPage = () => {
               </thead>
               <tbody className="text-[12px] text-gray-600 font-poppins">
                 {tasks.map((task,index) => (
-                  <>
+                  <React.Fragment key={task.id}>
                   <tr
                     key={task.id}
                     className="hover:bg-gray-50 cursor-pointer"
@@ -227,7 +240,7 @@ const TaskPage = () => {
                         </td>
                       </tr>
                     )}
-                    </>
+                    </React.Fragment>
                 ))}
               </tbody>
             </table>
@@ -265,7 +278,7 @@ const TaskPage = () => {
               </thead>
               <tbody className="text-[12px] text-gray-600 font-poppins">
                 {tasks.map((task,index) => (
-                  <>
+                  <React.Fragment key={task.id}>
                   <tr
                     key={task.id}
                     className="hover:bg-gray-50 cursor-pointer"
@@ -292,7 +305,7 @@ const TaskPage = () => {
                         </td>
                       </tr>
                     )}
-                  </>
+                  </React.Fragment>
                 ))}
               </tbody>
             </table>
