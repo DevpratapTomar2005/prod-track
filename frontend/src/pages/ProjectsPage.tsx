@@ -4,6 +4,7 @@ import Checkbox from "../components/ui/Checkbox.tsx";
 import Dot from "../assets/dot.svg";
 import ProjectCreateModal from "../components/ProjectCreateModal.tsx";
 import { useDispatch, useSelector } from "react-redux";
+import {useNavigate, useParams} from "react-router"
 import {resetGlobalModalState} from "../slices/globalModalStateSlice.ts";
 // shadcn chart primitives (wraps recharts)
 import {
@@ -108,6 +109,8 @@ const completionChartConfig: ChartConfig = {
 const ProjectsPage = () => {
   const [showCreateProjectModal, setShowCreateProjectModal] = useState(false);
   const dispatch = useDispatch();
+  const navigate= useNavigate();
+  const {name} = useParams()
   const globalModalState = useSelector((state: any) => state.globalModalState);
   const [projects] = useState<Project[]>([
     { id: 2001, project: "Project Alpha",      status: "Done",        progress: 100, startDate: "1 May, 2026",  estEndDate: "1 May, 2026"  },
@@ -172,9 +175,10 @@ const ProjectsPage = () => {
     { week: "Wk 4", Completed: 3 },
   ];
 
-  const handleToggleViewTaskModal = (project: Project) => {
-    console.log("View project:", project);
+  const handleProjectAnalyticsNavigation = (projectName:string, projectId:any) => {
+    navigate(`/${name}/projects/${projectName.replaceAll(" ","-").toLowerCase()}`)
   };
+
 
   // ── Render ─────────────────────────────────────────────────────────────────
   return (
@@ -205,6 +209,7 @@ const ProjectsPage = () => {
                       stroke="white"
                       labelLine={false}
                       cornerRadius={4}
+                      
                       
                     >
                     </Pie>
@@ -394,7 +399,7 @@ const ProjectsPage = () => {
                   <React.Fragment key={project.id}>
                     <tr
                       className="hover:bg-gray-50 cursor-pointer"
-                      onClick={() => handleToggleViewTaskModal(project)}
+                      onClick={() => handleProjectAnalyticsNavigation(project.project,project.id)}
                     >
                       <td className="w-[110px] text-left px-1 py-2" onClick={(e) => e.stopPropagation()}>
                         <span className="flex items-center gap-1.5">
