@@ -176,7 +176,7 @@ const ProjectsPage = () => {
   ];
 
   const handleProjectAnalyticsNavigation = (projectName:string, projectId:any) => {
-    navigate(`/${name}/projects/${projectName.replaceAll(" ","-").toLowerCase()}`)
+    navigate(`/${name}/projects/${projectName.replaceAll(" ","-").toLowerCase() + `-${projectId}`}`);
   };
 
 

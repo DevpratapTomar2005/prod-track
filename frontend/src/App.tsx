@@ -30,7 +30,7 @@ function App() {
       <Route path="/:name" element={<MainLayout />}>
         <Route path="tasks" element={<TaskPage />} />
         <Route path="projects" element={<ProjectsPage />} />
-        <Route path="projects/:project-name" element={<ProjectAnalytics/>}/>
+        <Route path="projects/:project-name-id" element={<ProjectAnalytics/>}/>
         
         <Route path="dashboard" element={<Dashboard />} />
         <Route path="manage-agents" element={<ManageAgents />} />
