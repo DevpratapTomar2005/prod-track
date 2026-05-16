@@ -5,13 +5,20 @@ import Dot from "../assets/dot.svg";
 import {
   PieChart,
   Pie,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  AreaChart,
+  Area,
 } from "recharts";
+
 import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
   type ChartConfig,
 } from "@/components/ui/chart";
+import  ProjectTimeline  from "../components/ProjectTimeline.tsx";
 
 // ─── Half-donut progress gauge ────────────────────────────────────────────────
 // SVG arc convention:
@@ -24,21 +31,21 @@ import {
 //   For p% filled we travel p% of 180° clockwise from the left end,
 //   so the fill end-angle = 180° - p%·180° = (1 - p/100)·180°.
 const HalfDonut = ({ percentage }: { percentage: number }) => {
-  const r  = 70;
+  const r = 70;
   const cx = 100;
   const cy = 90;
 
   // Fixed endpoints of the semicircle
   const startX = cx - r; // left  (0%)
   const startY = cy;
-  const endX   = cx + r; // right (100%)
-  const endY   = cy;
+  const endX = cx + r; // right (100%)
+  const endY = cy;
 
   // End-point of the filled arc
   // θ in radians, going from π (left) toward 0 (right) as percentage rises
   const theta = Math.PI * (1 - percentage / 100);
-  const fillX = cx + r * Math.cos(theta);   // cos(π→0) goes -1→+1  ✓
-  const fillY = cy - r * Math.sin(theta);   // sin is always ≥0 for θ∈[0,π], so y ≤ cy ✓
+  const fillX = cx + r * Math.cos(theta); // cos(π→0) goes -1→+1  ✓
+  const fillY = cy - r * Math.sin(theta); // sin is always ≥0 for θ∈[0,π], so y ≤ cy ✓
 
   // large-arc-flag = 1 when the arc spans > 180° — impossible here (max is exactly 180°),
   // so we need flag=1 only when percentage === 100 to close the full semicircle.
@@ -49,10 +56,10 @@ const HalfDonut = ({ percentage }: { percentage: number }) => {
     const a = Math.PI * (1 - pct / 100);
     return {
       pct,
-      x1: cx + (r - 8)  * Math.cos(a),
-      y1: cy - (r - 8)  * Math.sin(a),
-      x2: cx + (r + 8)  * Math.cos(a),
-      y2: cy - (r + 8)  * Math.sin(a),
+      x1: cx + (r - 8) * Math.cos(a),
+      y1: cy - (r - 8) * Math.sin(a),
+      x2: cx + (r + 8) * Math.cos(a),
+      y2: cy - (r + 8) * Math.sin(a),
     };
   });
 
@@ -61,7 +68,11 @@ const HalfDonut = ({ percentage }: { percentage: number }) => {
     percentage >= 66 ? "#22c55e" : percentage >= 33 ? "#00d3f2" : "#ef4444";
 
   return (
-    <svg viewBox="0 0 200 100" className="w-full" style={{ overflow: "visible" }}>
+    <svg
+      viewBox="0 0 200 100"
+      className="w-full"
+      style={{ overflow: "visible" }}
+    >
       {/* Track (full background semicircle, left → right, clockwise) */}
       <path
         d={`M ${startX} ${startY} A ${r} ${r} 0 0 1 ${endX} ${endY}`}
@@ -69,7 +80,6 @@ const HalfDonut = ({ percentage }: { percentage: number }) => {
         stroke="#e5e7eb"
         strokeWidth={14}
         strokeLinecap="round"
-        
       />
 
       {/* Filled arc (left → fill point, clockwise) */}
@@ -82,7 +92,7 @@ const HalfDonut = ({ percentage }: { percentage: number }) => {
           strokeLinecap="round"
         />
       )}
-     
+
       {percentage >= 100 && (
         <path
           d={`M ${startX} ${startY} A ${r} ${r} 0 0 1 ${endX} ${endY}`}
@@ -97,7 +107,10 @@ const HalfDonut = ({ percentage }: { percentage: number }) => {
       {ticks.map((t) => (
         <line
           key={t.pct}
-          x1={t.x1} y1={t.y1} x2={t.x2} y2={t.y2}
+          x1={t.x1}
+          y1={t.y1}
+          x2={t.x2}
+          y2={t.y2}
           stroke="#d1d5db"
           strokeWidth={1.5}
         />
@@ -105,7 +118,8 @@ const HalfDonut = ({ percentage }: { percentage: number }) => {
 
       {/* Centre label */}
       <text
-        x={cx} y={cy - 14}
+        x={cx}
+        y={cy - 14}
         textAnchor="middle"
         fontSize={22}
         fontWeight="700"
@@ -115,7 +129,8 @@ const HalfDonut = ({ percentage }: { percentage: number }) => {
         {percentage}%
       </text>
       <text
-        x={cx} y={cy + 2}
+        x={cx}
+        y={cy + 2}
         textAnchor="middle"
         fontSize={8}
         fill="#9ca3af"
@@ -125,19 +140,40 @@ const HalfDonut = ({ percentage }: { percentage: number }) => {
       </text>
 
       {/* End labels */}
-      <text x={startX - 2} y={cy + 14} textAnchor="middle" fontSize={8} fill="#9ca3af" fontFamily="Poppins, sans-serif">0%</text>
-      <text x={endX + 2}  y={cy + 14} textAnchor="middle" fontSize={8} fill="#9ca3af" fontFamily="Poppins, sans-serif">100%</text>
+      <text
+        x={startX - 2}
+        y={cy + 14}
+        textAnchor="middle"
+        fontSize={8}
+        fill="#9ca3af"
+        fontFamily="Poppins, sans-serif"
+      >
+        0%
+      </text>
+      <text
+        x={endX + 2}
+        y={cy + 14}
+        textAnchor="middle"
+        fontSize={8}
+        fill="#9ca3af"
+        fontFamily="Poppins, sans-serif"
+      >
+        100%
+      </text>
     </svg>
   );
 };
 
 // ─── Chart configs ────────────────────────────────────────────────────────────
 const statusChartConfig: ChartConfig = {
-  Done:          { label: "Done",        color: "hsl(160 60% 45%)" },
+  Done: { label: "Done", color: "hsl(160 60% 45%)" },
   "In Progress": { label: "In Progress", color: "hsl(217 80% 55%)" },
-  "To Do":       { label: "To Do",       color: "hsl(43  90% 55%)" },
+  "To Do": { label: "To Do", color: "hsl(43  90% 55%)" },
 };
 
+const completionChartConfig: ChartConfig = {
+  Completed: { label: "Completed", color: "hsl(262 70% 58%)" },
+};
 
 const ProjectAnalytics = () => {
   const [tasks] = useState<
@@ -157,12 +193,12 @@ const ProjectAnalytics = () => {
     {
       id: 1111,
       task: "FIX: Resolve login issue",
-      status: "In Progress",
+      status: "Done",
       project: "Project Alpha",
       estDuration: "2.5",
       estDurationUnit: "hours",
       startDate: "10 April, 2026",
-      dueDate: "10 April, 2026",
+      dueDate: "12 April, 2026",
       startTime: "9:00 AM",
       subtasks: [
         { id: 2278, subtask: "Work on frontend" },
@@ -172,39 +208,134 @@ const ProjectAnalytics = () => {
     {
       id: 1112,
       task: "Implement user profile page",
-      status: "To Do",
+      status: "In Progress",
       project: "Project Alpha",
       estDuration: "2.5",
       estDurationUnit: "hours",
-      startDate: "10 April, 2026",
-      dueDate: "10 April, 2026",
+      startDate: "13 April, 2026",
+      dueDate: "14 April, 2026",
       startTime: "9:00 AM",
       subtasks: [],
     },
     {
-        id: 2929,
-        task:"Implement project analytics",
-        status: "Done",
-        project:"Project Alpha",
-        estDuration: "3.5",
-        estDurationUnit: "hours",
-        startDate: "15 April, 2026",
-        dueDate: "15 April, 2026",
-        startTime: "9:00 AM",
-        subtasks: [],
-    }  
+      id: 2929,
+      task: "Implement project analytics",
+      status: "Todo",
+      project: "Project Alpha",
+      estDuration: "3.5",
+      estDurationUnit: "hours",
+      startDate: "15 April, 2026",
+      dueDate: "15 April, 2026",
+      startTime: "9:00 AM",
+      subtasks: [],
+    },
+    {
+      id: 2925,
+      task: "Implement project analytics",
+      status: "Todo",
+      project: "Project Alpha",
+      estDuration: "2.5",
+      estDurationUnit: "hours",
+      startDate: "16 April, 2026",
+      dueDate: "17 April, 2026",
+      startTime: "9:00 AM",
+      subtasks: [],
+    },
+    {
+      id: 2925,
+      task: "Implement project analytics",
+      status: "Todo",
+      project: "Project Alpha",
+      estDuration: "2.5",
+      estDurationUnit: "hours",
+      startDate: "16 April, 2026",
+      dueDate: "17 April, 2026",
+      startTime: "9:00 AM",
+      subtasks: [],
+    },
+    {
+      id: 2925,
+      task: "Implement project analytics",
+      status: "Todo",
+      project: "Project Alpha",
+      estDuration: "2.5",
+      estDurationUnit: "hours",
+      startDate: "16 April, 2026",
+      dueDate: "17 April, 2026",
+      startTime: "9:00 AM",
+      subtasks: [],
+    },
+    {
+      id: 2925,
+      task: "Implement project analytics",
+      status: "Todo",
+      project: "Project Alpha",
+      estDuration: "2.5",
+      estDurationUnit: "hours",
+      startDate: "16 April, 2026",
+      dueDate: "17 April, 2026",
+      startTime: "9:00 AM",
+      subtasks: [],
+    },
+    {
+      id: 2925,
+      task: "Implement project analytics",
+      status: "Todo",
+      project: "Project Alpha",
+      estDuration: "2.5",
+      estDurationUnit: "hours",
+      startDate: "16 April, 2026",
+      dueDate: "17 April, 2026",
+      startTime: "9:00 AM",
+      subtasks: [],
+    },
+    {
+      id: 2925,
+      task: "Implement project analytics",
+      status: "Todo",
+      project: "Project Alpha",
+      estDuration: "2.5",
+      estDurationUnit: "hours",
+      startDate: "16 April, 2026",
+      dueDate: "17 April, 2026",
+      startTime: "9:00 AM",
+      subtasks: [],
+    },
+    {
+      id: 2925,
+      task: "Implement project analytics",
+      status: "Todo",
+      project: "Project Alpha",
+      estDuration: "2.5",
+      estDurationUnit: "hours",
+      startDate: "16 April, 2026",
+      dueDate: "17 April, 2026",
+      startTime: "9:00 AM",
+      subtasks: [],
+    },
+    {
+      id: 2925,
+      task: "Implement project analytics",
+      status: "Todo",
+      project: "Project Alpha",
+      estDuration: "2.5",
+      estDurationUnit: "hours",
+      startDate: "16 April, 2026",
+      dueDate: "17 April, 2026",
+      startTime: "9:00 AM",
+      subtasks: [],
+    },
   ]);
 
-
-   const statusCounts = tasks.reduce<Record<string, number>>((acc, p) => {
+  const statusCounts = tasks.reduce<Record<string, number>>((acc, p) => {
     acc[p.status] = (acc[p.status] ?? 0) + 1;
     return acc;
   }, {});
 
   const statusColors: Record<string, string> = {
-    Done:          "oklch(27.8% 0.033 256.848)",
+    Done: "oklch(27.8% 0.033 256.848)",
     "In Progress": "oklch(78.9% 0.154 211.53)",
-    "To Do":       "oklch(87.2% 0.01 258.338)",
+    "To Do": "oklch(87.2% 0.01 258.338)",
   };
   // fill embedded in data — Cell is deprecated in Recharts v3+
   const statusPieData = Object.entries(statusCounts).map(([name, value]) => ({
@@ -212,6 +343,13 @@ const ProjectAnalytics = () => {
     value,
     fill: statusColors[name] ?? "#d1d5db",
   }));
+
+   const completionData = [
+    { week: "Wk 1", Completed: 1 },
+    { week: "Wk 2", Completed: 1 },
+    { week: "Wk 3", Completed: 2 },
+    { week: "Wk 4", Completed: 3 },
+  ];
 
   return (
     <div className="w-full h-[calc(100vh-53px)] mt-[53px] overflow-y-auto [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-thumb]:bg-cyan-100 [&::-webkit-scrollbar-track]:bg-gray-100/40">
@@ -228,82 +366,240 @@ const ProjectAnalytics = () => {
           Insights into project progress and task analytics
         </h3>
       </div>
-         <div className="w-[90%] max-w-[1050px] mt-6 mx-auto">
-          <div className="grid grid-cols-3 gap-3 mx-1 mb-3">
-
-            <div className="bg-white border border-gray-200 rounded-md p-4 col-span-2">
-
-            </div>
-            {/* Project progress half-donut */}
-            <div className="bg-white border border-gray-200 rounded-md p-4 pb-6 col-span-1">
-              <p className="text-[12px] font-semibold text-gray-700 font-inter">Project progress</p>
-              <p className="text-[10px] text-gray-400 font-poppins mb-3">Overall completion based on done tasks</p>
-
-              <div className="flex flex-col items-center justify-center gap-2 px-4">
-                <div className="w-full max-w-[300px]">
-                  <HalfDonut percentage={Math.round(((statusCounts["Done"] ?? 0) / tasks.length) * 100)} />
-                </div>
-
-               
-              </div>
-            </div>
-
-          </div>
-          <div className="grid grid-cols-2 gap-3 mx-1 mb-3">
-
-            {/* Status donut */}
-            <div className="bg-white border border-gray-200 rounded-md p-4">
-              <p className="text-[12px] font-semibold text-gray-700 font-inter">Status breakdown</p>
-              <p className="text-[10px] text-gray-400 font-poppins mb-1">Tasks by current status</p>
-
-              <div className="flex items-center gap-3 ">
-                {/* Donut via shadcn ChartContainer */}
-                <ChartContainer config={statusChartConfig} className="h-[200px] w-[200px] flex-shrink-0">
-                  <PieChart>
-                    <ChartTooltip content={<ChartTooltipContent hideLabel nameKey="name" />} />
-                    <Pie
-                      data={statusPieData}
-                      dataKey="value"
-                      nameKey="name"
-                      innerRadius={58}
-                      outerRadius={86}
-                      strokeWidth={2}
-                      stroke="white"
-                      labelLine={false}
-                      cornerRadius={4}
-                      
+      <div className="w-[90%] max-w-[1050px] mt-6 mx-auto">
+        <div className="grid grid-cols-3 gap-3 mx-1 mb-3">
+          <div className="bg-white border border-gray-200 rounded-md p-4 col-span-2">
+            
+              <p className="text-[12px] font-semibold text-gray-700 font-inter">
+                Project Velocity
+              </p>
+              <p className="text-[10px] text-gray-400 font-poppins mb-2">
+                Your weekly project velocity
+              </p>
+              <ChartContainer
+                config={completionChartConfig}
+                className="h-[170px] w-full"
+              >
+                <AreaChart
+                  data={completionData}
+                  margin={{ top: 8, right: 8, bottom: 0, left: 0 }}
+                >
+                  <defs>
+                    <linearGradient
+                      id="completionFill"
+                      x1="0"
+                      y1="0"
+                      x2="0"
+                      y2="1"
                     >
-                    </Pie>
-                  </PieChart>
-                </ChartContainer>
+                      <stop
+                        offset="5%"
+                        stopColor="hsl(262 70% 58%)"
+                        stopOpacity={0.15}
+                      />
+                      <stop
+                        offset="95%"
+                        stopColor="hsl(262 70% 58%)"
+                        stopOpacity={0}
+                      />
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid
+                    strokeDasharray="3 3"
+                    stroke="#f3f4f6"
+                    vertical={false}
+                  />
+                  <XAxis
+                    dataKey="week"
+                    tick={{ fontSize: 10, fill: "#9ca3af" }}
+                    tickLine={false}
+                    axisLine={false}
+                  />
+                  <YAxis
+                    tick={{ fontSize: 10, fill: "#9ca3af" }}
+                    tickLine={false}
+                    axisLine={false}
+                    width={24}
+                    allowDecimals={false}
+                  />
+                  <ChartTooltip content={<ChartTooltipContent />} />
+                  <Area
+                    type="linear"
+                    dataKey="Completed"
+                    stroke="oklch(27.8% 0.033 256.848)"
+                    strokeWidth={2}
+                    fill="url(#completionFill)"
+                    dot={{
+                      r: 3,
+                      fill: "oklch(78.9% 0.154 211.53)",
+                      strokeWidth: 0,
+                    }}
+                    activeDot={{ r: 5, strokeWidth: 0 }}
+                  />
+                </AreaChart>
+              </ChartContainer>
+            
+          </div>
+          {/* Project progress half-donut */}
+          <div className="bg-white border border-gray-200 rounded-md p-4 pb-6 col-span-1">
+            <p className="text-[12px] font-semibold text-gray-700 font-inter">
+              Project progress
+            </p>
+            <p className="text-[10px] text-gray-400 font-poppins mb-3">
+              Overall completion based on done tasks
+            </p>
 
-                {/* Custom legend */}
-                <div className="flex flex-col gap-2.5 flex-1 mr-5">
-                  {statusPieData.map((s) => (
-                    <div key={s.name} className="flex items-center justify-between">
-                      <div className="flex items-center gap-1.5">
-                        <span
-                          className="w-2 h-2 rounded-sm flex-shrink-0"
-                          style={{ background: s.fill }}
-                        />
-                        <span className="text-[11px] text-gray-600 font-poppins">{s.name}</span>
-                      </div>
-                      <span className="text-[11px] font-semibold text-gray-800 font-poppins tabular-nums">
-                        {s.value}
-                      </span>
-                    </div>
-                  ))}
-                  <div className="pt-2 border-t border-gray-100">
-                    <p className="text-[10px] text-gray-400 font-poppins">
-                      {Math.round(((statusCounts["Done"] ?? 0) / tasks.length) * 100)}% completion rate
-                    </p>
-                  </div>
-                </div>
+            <div className="flex flex-col items-center justify-center gap-2 px-4">
+              <div className="w-full max-w-[300px]">
+                <HalfDonut
+                  percentage={Math.round(
+                    ((statusCounts["Done"] ?? 0) / tasks.length) * 100,
+                  )}
+                />
               </div>
             </div>
-
           </div>
         </div>
+        <div className="grid grid-cols-2 gap-3 mx-1 mb-3">
+          {/* Status donut */}
+          <div className="bg-white border border-gray-200 rounded-md p-4 col-span-1">
+            <p className="text-[12px] font-semibold text-gray-700 font-inter">
+              Status breakdown
+            </p>
+            <p className="text-[10px] text-gray-400 font-poppins mb-1">
+              Tasks by current status
+            </p>
+
+            <div className="flex items-center gap-3 ">
+              {/* Donut via shadcn ChartContainer */}
+              <ChartContainer
+                config={statusChartConfig}
+                className="h-[200px] w-[200px] flex-shrink-0"
+              >
+                <PieChart>
+                  <ChartTooltip
+                    content={<ChartTooltipContent hideLabel nameKey="name" />}
+                  />
+                  <Pie
+                    data={statusPieData}
+                    dataKey="value"
+                    nameKey="name"
+                    innerRadius={58}
+                    outerRadius={86}
+                    strokeWidth={2}
+                    stroke="white"
+                    labelLine={false}
+                    cornerRadius={4}
+                  ></Pie>
+                </PieChart>
+              </ChartContainer>
+
+              {/* Custom legend */}
+              <div className="flex flex-col gap-2.5 flex-1 mr-5">
+                {statusPieData.map((s) => (
+                  <div
+                    key={s.name}
+                    className="flex items-center justify-between"
+                  >
+                    <div className="flex items-center gap-1.5">
+                      <span
+                        className="w-2 h-2 rounded-sm flex-shrink-0"
+                        style={{ background: s.fill }}
+                      />
+                      <span className="text-[11px] text-gray-600 font-poppins">
+                        {s.name}
+                      </span>
+                    </div>
+                    <span className="text-[11px] font-semibold text-gray-800 font-poppins tabular-nums">
+                      {s.value}
+                    </span>
+                  </div>
+                ))}
+                <div className="pt-2 border-t border-gray-100">
+                  <p className="text-[10px] text-gray-400 font-poppins">
+                    {Math.round(
+                      ((statusCounts["Done"] ?? 0) / tasks.length) * 100,
+                    )}
+                    % completion rate
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="bg-white border border-gray-200 rounded-md p-4 col-span-1">
+            
+              <p className="text-[12px] font-semibold text-gray-700 font-inter">
+                Task Completion Stats
+              </p>
+              <p className="text-[10px] text-gray-400 font-poppins mb-2">
+                Tasks completed per week
+              </p>
+              <ChartContainer
+                config={completionChartConfig}
+                className="h-[170px] w-full"
+              >
+                <AreaChart
+                  data={completionData}
+                  margin={{ top: 8, right: 8, bottom: 0, left: 0 }}
+                >
+                  <defs>
+                    <linearGradient
+                      id="completionFill"
+                      x1="0"
+                      y1="0"
+                      x2="0"
+                      y2="1"
+                    >
+                      <stop
+                        offset="5%"
+                        stopColor="hsl(262 70% 58%)"
+                        stopOpacity={0.15}
+                      />
+                      <stop
+                        offset="95%"
+                        stopColor="hsl(262 70% 58%)"
+                        stopOpacity={0}
+                      />
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid
+                    strokeDasharray="3 3"
+                    stroke="#f3f4f6"
+                    vertical={false}
+                  />
+                  <XAxis
+                    dataKey="week"
+                    tick={{ fontSize: 10, fill: "#9ca3af" }}
+                    tickLine={false}
+                    axisLine={false}
+                  />
+                  <YAxis
+                    tick={{ fontSize: 10, fill: "#9ca3af" }}
+                    tickLine={false}
+                    axisLine={false}
+                    width={24}
+                    allowDecimals={false}
+                  />
+                  <ChartTooltip content={<ChartTooltipContent />} />
+                  <Area
+                    type="stepAfter"
+                    dataKey="Completed"
+                    stroke="oklch(27.8% 0.033 256.848)"
+                    strokeWidth={2}
+                    fill="url(#completionFill)"
+                    dot={{
+                      r: 3,
+                      fill: "oklch(78.9% 0.154 211.53)",
+                      strokeWidth: 0,
+                    }}
+                    activeDot={{ r: 5, strokeWidth: 0 }}
+                  />
+                </AreaChart>
+              </ChartContainer>
+            
+          </div>
+        </div>
+      </div>
       <div className="bg-slate-50 w-[90%] max-w-[1050px] my-10 rounded-lg p-1 shadow mx-auto">
         <div className="flex items-center justify-between">
           <h1 className="text-2xl font-inter text-gray-800 font-bold mt-3 mb-2 mx-2 flex items-center">
@@ -398,6 +694,9 @@ const ProjectAnalytics = () => {
             </tbody>
           </table>
         </div>
+      </div>
+       <div className="relative">
+        <ProjectTimeline tasks={tasks} />
       </div>
     </div>
   );
