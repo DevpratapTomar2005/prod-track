@@ -103,18 +103,7 @@ const HalfDonut = ({ percentage }: { percentage: number }) => {
         />
       )}
 
-      {/* Tick marks */}
-      {ticks.map((t) => (
-        <line
-          key={t.pct}
-          x1={t.x1}
-          y1={t.y1}
-          x2={t.x2}
-          y2={t.y2}
-          stroke="#d1d5db"
-          strokeWidth={1.5}
-        />
-      ))}
+      
 
       {/* Centre label */}
       <text
@@ -218,7 +207,7 @@ const ProjectAnalytics = () => {
       subtasks: [],
     },
     {
-      id: 2929,
+      id: 2925,
       task: "Implement project analytics",
       status: "Todo",
       project: "Project Alpha",
@@ -230,14 +219,14 @@ const ProjectAnalytics = () => {
       subtasks: [],
     },
     {
-      id: 2925,
-      task: "Implement project analytics",
-      status: "Todo",
+      id: 1112,
+      task: "Implement user profile page",
+      status: "In Progress",
       project: "Project Alpha",
       estDuration: "2.5",
       estDurationUnit: "hours",
-      startDate: "16 April, 2026",
-      dueDate: "17 April, 2026",
+      startDate: "13 April, 2026",
+      dueDate: "14 April, 2026",
       startTime: "9:00 AM",
       subtasks: [],
     },
@@ -246,10 +235,22 @@ const ProjectAnalytics = () => {
       task: "Implement project analytics",
       status: "Todo",
       project: "Project Alpha",
+      estDuration: "3.5",
+      estDurationUnit: "hours",
+      startDate: "15 April, 2026",
+      dueDate: "15 April, 2026",
+      startTime: "9:00 AM",
+      subtasks: [],
+    },
+    {
+      id: 1112,
+      task: "Implement user profile page",
+      status: "In Progress",
+      project: "Project Alpha",
       estDuration: "2.5",
       estDurationUnit: "hours",
-      startDate: "16 April, 2026",
-      dueDate: "17 April, 2026",
+      startDate: "13 April, 2026",
+      dueDate: "14 April, 2026",
       startTime: "9:00 AM",
       subtasks: [],
     },
@@ -258,10 +259,22 @@ const ProjectAnalytics = () => {
       task: "Implement project analytics",
       status: "Todo",
       project: "Project Alpha",
+      estDuration: "3.5",
+      estDurationUnit: "hours",
+      startDate: "15 April, 2026",
+      dueDate: "15 April, 2026",
+      startTime: "9:00 AM",
+      subtasks: [],
+    },
+    {
+      id: 1112,
+      task: "Implement user profile page",
+      status: "In Progress",
+      project: "Project Alpha",
       estDuration: "2.5",
       estDurationUnit: "hours",
-      startDate: "16 April, 2026",
-      dueDate: "17 April, 2026",
+      startDate: "13 April, 2026",
+      dueDate: "14 April, 2026",
       startTime: "9:00 AM",
       subtasks: [],
     },
@@ -270,10 +283,22 @@ const ProjectAnalytics = () => {
       task: "Implement project analytics",
       status: "Todo",
       project: "Project Alpha",
+      estDuration: "3.5",
+      estDurationUnit: "hours",
+      startDate: "15 April, 2026",
+      dueDate: "15 April, 2026",
+      startTime: "9:00 AM",
+      subtasks: [],
+    },
+    {
+      id: 1112,
+      task: "Implement user profile page",
+      status: "In Progress",
+      project: "Project Alpha",
       estDuration: "2.5",
       estDurationUnit: "hours",
-      startDate: "16 April, 2026",
-      dueDate: "17 April, 2026",
+      startDate: "13 April, 2026",
+      dueDate: "14 April, 2026",
       startTime: "9:00 AM",
       subtasks: [],
     },
@@ -282,49 +307,14 @@ const ProjectAnalytics = () => {
       task: "Implement project analytics",
       status: "Todo",
       project: "Project Alpha",
-      estDuration: "2.5",
+      estDuration: "3.5",
       estDurationUnit: "hours",
-      startDate: "16 April, 2026",
-      dueDate: "17 April, 2026",
+      startDate: "15 April, 2026",
+      dueDate: "15 April, 2026",
       startTime: "9:00 AM",
       subtasks: [],
     },
-    {
-      id: 2925,
-      task: "Implement project analytics",
-      status: "Todo",
-      project: "Project Alpha",
-      estDuration: "2.5",
-      estDurationUnit: "hours",
-      startDate: "16 April, 2026",
-      dueDate: "17 April, 2026",
-      startTime: "9:00 AM",
-      subtasks: [],
-    },
-    {
-      id: 2925,
-      task: "Implement project analytics",
-      status: "Todo",
-      project: "Project Alpha",
-      estDuration: "2.5",
-      estDurationUnit: "hours",
-      startDate: "16 April, 2026",
-      dueDate: "17 April, 2026",
-      startTime: "9:00 AM",
-      subtasks: [],
-    },
-    {
-      id: 2925,
-      task: "Implement project analytics",
-      status: "Todo",
-      project: "Project Alpha",
-      estDuration: "2.5",
-      estDurationUnit: "hours",
-      startDate: "16 April, 2026",
-      dueDate: "17 April, 2026",
-      startTime: "9:00 AM",
-      subtasks: [],
-    },
+   
   ]);
 
   const statusCounts = tasks.reduce<Record<string, number>>((acc, p) => {
@@ -353,8 +343,8 @@ const ProjectAnalytics = () => {
 
   return (
     <div className="w-full h-[calc(100vh-53px)] mt-[53px] overflow-y-auto [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-thumb]:bg-cyan-100 [&::-webkit-scrollbar-track]:bg-gray-100/40">
-      <div>
-        <h1 className="text-2xl font-inter text-gray-800 font-bold mt-10 mx-16 flex items-center">
+      <div className="w-[90%] max-w-[1050px] mt-2 mx-auto">
+        <h1 className="text-2xl font-inter text-gray-800 font-bold mt-10 flex items-center">
           Project Analytics{" "}
           <img
             src={ArrowRight}
@@ -362,12 +352,28 @@ const ProjectAnalytics = () => {
             className="invert-80 h-7 w-7"
           />
         </h1>
-        <h3 className="text-[12px] text-gray-400 font-poppins mt-1 mx-16">
+        <h3 className="text-[12px] text-gray-400 font-poppins mt-1">
           Insights into project progress and task analytics
         </h3>
       </div>
-      <div className="w-[90%] max-w-[1050px] mt-6 mx-auto">
-        <div className="grid grid-cols-3 gap-3 mx-1 mb-3">
+      <div className="border border-gray-200 w-[90%] max-w-[1050px] mx-auto p-4 rounded-md mt-8 flex items-center justify-between">
+        <div>
+        <h1 className="text-xl font-inter text-gray-800 font-bold flex items-center">
+          Project Alpha{" "}
+         
+        </h1>
+        <h3 className="text-[12px] text-gray-400 font-poppins mt-1 bg-gray-50 w-fit p-1 rounded-lg">
+          #PROJECT-2001
+        </h3>
+        </div>
+        <div>
+          <h3 className="text-[14px] text-cyan-400 font-poppins mt-1 bg-green-50 border border-cyan-300 w-fit py-1.5 px-4 rounded-lg ">
+          In Progress
+        </h3>
+        </div>
+      </div>
+      <div className="w-[90%] max-w-[1050px] mt-2 mx-auto">
+        <div className="grid grid-cols-3 gap-3 mb-3">
           <div className="bg-white border border-gray-200 rounded-md p-4 col-span-2">
             
               <p className="text-[12px] font-semibold text-gray-700 font-inter">
@@ -429,11 +435,6 @@ const ProjectAnalytics = () => {
                     stroke="oklch(27.8% 0.033 256.848)"
                     strokeWidth={2}
                     fill="url(#completionFill)"
-                    dot={{
-                      r: 3,
-                      fill: "oklch(78.9% 0.154 211.53)",
-                      strokeWidth: 0,
-                    }}
                     activeDot={{ r: 5, strokeWidth: 0 }}
                   />
                 </AreaChart>
