@@ -143,7 +143,7 @@ const TooltipPortal = ({ data, x, y }: { data: TooltipData; x: number; y: number
 // ─── Connector bar ─────────────────────────────────────────────────────────────
 const Connector = ({
   filled, gradient, glow, dashed,
-  gap, gapLabel,
+  gap,
   onEnter, onLeave, onMove, showGapTooltip, entry, mouseX, mouseY,
 }: {
   filled: boolean;

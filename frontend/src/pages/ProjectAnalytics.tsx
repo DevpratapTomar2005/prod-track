@@ -51,18 +51,6 @@ const HalfDonut = ({ percentage }: { percentage: number }) => {
   // so we need flag=1 only when percentage === 100 to close the full semicircle.
   const largeArc = percentage >= 100 ? 1 : 0;
 
-  // Tick positions (inner/outer radii bracket the stroke)
-  const ticks = [0, 25, 50, 75, 100].map((pct) => {
-    const a = Math.PI * (1 - pct / 100);
-    return {
-      pct,
-      x1: cx + (r - 8) * Math.cos(a),
-      y1: cy - (r - 8) * Math.sin(a),
-      x2: cx + (r + 8) * Math.cos(a),
-      y2: cy - (r + 8) * Math.sin(a),
-    };
-  });
-
   // Colour ramp: red → amber → green
   const gaugeColor =
     percentage >= 66 ? "#22c55e" : percentage >= 33 ? "#00d3f2" : "#ef4444";
