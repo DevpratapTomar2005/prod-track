@@ -269,7 +269,7 @@ const StatusSelect = ({
 }) => {
   const [open, setOpen] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
-  const current = STATUS_OPTIONS.find((s) => s.value === value);
+ 
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
@@ -372,8 +372,7 @@ function timeToISO(date: Date | undefined, time: string): string {
 function isoToTimeParts(iso: string): { date: Date; time: string } {
   const d = iso ? new Date(iso) : new Date();
   const h24 = d.getHours();
-  const ampm = h24 < 12 ? "AM" : "PM";
-  const displayH = h24 % 12 === 0 ? 12 : h24 % 12;
+
   const mStr = String(d.getMinutes()).padStart(2, "0");
   const snappedMin = parseInt(mStr) < 15 ? "00" : parseInt(mStr) < 45 ? "30" : "00";
   const snappedH = parseInt(mStr) >= 45 ? (h24 + 1) % 24 : h24;
