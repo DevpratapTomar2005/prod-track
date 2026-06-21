@@ -51,13 +51,13 @@ const Sidebar = () => {
           <p>Projects</p>
         </NavLink>
         <NavLink
-          to="/devpratap/manage-agents"
+          to="/devpratap/calendar"
           className={({ isActive }) =>
             `w-full flex items-center gap-3 py-1.5 px-2 rounded-md cursor-pointer my-4 ${isActive ? "bg-gray-100" : "hover:bg-gray-100"}`
           }
         >
           <img src={BotIcon} alt="Bot Icon" className="h-5 w-5" />
-          <p>Manage Agents</p>
+          <p>Calendar</p>
         </NavLink>
       </div>
     </div>

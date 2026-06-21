@@ -190,7 +190,7 @@ const ProjectsPage = () => {
           <div className="grid grid-cols-2 gap-3 mx-1 mb-3">
 
             {/* Status donut */}
-            <div className="bg-white border border-gray-200 rounded-md p-4">
+            <div className="bg-white border border-gray-200 rounded-md p-4 shadow-sm">
               <p className="text-[12px] font-semibold text-gray-700 font-inter">Status breakdown</p>
               <p className="text-[10px] text-gray-400 font-poppins mb-1">Projects by current status</p>
 
@@ -242,7 +242,7 @@ const ProjectsPage = () => {
             </div>
 
             {/* Progress horizontal bar */}
-            <div className="bg-white border border-gray-200 rounded-md p-4">
+            <div className="bg-white border border-gray-200 rounded-md p-4 shadow-sm">
               <p className="text-[12px] font-semibold text-gray-700 font-inter">Progress distribution</p>
               <p className="text-[10px] text-gray-400 font-poppins mb-2">Completion % for active projects</p>
               <ChartContainer config={progressChartConfig} className="h-[200px] w-full">
@@ -283,7 +283,7 @@ const ProjectsPage = () => {
           <div className="grid grid-cols-2 gap-3 mx-1 mb-3">
 
             {/* Gantt */}
-            <div className="bg-white border border-gray-200 rounded-md p-4">
+            <div className="bg-white border border-gray-200 rounded-md p-4 shadow-sm">
               <p className="text-[12px] font-semibold text-gray-700 font-inter">Project timeline</p>
               <p className="text-[10px] text-gray-400 font-poppins mb-2">Start → estimated end · May 2026</p>
 
@@ -318,7 +318,7 @@ const ProjectsPage = () => {
             </div>
 
             {/* Completion rate area chart */}
-            <div className="bg-white border border-gray-200 rounded-md p-4">
+            <div className="bg-white border border-gray-200 rounded-md p-4 shadow-sm">
               <p className="text-[12px] font-semibold text-gray-700 font-inter">Completion rate over time</p>
               <p className="text-[10px] text-gray-400 font-poppins mb-2">Projects completed per week</p>
               <ChartContainer config={completionChartConfig} className="h-[250px] w-full">

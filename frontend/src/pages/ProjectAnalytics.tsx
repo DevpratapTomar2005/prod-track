@@ -344,9 +344,9 @@ const ProjectAnalytics = () => {
           Insights into project progress and task analytics
         </h3>
       </div>
-      <div className="border border-gray-200 w-[90%] max-w-[1050px] mx-auto p-4 rounded-md mt-8 flex items-center justify-between">
+      <div className="border border-gray-200 w-[90%] max-w-[1050px] mx-auto p-4 rounded-md mt-8 flex items-center justify-between shadow-sm">
         <div>
-        <h1 className="text-xl font-inter text-gray-800 font-bold flex items-center">
+        <h1 className="text-lg font-inter text-gray-800 font-semibold flex items-center">
           Project Alpha{" "}
          
         </h1>
@@ -355,14 +355,14 @@ const ProjectAnalytics = () => {
         </h3>
         </div>
         <div>
-          <h3 className="text-[14px] text-cyan-400 font-poppins mt-1 bg-green-50 border border-cyan-300 w-fit py-1.5 px-4 rounded-lg ">
+          <h3 className="text-[13px] text-cyan-400 font-poppins mt-1 bg-green-50 border border-cyan-300 w-fit py-1.5 px-4 rounded-lg ">
           In Progress
         </h3>
         </div>
       </div>
       <div className="w-[90%] max-w-[1050px] mt-2 mx-auto">
         <div className="grid grid-cols-3 gap-3 mb-3">
-          <div className="bg-white border border-gray-200 rounded-md p-4 col-span-2">
+          <div className="bg-white border border-gray-200 rounded-md p-4 col-span-2 shadow-sm">
             
               <p className="text-[12px] font-semibold text-gray-700 font-inter">
                 Project Velocity
@@ -430,7 +430,7 @@ const ProjectAnalytics = () => {
             
           </div>
           {/* Project progress half-donut */}
-          <div className="bg-white border border-gray-200 rounded-md p-4 pb-6 col-span-1">
+          <div className="bg-white border border-gray-200 rounded-md p-4 pb-6 col-span-1 shadow-sm">
             <p className="text-[12px] font-semibold text-gray-700 font-inter">
               Project progress
             </p>
@@ -451,7 +451,7 @@ const ProjectAnalytics = () => {
         </div>
         <div className="grid grid-cols-2 gap-3 mx-1 mb-3">
           {/* Status donut */}
-          <div className="bg-white border border-gray-200 rounded-md p-4 col-span-1">
+          <div className="bg-white border border-gray-200 rounded-md p-4 col-span-1 shadow-sm">
             <p className="text-[12px] font-semibold text-gray-700 font-inter">
               Status breakdown
             </p>
@@ -515,7 +515,7 @@ const ProjectAnalytics = () => {
               </div>
             </div>
           </div>
-          <div className="bg-white border border-gray-200 rounded-md p-4 col-span-1">
+          <div className="bg-white border border-gray-200 rounded-md p-4 col-span-1 shadow-sm">
             
               <p className="text-[12px] font-semibold text-gray-700 font-inter">
                 Task Completion Stats

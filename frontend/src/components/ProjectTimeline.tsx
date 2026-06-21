@@ -298,7 +298,7 @@ export const ProjectTimeline = ({ tasks }: { tasks: Task[] }) => {
   const trackMove = (e: React.MouseEvent) => setMousePos({ x: e.clientX, y: e.clientY });
 
   return (
-    <div className="w-[90%] max-w-[1050px] mx-auto mt-6 mb-10 bg-white border border-gray-200 rounded-md">
+    <div className="w-[90%] max-w-[1050px] mx-auto mt-6 mb-10 bg-white border border-gray-200 rounded-lg shadow">
 
       {/* ── Header ── */}
       <div className="flex items-center justify-between mb-4 p-4">
@@ -325,7 +325,7 @@ export const ProjectTimeline = ({ tasks }: { tasks: Task[] }) => {
       {/* ── Scrollable shell ── */}
       <div className="bg-white py-3 px-2">
         <div
-          className={isScrollable ? "tl-scroll" : "px-10"}
+          className={isScrollable ? "tl-scroll no-scrollbar" : "px-10"}
           style={isScrollable ? {
             overflowX: "auto", overflowY: "hidden",
             paddingTop: 100, paddingBottom: 100,
