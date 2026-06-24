@@ -1,5 +1,4 @@
 import { NavLink } from "react-router";
-import BotIcon from "../assets/bot.svg";
 import DashboardIcon from "../assets/dashboard_icon.svg";
 import ProjectIcon from "../assets/project_icon.svg";
 import TaskIcon from "../assets/tasks_icon.svg";
