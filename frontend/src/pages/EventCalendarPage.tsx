@@ -12,6 +12,7 @@ import { ChevronDownIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import Plus from "../assets/plus.svg";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -20,7 +21,6 @@ interface CalendarEvent {
   title: string;
   start: string;
   end?: string;
-  allDay?: boolean;
   color?: string;
   extendedProps?: {
     description?: string;
@@ -47,8 +47,8 @@ const EventDetailModal = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20">
-      <div className="bg-white rounded-xl shadow-xl w-[360px] p-5 font-inter">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/1 backdrop-blur-[1px]">
+      <div className="bg-white rounded-xl shadow-lg w-[360px] p-5 font-inter border border-gray-200">
         <div className="flex items-start justify-between mb-3">
           <div
             className="w-3 h-3 rounded-full mt-1 flex-shrink-0"
@@ -59,7 +59,7 @@ const EventDetailModal = ({
           </h2>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-600 text-lg leading-none ml-2"
+            className="text-gray-400 hover:text-gray-600 text-xl leading-none font-inter ml-2"
           >
             ×
           </button>
@@ -111,7 +111,7 @@ const EventDetailModal = ({
           </button>
           <button
             onClick={onClose}
-            className="ml-auto text-[11px] font-poppins text-white bg-gray-800 rounded-md px-4 py-1.5 hover:bg-gray-700 transition-colors"
+            className="ml-auto text-[11px] font-poppins text-white bg-gray-800 rounded-md px-4 py-1.5 hover:bg-gray-700 transition-colors cursor-pointer"
           >
             Close
           </button>
@@ -425,7 +425,7 @@ const TimeSelect = ({
       {open && (
         <div
           ref={listRef}
-          className="absolute top-[calc(100%+4px)] left-0 right-0 bg-white border border-gray-200 rounded-lg shadow-lg z-[60] overflow-y-auto max-h-40"
+          className="absolute top-[calc(100%+4px)] left-0 right-0 bg-white border border-gray-200 rounded-lg shadow-lg z-[60] overflow-y-auto max-h-40 [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-thumb]:bg-cyan-100 [&::-webkit-scrollbar-track]:bg-gray-100/40"
         >
           {TIME_OPTIONS.map((t) => (
             <button
@@ -469,12 +469,12 @@ const CreateEventModal = ({
   const [color, setColor] = useState("#6366f1");
 
   const colorOptions = [
-    { value: "#6366f1", label: "Indigo" },
-    { value: "#06b6d4", label: "Cyan" },
-    { value: "#10b981", label: "Green" },
-    { value: "#f59e0b", label: "Amber" },
-    { value: "#ef4444", label: "Red" },
-    { value: "#8b5cf6", label: "Purple" },
+    { value: "#6f72ff", label: "Indigo" },
+    { value: "#0dc9e9", label: "Cyan" },
+    { value: "#00cb88", label: "Green" },
+    { value: "#ffaa1a", label: "Amber" },
+    { value: "#fb4848", label: "Red" },
+    { value: "#9371e1", label: "Purple" },
   ];
 
   const handleSubmit = () => {
@@ -491,11 +491,11 @@ const CreateEventModal = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20">
-      <div className="bg-white rounded-xl shadow-xl w-[400px] p-5 font-inter">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/1 backdrop-blur-[1px]">
+      <div className="bg-white rounded-xl shadow-lg w-[400px] p-5 font-inter border border-gray-200">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-[14px] font-semibold text-gray-800">New Event</h2>
-          <button onClick={onClose} className="text-gray-400 hover:text-gray-600 text-lg leading-none">
+          <button onClick={onClose} className="text-gray-400 hover:text-gray-600 text-xl leading-none font-inter">
             ×
           </button>
         </div>
@@ -575,19 +575,20 @@ const CreateEventModal = ({
         </div>
 
         <div className="flex gap-2 mt-5">
-          <button
+            <Button
+            variant="outline"
             onClick={onClose}
-            className="text-[11px] font-poppins text-gray-500 border border-gray-200 rounded-md px-4 py-1.5 hover:bg-gray-50 transition-colors"
+            className="px-2 py-2 m-0 text-neutral-800 text-[13px] font-poppins"
           >
             Cancel
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={handleSubmit}
             disabled={!title.trim()}
-            className="ml-auto text-[11px] font-poppins text-white bg-gray-800 rounded-md px-5 py-1.5 hover:bg-gray-700 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+            className="ml-auto text-[12px] text-white bg-cyan-400 px-2 py-2 hover:bg-cyan-500 transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer font-poppins font-md"
           >
             Create Event
-          </button>
+          </Button>
         </div>
       </div>
     </div>
@@ -613,7 +614,7 @@ const EventCalendarPage = () => {
       title: "Sprint Planning",
       start: "2026-06-22T10:00:00",
       end: "2026-06-22T11:30:00",
-      color: "#6366f1",
+      color: "#6f72ff",
       extendedProps: { project: "Project Alpha", status: "To Do", description: "Q3 sprint kickoff" },
     },
     {
@@ -621,7 +622,7 @@ const EventCalendarPage = () => {
       title: "UI Review – Fintech Dashboard",
       start: "2026-06-24T14:00:00",
       end: "2026-06-24T15:00:00",
-      color: "#06b6d4",
+      color: "#0dc9e9",
       extendedProps: { project: "Fintech Dashboard", status: "In Progress" },
     },
     {
@@ -629,7 +630,7 @@ const EventCalendarPage = () => {
       title: "Client Demo",
       start: "2026-06-25T09:00:00",
       end: "2026-06-25T10:00:00",
-      color: "#10b981",
+      color: "#00cb88",
       extendedProps: { project: "Nexis Quiz App", status: "To Do" },
     },
     {
@@ -637,15 +638,15 @@ const EventCalendarPage = () => {
       title: "AI Chatbot Standup",
       start: "2026-06-23T09:30:00",
       end: "2026-06-23T09:50:00",
-      color: "#8b5cf6",
+      color: "#9371e1",
       extendedProps: { project: "AI Chatbot", status: "In Progress" },
     },
     {
       id: "e5",
       title: "Portfolio Launch",
-      start: "2026-06-27",
-      allDay: true,
-      color: "#f59e0b",
+      start: "2026-06-27T10:00:00",
+      end: "2026-06-27T11:00:00",
+      color: "#ffaa1a",
       extendedProps: { project: "Portfolio Website", status: "Done" },
     },
     {
@@ -653,7 +654,7 @@ const EventCalendarPage = () => {
       title: "E-commerce Kickoff",
       start: "2026-06-30T11:00:00",
       end: "2026-06-30T12:00:00",
-      color: "#ef4444",
+      color: "#fb4848",
       extendedProps: { project: "E-commerce Website", status: "To Do" },
     },
   ]);
@@ -692,7 +693,6 @@ const EventCalendarPage = () => {
       title: ev.title,
       start: ev.startStr,
       end: ev.endStr || undefined,
-      allDay: ev.allDay,
       color: ev.backgroundColor,
       extendedProps: ev.extendedProps as CalendarEvent["extendedProps"],
     });
@@ -720,14 +720,14 @@ const EventCalendarPage = () => {
   ];
 
   return (
-    <div className="w-full h-[calc(100vh-53px)] mt-[56px] overflow-y-hidden bg-white [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-thumb]:bg-cyan-100 [&::-webkit-scrollbar-track]:bg-gray-100/40">
+    <div className="w-full h-screen overflow-y-hidden bg-white [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-thumb]:bg-cyan-100 [&::-webkit-scrollbar-track]:bg-gray-100/40">
       {/* ── Page header ──────────────────────────────────────────────── */}
-      <div className="w-[98%] mx-auto mt-5 mb-4">
+      <div className="w-full mx-auto mb-4">
       
         {/* ── Calendar card ──────────────────────────────────────────── */}
-        <div className="bg-slate-50 rounded-lg p-4 shadow border border-gray-100 h-[calc(100vh-85px)] ">
+        <div className="bg-white h-screen">
           {/* Toolbar */}
-          <div className="flex items-center justify-between flex-wrap gap-3 mb-4">
+          <div className="flex items-center justify-between flex-wrap gap-3 h-[66px] p-4 ">
             {/* Navigation */}
             <div className="flex items-center gap-2">
               <button
@@ -775,15 +775,17 @@ const EventCalendarPage = () => {
                   setCreateModalStart(new Date().toISOString());
                   setShowCreateModal(true);
                 }}
-                className="text-[11px] font-poppins text-white bg-gray-800 rounded-md px-4 py-1.5 hover:bg-gray-700 transition-colors flex items-center gap-1"
+                className="text-[11px] font-poppins text-white bg-gray-800 rounded-md px-4 py-1.5 hover:bg-gray-700 transition-colors flex items-center gap-1 cursor-pointer"
               >
-                <span className="text-[15px] leading-none">+</span> Add Event
+                <span className="text-[15px] leading-none">
+                  <img src={Plus} alt="Plus" className="h-3.4 w-3 invert-100"/>
+                </span> Add Event
               </button>
             </div>
           </div>
 
           {/* FullCalendar */}
-          <div className="bg-white  overflow-hidden rounded-lg border-2 border-gray-200">
+          <div className="h-[calc(100%-66px)]">
             <style>{`
               .fc { font-family: 'Poppins', sans-serif; font-size: 12px; }
               .fc-toolbar { display: none !important; }
@@ -792,7 +794,7 @@ const EventCalendarPage = () => {
               .fc-daygrid-day-number { color: #374151; font-size: 11px; text-decoration: none !important; }
               .fc-day-today { background: #f0f9ff !important; }
               .fc-day-today .fc-daygrid-day-number { color: #0891b2; font-weight: 700; }
-              .fc-event { border-radius: 5px !important; border: none !important; font-size: 10.5px !important; padding: 1px 4px !important; cursor: pointer; }
+              .fc-event { border-radius: 5px !important; border: 1px solid inherit !important; font-size: 9.5px !important; padding: 1px 4px !important; cursor: pointer; }
               .fc-event-title { font-weight: 500; }
               .fc-timegrid-slot { height: 36px !important; }
               .fc-timegrid-slot-label { font-size: 10px; color: #9ca3af; }
@@ -801,6 +803,32 @@ const EventCalendarPage = () => {
               .fc-list-event-title a { text-decoration: none; color: #374151; }
               .fc-list-event-dot { border-color: currentColor !important; }
               td.fc-daygrid-day, th { border-color: #e5e7eb !important; }
+
+              /* ── Hide scrollbar ONLY on the column header row ── */
+              .fc-scrollgrid-section-header .fc-scroller {
+                scrollbar-width: none !important;
+                -ms-overflow-style: none !important;
+              }
+              .fc-scrollgrid-section-header .fc-scroller::-webkit-scrollbar {
+                display: none !important;
+                width: 0 !important;
+              }
+
+              /* ── Custom cyan scrollbar on all-day row + time-body ── */
+              .fc-scrollgrid-section-body .fc-scroller {
+                scrollbar-width: thin !important;
+                scrollbar-color: #cffafe rgba(243,244,246,0.4) !important;
+              }
+              .fc-scrollgrid-section-body .fc-scroller::-webkit-scrollbar {
+                width: 4px !important;
+              }
+              .fc-scrollgrid-section-body .fc-scroller::-webkit-scrollbar-thumb {
+                background-color: #cffafe !important;
+                border-radius: 9999px !important;
+              }
+              .fc-scrollgrid-section-body .fc-scroller::-webkit-scrollbar-track {
+                background-color: rgba(243,244,246,0.4) !important;
+              }
             `}</style>
             <FullCalendar
               ref={calendarRef}
@@ -814,10 +842,12 @@ const EventCalendarPage = () => {
               select={handleDateSelect}
               eventClick={handleEventClick}
               datesSet={handleDatesSet}
-              height="460px"
-            
+              height="100%"
+              expandRows={true}
+              allDaySlot={false}
               nowIndicator
               eventDisplay="block"
+              
               
             />
           </div>

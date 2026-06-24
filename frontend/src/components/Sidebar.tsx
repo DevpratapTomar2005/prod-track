@@ -5,6 +5,7 @@ import ProjectIcon from "../assets/project_icon.svg";
 import TaskIcon from "../assets/tasks_icon.svg";
 import Logo from "../assets/temp_logo.svg";
 import SidebarIcon from "../assets/sidebar_icon.svg";
+import CalendarIcon from "../assets/calendar.svg";
 const Sidebar = () => {
   return (
     <div className="p-2 w-[200px] h-screen border-r border-gray-200">
@@ -56,7 +57,7 @@ const Sidebar = () => {
             `w-full flex items-center gap-3 py-1.5 px-2 rounded-md cursor-pointer my-4 ${isActive ? "bg-gray-100" : "hover:bg-gray-100"}`
           }
         >
-          <img src={BotIcon} alt="Bot Icon" className="h-5 w-5" />
+          <img src={CalendarIcon} alt="Calendar Icon" className="h-5 w-5" />
           <p>Calendar</p>
         </NavLink>
       </div>
