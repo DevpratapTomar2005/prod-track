@@ -14,8 +14,8 @@ const Sidebar = () => {
             <img src={Logo} alt="logo" className="invert-100 h-5 w-5" />
           </span>
           <span className="ml-1.5 font-bold text-[14px] leading-3">
-            <p>Prod</p>
-            <p>Track</p>
+            <p>Tick</p>
+            <p>Trackerz</p>
           </span>
         </div>
         <div className="p-1 hover:bg-gray-100 cursor-ew-resize rounded-md">

@@ -232,9 +232,9 @@ const Dashboard = () => {
               {/* Summary counts */}
               <div className="flex gap-3 mb-3">
                 {[
-                  { label: "Overdue", value: tasksDueSummary.overdue, color: "text-red-500" },
-                  { label: "Due today", value: tasksDueSummary.today, color: "text-amber-500" },
-                  { label: "Due this week", value: tasksDueSummary.week, color: "text-gray-800" },
+                  { label: "Overdue", value: tasksDueSummary.overdue, color: "text-[#8b5cf6]" },
+                  { label: "Due today", value: tasksDueSummary.today, color: "text-[#fb4848]" },
+                  { label: "Due this week", value: tasksDueSummary.week, color: "text-[#60a5fa]" },
                 ].map(({ label, value, color }) => (
                   <div key={label} className="flex-1 bg-gray-50 border border-gray-100 rounded-lg px-2.5 py-2">
                     <p className={`text-[18px] font-inter font-bold ${color} text-center`}>{value}</p>
@@ -253,15 +253,15 @@ const Dashboard = () => {
                   <XAxis dataKey="project" tick={{ fontSize: 9, fill: "#9ca3af" }} tickLine={false} axisLine={false} />
                   <YAxis tick={{ fontSize: 9, fill: "#9ca3af" }} tickLine={false} axisLine={false} allowDecimals={false} />
                   <Tooltip contentStyle={{ fontSize: 10, fontFamily: "Poppins" }} />
-                  <Bar dataKey="overdue" fill="#f59e0b" radius={[2, 2, 0, 0]} name="Overdue" />
-                  <Bar dataKey="today" fill="#ef4444" radius={[2, 2, 0, 0]} name="Due today" />
+                  <Bar dataKey="overdue" fill="#8b5cf6" radius={[2, 2, 0, 0]} name="Overdue" />
+                  <Bar dataKey="today" fill="#fb4848" radius={[2, 2, 0, 0]} name="Due today" />
                   <Bar dataKey="week" fill="#60a5fa" radius={[2, 2, 0, 0]} name="Due this week" />
                 </BarChart>
               </ResponsiveContainer>
 
               {/* Legend */}
               <div className="flex gap-3 mt-1.5 justify-center">
-                {[["#f59e0b", "Overdue"], ["#ef4444", "Due today"], ["#60a5fa", "Due this week"]].map(([color, label]) => (
+                {[["#8b5cf6", "Overdue"], ["#fb4848", "Due today"], ["#60a5fa", "Due this week"]].map(([color, label]) => (
                   <span key={label} className="flex items-center gap-1 text-[9px] font-poppins text-gray-500">
                     <span className="w-2 h-2 rounded-sm" style={{ background: color }} />
                     {label}
@@ -331,7 +331,7 @@ const Dashboard = () => {
                 ))}
               </div>
               <div className="flex gap-2 flex-wrap mb-3 w-fit mx-auto">
-                {[["Done", "#22c55e"], ["In Progress", "#3b82f6"], ["Paused", "#f59e0b"], ["Expired", "#ef4444"]].map(([label, color]) => (
+                {[["Done", "#7ae5a2"], ["In Progress", "#60a5fa"], ["Paused", "#8b5cf6"], ["Expired", "#fb4848"]].map(([label, color]) => (
                   <span key={label} className="flex items-center gap-1 text-[9px] font-poppins text-gray-500">
                     <span className="w-2 h-2 rounded-sm" style={{ background: color as string }} />
                     {label}
@@ -344,10 +344,10 @@ const Dashboard = () => {
                   <XAxis dataKey="day" tick={{ fontSize: 9, fill: "#9ca3af" }} tickLine={false} axisLine={false} />
                   <YAxis tick={{ fontSize: 9, fill: "#9ca3af" }} tickLine={false} axisLine={false} allowDecimals={false} />
                   <Tooltip contentStyle={{ fontSize: 10, fontFamily: "Poppins" }} />
-                  <Bar dataKey="Done" stackId="a" fill="#22c55e" radius={[0, 0, 0, 0]} />
-                  <Bar dataKey="In Progress" stackId="a" fill="#3b82f6" />
-                  <Bar dataKey="Paused" stackId="a" fill="#f59e0b" />
-                  <Bar dataKey="Expired" stackId="a" fill="#ef4444" radius={[2, 2, 0, 0]} />
+                  <Bar dataKey="Done" stackId="a" fill="#7ae5a2" radius={[0, 0, 0, 0]} />
+                  <Bar dataKey="In Progress" stackId="a" fill="#60a5fa" />
+                  <Bar dataKey="Paused" stackId="a" fill="#8b5cf6" />
+                  <Bar dataKey="Expired" stackId="a" fill="#fb4848" radius={[2, 2, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -496,11 +496,11 @@ const Dashboard = () => {
                   <p className="text-[9px] font-poppins text-gray-400">Stale tasks</p>
                 </div>
                 <div>
-                  <p className="text-[22px] font-inter font-bold text-amber-500 text-center">5.4</p>
+                  <p className="text-[22px] font-inter font-bold text-[#ffb940] text-center">5.4</p>
                   <p className="text-[9px] font-poppins text-gray-400">Avg days idle</p>
                 </div>
                 <div>
-                  <p className="text-[22px] font-inter font-bold text-red-500 text-center">3</p>
+                  <p className="text-[22px] font-inter font-bold text-[#fb4848] text-center">3</p>
                   <p className="text-[9px] font-poppins text-gray-400">Projects affected</p>
                 </div>
               </div>
@@ -511,7 +511,7 @@ const Dashboard = () => {
                       <p className="text-[10px] font-inter font-medium text-gray-700 truncate">{t.title}</p>
                       <p className="text-[9px] font-poppins text-gray-400">{t.project}</p>
                     </div>
-                    <span className={`text-[10px] font-poppins font-semibold shrink-0 ml-2 ${t.days >= 5 ? "text-red-500" : "text-amber-500"}`}>
+                    <span className={`text-[10px] font-poppins font-semibold shrink-0 ml-2 ${t.days >= 5 ? "text-[#fb4848]" : "text-[#ffb940]"}`}>
                       {t.days}d idle
                     </span>
                   </div>
@@ -539,7 +539,7 @@ const Dashboard = () => {
                       <p className="text-[10px] font-inter font-medium text-gray-700">{p.name}</p>
                       <StatusBadge status={p.status} />
                     </div>
-                    <span className={`text-[10px] font-poppins font-semibold ${p.daysLeft <= 2 ? "text-red-500" : "text-gray-500"}`}>
+                    <span className={`text-[10px] font-poppins font-semibold ${p.daysLeft <= 2 ? "text-[#fb4848]" : "text-gray-500"}`}>
                       {p.daysLeft <= 2 ? `${p.daysLeft} days left` : `${p.daysLeft} days left`}
                     </span>
                   </div>
@@ -562,7 +562,7 @@ const Dashboard = () => {
                   <p className="text-[9px] font-poppins text-gray-400 text-center">Total hours</p>
                 </div>
                 <div>
-                  <p className="text-[18px] font-inter font-bold text-amber-500 text-center">AI Chatbot</p>
+                  <p className="text-[18px] font-inter font-bold text-[#ffb940] text-center">AI Chatbot</p>
                   <p className="text-[9px] font-poppins text-gray-400 text-center">Most inefficient</p>
                 </div>
               </div>
@@ -644,7 +644,7 @@ const Dashboard = () => {
                           className="h-full rounded-full"
                           style={{
                             width: `${(p.hours / max) * 100}%`,
-                            background: i === 0 ? "#ef4444" : i === 1 ? "#f97316" : i === 2 ? "#f59e0b" : "#d1d5db",
+                            background: i === 0 ? "#fb4848" : i === 1 ? "#fbbf24" : i === 2 ? "#fbbf55" : "#d1d5db",
                           }}
                         />
                       </div>
