@@ -4,14 +4,22 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import listPlugin from "@fullcalendar/list";
-import type { EventClickArg, DateSelectArg, EventInput } from "@fullcalendar/core";
+import type {
+  EventClickArg,
+  DateSelectArg,
+  EventInput,
+} from "@fullcalendar/core";
 import { useDispatch, useSelector } from "react-redux";
 import { resetGlobalModalState } from "../slices/globalModalStateSlice.ts";
 import { format } from "date-fns";
 import { ChevronDownIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import Plus from "../assets/plus.svg";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -91,20 +99,26 @@ const EventDetailModal = ({
           {event.extendedProps?.status && (
             <span
               className={`inline-block mt-1 px-2 py-0.5 rounded-full text-[10px] font-medium ${
-                statusColor[event.extendedProps.status] ?? "bg-gray-100 text-gray-500"
+                statusColor[event.extendedProps.status] ??
+                "bg-gray-100 text-gray-500"
               }`}
             >
               {event.extendedProps.status}
             </span>
           )}
           {event.extendedProps?.description && (
-            <p className="mt-1 text-gray-400 italic">{event.extendedProps.description}</p>
+            <p className="mt-1 text-gray-400 italic">
+              {event.extendedProps.description}
+            </p>
           )}
         </div>
 
         <div className="flex gap-2">
           <button
-            onClick={() => { onDelete(event.id); onClose(); }}
+            onClick={() => {
+              onDelete(event.id);
+              onClose();
+            }}
             className="text-[11px] font-poppins text-red-500 hover:text-red-700 border border-red-200 rounded-md px-3 py-1.5 transition-colors"
           >
             Delete
@@ -144,7 +158,9 @@ async function fetchProjects(query: string): Promise<Project[]> {
   // Replace with your real API: const res = await fetch(`/api/projects?q=${encodeURIComponent(query)}`); return res.json();
   await new Promise((r) => setTimeout(r, 400));
   const q = query.toLowerCase().trim();
-  return q === "" ? MOCK_PROJECTS : MOCK_PROJECTS.filter((p) => p.name.toLowerCase().includes(q));
+  return q === ""
+    ? MOCK_PROJECTS
+    : MOCK_PROJECTS.filter((p) => p.name.toLowerCase().includes(q));
 }
 
 // ─── Project Combobox ─────────────────────────────────────────────────────────
@@ -193,7 +209,10 @@ const ProjectCombobox = ({
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
-      if (wrapperRef.current && !wrapperRef.current.contains(e.target as Node)) {
+      if (
+        wrapperRef.current &&
+        !wrapperRef.current.contains(e.target as Node)
+      ) {
         setOpen(false);
       }
     };
@@ -215,9 +234,18 @@ const ProjectCombobox = ({
         />
         <svg
           className="pointer-events-none absolute right-2 top-[calc(50%+2px)] -translate-y-1/2 text-gray-400"
-          width="12" height="12" viewBox="0 0 12 12" fill="none"
+          width="12"
+          height="12"
+          viewBox="0 0 12 12"
+          fill="none"
         >
-          <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+          <path
+            d="M3 4.5L6 7.5L9 4.5"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
         </svg>
       </div>
 
@@ -225,14 +253,33 @@ const ProjectCombobox = ({
         <div className="absolute top-[calc(100%+2px)] left-0 right-0 bg-white border border-gray-200 rounded-lg shadow-lg z-50 overflow-hidden max-h-44 overflow-y-auto">
           {loading ? (
             <div className="flex items-center gap-2 px-3 py-2.5 text-[11px] font-poppins text-gray-400">
-              <svg className="animate-spin" width="12" height="12" viewBox="0 0 24 24" fill="none">
-                <circle cx="12" cy="12" r="10" stroke="#e5e7eb" strokeWidth="3" />
-                <path d="M12 2a10 10 0 0 1 10 10" stroke="#6b7280" strokeWidth="3" strokeLinecap="round" />
+              <svg
+                className="animate-spin"
+                width="12"
+                height="12"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                <circle
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="#e5e7eb"
+                  strokeWidth="3"
+                />
+                <path
+                  d="M12 2a10 10 0 0 1 10 10"
+                  stroke="#6b7280"
+                  strokeWidth="3"
+                  strokeLinecap="round"
+                />
               </svg>
               Searching…
             </div>
           ) : noResults ? (
-            <div className="px-3 py-2.5 text-[11px] font-poppins text-gray-400">No projects found</div>
+            <div className="px-3 py-2.5 text-[11px] font-poppins text-gray-400">
+              No projects found
+            </div>
           ) : (
             results.map((p) => (
               <button
@@ -241,7 +288,6 @@ const ProjectCombobox = ({
                 onMouseDown={() => handleSelect(p.name)}
                 className="w-full flex items-center gap-2 px-3 py-2 text-[11px] font-poppins text-gray-600 hover:bg-gray-100 transition-colors text-left"
               >
-               
                 {p.name}
               </button>
             ))
@@ -269,11 +315,13 @@ const StatusSelect = ({
 }) => {
   const [open, setOpen] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
- 
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
-      if (wrapperRef.current && !wrapperRef.current.contains(e.target as Node)) {
+      if (
+        wrapperRef.current &&
+        !wrapperRef.current.contains(e.target as Node)
+      ) {
         setOpen(false);
       }
     };
@@ -288,15 +336,21 @@ const StatusSelect = ({
         onClick={() => setOpen((o) => !o)}
         className="mt-1 w-full flex items-center justify-between gap-2 border border-gray-200 rounded-lg px-2 py-1.5 text-[11px] font-poppins text-gray-600 bg-white focus:outline-none focus:ring-2 focus:ring-gray-300"
       >
-        <span className="flex items-center gap-1.5">
-        
-          {value}
-        </span>
+        <span className="flex items-center gap-1.5">{value}</span>
         <svg
           className={`text-gray-400 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
-          width="12" height="12" viewBox="0 0 12 12" fill="none"
+          width="12"
+          height="12"
+          viewBox="0 0 12 12"
+          fill="none"
         >
-          <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+          <path
+            d="M3 4.5L6 7.5L9 4.5"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
         </svg>
       </button>
 
@@ -306,12 +360,16 @@ const StatusSelect = ({
             <button
               key={opt.value}
               type="button"
-              onMouseDown={() => { onChange(opt.value); setOpen(false); }}
+              onMouseDown={() => {
+                onChange(opt.value);
+                setOpen(false);
+              }}
               className={`w-full flex items-center gap-2 px-3 py-2 text-[11px] font-poppins text-left transition-colors hover:bg-gray-100 ${
-                value === opt.value ? "text-gray-800 font-medium" : "text-gray-600"
+                value === opt.value
+                  ? "text-gray-800 font-medium"
+                  : "text-gray-600"
               }`}
             >
-             
               {opt.value}
             </button>
           ))}
@@ -343,7 +401,12 @@ const CalendarDatePicker = ({
       </Button>
     </PopoverTrigger>
     <PopoverContent className="w-auto p-0 z-[60]" align="start">
-      <Calendar mode="single" selected={value} onSelect={onChange} defaultMonth={value} />
+      <Calendar
+        mode="single"
+        selected={value}
+        onSelect={onChange}
+        defaultMonth={value}
+      />
     </PopoverContent>
   </Popover>
 );
@@ -374,7 +437,8 @@ function isoToTimeParts(iso: string): { date: Date; time: string } {
   const h24 = d.getHours();
 
   const mStr = String(d.getMinutes()).padStart(2, "0");
-  const snappedMin = parseInt(mStr) < 15 ? "00" : parseInt(mStr) < 45 ? "30" : "00";
+  const snappedMin =
+    parseInt(mStr) < 15 ? "00" : parseInt(mStr) < 45 ? "30" : "00";
   const snappedH = parseInt(mStr) >= 45 ? (h24 + 1) % 24 : h24;
   const snappedAmpm = snappedH < 12 ? "AM" : "PM";
   const snappedDisplayH = snappedH % 12 === 0 ? 12 : snappedH % 12;
@@ -396,7 +460,8 @@ const TimeSelect = ({
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
-      if (wrapperRef.current && !wrapperRef.current.contains(e.target as Node)) setOpen(false);
+      if (wrapperRef.current && !wrapperRef.current.contains(e.target as Node))
+        setOpen(false);
     };
     document.addEventListener("mousedown", handler);
     return () => document.removeEventListener("mousedown", handler);
@@ -406,7 +471,9 @@ const TimeSelect = ({
   const listRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (open && listRef.current) {
-      const selected = listRef.current.querySelector("[data-selected='true']") as HTMLElement;
+      const selected = listRef.current.querySelector(
+        "[data-selected='true']",
+      ) as HTMLElement;
       if (selected) selected.scrollIntoView({ block: "center" });
     }
   }, [open]);
@@ -419,7 +486,9 @@ const TimeSelect = ({
         className="mt-1 w-full flex items-center justify-between gap-2 border border-gray-200 rounded-lg px-2 py-1.5 text-[11px] font-poppins text-gray-600 bg-white focus:outline-none focus:ring-2 focus:ring-gray-300"
       >
         <span>{value}</span>
-        <ChevronDownIcon className={`w-3 h-3 text-gray-400 transition-transform duration-200 ${open ? "rotate-180" : ""}`} />
+        <ChevronDownIcon
+          className={`w-3 h-3 text-gray-400 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
+        />
       </button>
 
       {open && (
@@ -432,9 +501,14 @@ const TimeSelect = ({
               key={t}
               type="button"
               data-selected={value === t}
-              onMouseDown={() => { onChange(t); setOpen(false); }}
+              onMouseDown={() => {
+                onChange(t);
+                setOpen(false);
+              }}
               className={`w-full text-left px-3 py-1.5 text-[11px] font-poppins transition-colors ${
-                value === t ? "bg-gray-800 text-white" : "text-gray-600 hover:bg-gray-100"
+                value === t
+                  ? "bg-gray-800 text-white"
+                  : "text-gray-600 hover:bg-gray-100"
               }`}
             >
               {t}
@@ -459,7 +533,9 @@ const CreateEventModal = ({
 }) => {
   const initialParts = isoToTimeParts(defaultStart);
   const [title, setTitle] = useState("");
-  const [startDate, setStartDate] = useState<Date | undefined>(initialParts.date);
+  const [startDate, setStartDate] = useState<Date | undefined>(
+    initialParts.date,
+  );
   const [startTime, setStartTime] = useState(initialParts.time);
   const [endDate, setEndDate] = useState<Date | undefined>(initialParts.date);
   const [endTime, setEndTime] = useState(initialParts.time);
@@ -495,7 +571,10 @@ const CreateEventModal = ({
       <div className="bg-white rounded-xl shadow-lg w-[400px] p-5 font-inter border border-gray-200">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-[14px] font-semibold text-gray-800">New Event</h2>
-          <button onClick={onClose} className="text-gray-400 hover:text-gray-600 text-xl leading-none font-inter">
+          <button
+            onClick={onClose}
+            className="text-gray-400 hover:text-gray-600 text-xl leading-none font-inter"
+          >
             ×
           </button>
         </div>
@@ -503,7 +582,9 @@ const CreateEventModal = ({
         <div className="space-y-3">
           {/* Title */}
           <div>
-            <label className="text-[11px] font-inter font-semibold text-gray-800">Title *</label>
+            <label className="text-[11px] font-inter font-semibold text-gray-800">
+              Title *
+            </label>
             <input
               type="text"
               value={title}
@@ -515,7 +596,9 @@ const CreateEventModal = ({
 
           {/* Start date + time */}
           <div>
-            <label className="text-[11px] font-medium text-gray-800 font-poppins">Start</label>
+            <label className="text-[11px] font-medium text-gray-800 font-poppins">
+              Start
+            </label>
             <div className="grid grid-cols-2 gap-2">
               <CalendarDatePicker value={startDate} onChange={setStartDate} />
               <TimeSelect value={startTime} onChange={setStartTime} />
@@ -524,7 +607,9 @@ const CreateEventModal = ({
 
           {/* End date + time */}
           <div>
-            <label className="text-[11px] font-medium text-gray-800 font-poppins">End</label>
+            <label className="text-[11px] font-medium text-gray-800 font-poppins">
+              End
+            </label>
             <div className="grid grid-cols-2 gap-2">
               <CalendarDatePicker value={endDate} onChange={setEndDate} />
               <TimeSelect value={endTime} onChange={setEndTime} />
@@ -534,18 +619,24 @@ const CreateEventModal = ({
           {/* Project + Status */}
           <div className="grid grid-cols-2 gap-2">
             <div>
-              <label className="text-[11px] font-medium text-gray-800 font-poppins">Project</label>
+              <label className="text-[11px] font-medium text-gray-800 font-poppins">
+                Project
+              </label>
               <ProjectCombobox value={project} onChange={setProject} />
             </div>
             <div>
-              <label className="text-[11px] font-medium text-gray-800 font-poppins">Status</label>
+              <label className="text-[11px] font-medium text-gray-800 font-poppins">
+                Status
+              </label>
               <StatusSelect value={status} onChange={setStatus} />
             </div>
           </div>
 
           {/* Description */}
           <div>
-            <label className="text-[11px] font-medium text-gray-800 font-poppins">Description</label>
+            <label className="text-[11px] font-medium text-gray-800 font-poppins">
+              Description
+            </label>
             <textarea
               value={description}
               onChange={(e) => setDescription(e.target.value)}
@@ -575,7 +666,7 @@ const CreateEventModal = ({
         </div>
 
         <div className="flex gap-2 mt-5">
-            <Button
+          <Button
             variant="outline"
             onClick={onClose}
             className="px-2 py-2 m-0 text-neutral-800 text-[13px] font-poppins"
@@ -604,7 +695,9 @@ const EventCalendarPage = () => {
 
   const [currentViewTitle, setCurrentViewTitle] = useState("");
   const [activeView, setActiveView] = useState("dayGridMonth");
-  const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(null);
+  const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(
+    null,
+  );
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [createModalStart, setCreateModalStart] = useState("");
 
@@ -615,7 +708,11 @@ const EventCalendarPage = () => {
       start: "2026-06-22T10:00:00",
       end: "2026-06-22T11:30:00",
       color: "#6f72ff",
-      extendedProps: { project: "Project Alpha", status: "To Do", description: "Q3 sprint kickoff" },
+      extendedProps: {
+        project: "Project Alpha",
+        status: "To Do",
+        description: "Q3 sprint kickoff",
+      },
     },
     {
       id: "e2",
@@ -720,10 +817,9 @@ const EventCalendarPage = () => {
   ];
 
   return (
-    <div className="w-full h-screen overflow-y-hidden bg-white [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-thumb]:bg-cyan-100 [&::-webkit-scrollbar-track]:bg-gray-100/40">
+    <div className="w-full h-screen overflow-y-hidden bg-white [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-thumb]:bg-cyan-100 [&::-webkit-scrollbar-track]:bg-gray-100/40  transition-width duration-20 ease-in-out">
       {/* ── Page header ──────────────────────────────────────────────── */}
       <div className="w-full mx-auto mb-4">
-      
         {/* ── Calendar card ──────────────────────────────────────────── */}
         <div className="bg-white h-screen">
           {/* Toolbar */}
@@ -778,8 +874,9 @@ const EventCalendarPage = () => {
                 className="text-[11px] font-poppins text-white bg-gray-800 rounded-md px-4 py-1.5 hover:bg-gray-700 transition-colors flex items-center gap-1 cursor-pointer"
               >
                 <span className="text-[15px] leading-none">
-                  <img src={Plus} alt="Plus" className="h-3.4 w-3 invert-100"/>
-                </span> Add Event
+                  <img src={Plus} alt="Plus" className="h-3.4 w-3 invert-100" />
+                </span>{" "}
+                Add Event
               </button>
             </div>
           </div>
@@ -832,7 +929,12 @@ const EventCalendarPage = () => {
             `}</style>
             <FullCalendar
               ref={calendarRef}
-              plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin]}
+              plugins={[
+                dayGridPlugin,
+                timeGridPlugin,
+                interactionPlugin,
+                listPlugin,
+              ]}
               initialView="dayGridMonth"
               headerToolbar={false}
               selectable
@@ -847,8 +949,6 @@ const EventCalendarPage = () => {
               allDaySlot={false}
               nowIndicator
               eventDisplay="block"
-              
-              
             />
           </div>
         </div>

@@ -183,22 +183,29 @@ const ProjectsPage = () => {
   // ── Render ─────────────────────────────────────────────────────────────────
   return (
     <div>
-      <div className="w-full h-[calc(100vh-53px)] mt-[53px] overflow-y-auto [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-thumb]:bg-cyan-100 [&::-webkit-scrollbar-track]:bg-gray-100/40">
-
+      <div className="w-full h-[calc(100vh-53px)] mt-[53px] overflow-y-auto [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-thumb]:bg-cyan-100 [&::-webkit-scrollbar-track]:bg-gray-100/40  transition-width duration-20 ease-in-out">
         {/* ── Row 1: Status breakdown + Progress distribution ──────────── */}
         <div className="w-[90%] max-w-[1050px] mt-10 mx-auto">
           <div className="grid grid-cols-2 gap-3 mx-1 mb-3">
-
             {/* Status donut */}
             <div className="bg-white border border-gray-200 rounded-md p-4 shadow-sm">
-              <p className="text-[12px] font-semibold text-gray-700 font-inter">Status breakdown</p>
-              <p className="text-[10px] text-gray-400 font-poppins mb-1">Projects by current status</p>
+              <p className="text-[12px] font-semibold text-gray-700 font-inter">
+                Status breakdown
+              </p>
+              <p className="text-[10px] text-gray-400 font-poppins mb-1">
+                Projects by current status
+              </p>
 
               <div className="flex items-center gap-3 ">
                 {/* Donut via shadcn ChartContainer */}
-                <ChartContainer config={statusChartConfig} className="h-[200px] w-[200px] flex-shrink-0">
+                <ChartContainer
+                  config={statusChartConfig}
+                  className="h-[200px] w-[200px] flex-shrink-0"
+                >
                   <PieChart>
-                    <ChartTooltip content={<ChartTooltipContent hideLabel nameKey="name" />} />
+                    <ChartTooltip
+                      content={<ChartTooltipContent hideLabel nameKey="name" />}
+                    />
                     <Pie
                       data={statusPieData}
                       dataKey="value"
@@ -209,23 +216,25 @@ const ProjectsPage = () => {
                       stroke="white"
                       labelLine={false}
                       cornerRadius={4}
-                      
-                      
-                    >
-                    </Pie>
+                    ></Pie>
                   </PieChart>
                 </ChartContainer>
 
                 {/* Custom legend */}
                 <div className="flex flex-col gap-2.5 flex-1 mr-5">
                   {statusPieData.map((s) => (
-                    <div key={s.name} className="flex items-center justify-between">
+                    <div
+                      key={s.name}
+                      className="flex items-center justify-between"
+                    >
                       <div className="flex items-center gap-1.5">
                         <span
                           className="w-2 h-2 rounded-sm flex-shrink-0"
                           style={{ background: s.fill }}
                         />
-                        <span className="text-[11px] text-gray-600 font-poppins">{s.name}</span>
+                        <span className="text-[11px] text-gray-600 font-poppins">
+                          {s.name}
+                        </span>
                       </div>
                       <span className="text-[11px] font-semibold text-gray-800 font-poppins tabular-nums">
                         {s.value}
@@ -234,7 +243,10 @@ const ProjectsPage = () => {
                   ))}
                   <div className="pt-2 border-t border-gray-100">
                     <p className="text-[10px] text-gray-400 font-poppins">
-                      {Math.round(((statusCounts["Done"] ?? 0) / projects.length) * 100)}% completion rate
+                      {Math.round(
+                        ((statusCounts["Done"] ?? 0) / projects.length) * 100,
+                      )}
+                      % completion rate
                     </p>
                   </div>
                 </div>
@@ -243,16 +255,27 @@ const ProjectsPage = () => {
 
             {/* Progress horizontal bar */}
             <div className="bg-white border border-gray-200 rounded-md p-4 shadow-sm">
-              <p className="text-[12px] font-semibold text-gray-700 font-inter">Progress distribution</p>
-              <p className="text-[10px] text-gray-400 font-poppins mb-2">Completion % for active projects</p>
-              <ChartContainer config={progressChartConfig} className="h-[200px] w-full">
+              <p className="text-[12px] font-semibold text-gray-700 font-inter">
+                Progress distribution
+              </p>
+              <p className="text-[10px] text-gray-400 font-poppins mb-2">
+                Completion % for active projects
+              </p>
+              <ChartContainer
+                config={progressChartConfig}
+                className="h-[200px] w-full"
+              >
                 <BarChart
                   data={progressBarData}
                   layout="vertical"
                   margin={{ top: 0, right: 18, bottom: 0, left: 10 }}
                   barSize={9}
                 >
-                  <CartesianGrid horizontal={false} strokeDasharray="3 3" stroke="#f3f4f6" />
+                  <CartesianGrid
+                    horizontal={false}
+                    strokeDasharray="3 3"
+                    stroke="#f3f4f6"
+                  />
                   <XAxis
                     type="number"
                     domain={[0, 100]}
@@ -273,7 +296,11 @@ const ProjectsPage = () => {
                     cursor={{ fill: "#f9fafb" }}
                     content={<ChartTooltipContent hideLabel />}
                   />
-                  <Bar dataKey="progress" fill="oklch(78.9% 0.154 211.53)" radius={[0, 4, 4, 0]} />
+                  <Bar
+                    dataKey="progress"
+                    fill="oklch(78.9% 0.154 211.53)"
+                    radius={[0, 4, 4, 0]}
+                  />
                 </BarChart>
               </ChartContainer>
             </div>
@@ -281,30 +308,41 @@ const ProjectsPage = () => {
 
           {/* ── Row 2: Gantt + Completion rate ──────────────────────────── */}
           <div className="grid grid-cols-2 gap-3 mx-1 mb-3">
-
             {/* Gantt */}
             <div className="bg-white border border-gray-200 rounded-md p-4 shadow-sm">
-              <p className="text-[12px] font-semibold text-gray-700 font-inter">Project timeline</p>
-              <p className="text-[10px] text-gray-400 font-poppins mb-2">Start → estimated end · May 2026</p>
+              <p className="text-[12px] font-semibold text-gray-700 font-inter">
+                Project timeline
+              </p>
+              <p className="text-[10px] text-gray-400 font-poppins mb-2">
+                Start → estimated end · May 2026
+              </p>
 
               {/* Gantt legend */}
               <div className="flex items-center gap-3 mb-2">
                 {[
-                  { label: "Done",        color: "bg-gray-800" },
-                  { label: "In Progress", color: "bg-cyan-400"    },
-                  { label: "To Do",       color: "bg-gray-300"   },
+                  { label: "Done", color: "bg-gray-800" },
+                  { label: "In Progress", color: "bg-cyan-400" },
+                  { label: "To Do", color: "bg-gray-300" },
                 ].map((l) => (
                   <div key={l.label} className="flex items-center gap-1">
                     <span className={`w-2 h-2 rounded-sm ${l.color}`} />
-                    <span className="text-[9px] text-gray-400 font-poppins">{l.label}</span>
+                    <span className="text-[9px] text-gray-400 font-poppins">
+                      {l.label}
+                    </span>
                   </div>
                 ))}
               </div>
 
               {/* Day ruler */}
               <div className="flex ml-[132px] mb-1 pr-[56px]">
-                {Array.from({ length: maxDay - minDay + 1 }, (_, i) => minDay + i).map((d) => (
-                  <div key={d} className="flex-1 text-[8px] text-gray-300 font-poppins text-center tabular-nums">
+                {Array.from(
+                  { length: maxDay - minDay + 1 },
+                  (_, i) => minDay + i,
+                ).map((d) => (
+                  <div
+                    key={d}
+                    className="flex-1 text-[8px] text-gray-300 font-poppins text-center tabular-nums"
+                  >
                     {d}
                   </div>
                 ))}
@@ -312,24 +350,57 @@ const ProjectsPage = () => {
 
               <div className="flex flex-col">
                 {projects.map((p) => (
-                  <GanttRow key={p.id} project={p} minDay={minDay} maxDay={maxDay} />
+                  <GanttRow
+                    key={p.id}
+                    project={p}
+                    minDay={minDay}
+                    maxDay={maxDay}
+                  />
                 ))}
               </div>
             </div>
 
             {/* Completion rate area chart */}
             <div className="bg-white border border-gray-200 rounded-md p-4 shadow-sm">
-              <p className="text-[12px] font-semibold text-gray-700 font-inter">Completion rate over time</p>
-              <p className="text-[10px] text-gray-400 font-poppins mb-2">Projects completed per week</p>
-              <ChartContainer config={completionChartConfig} className="h-[250px] w-full">
-                <AreaChart data={completionData} margin={{ top: 8, right: 8, bottom: 0, left: 0 }}>
+              <p className="text-[12px] font-semibold text-gray-700 font-inter">
+                Completion rate over time
+              </p>
+              <p className="text-[10px] text-gray-400 font-poppins mb-2">
+                Projects completed per week
+              </p>
+              <ChartContainer
+                config={completionChartConfig}
+                className="h-[250px] w-full"
+              >
+                <AreaChart
+                  data={completionData}
+                  margin={{ top: 8, right: 8, bottom: 0, left: 0 }}
+                >
                   <defs>
-                    <linearGradient id="completionFill" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%"  stopColor="hsl(262 70% 58%)" stopOpacity={0.15} />
-                      <stop offset="95%" stopColor="hsl(262 70% 58%)" stopOpacity={0}    />
+                    <linearGradient
+                      id="completionFill"
+                      x1="0"
+                      y1="0"
+                      x2="0"
+                      y2="1"
+                    >
+                      <stop
+                        offset="5%"
+                        stopColor="hsl(262 70% 58%)"
+                        stopOpacity={0.15}
+                      />
+                      <stop
+                        offset="95%"
+                        stopColor="hsl(262 70% 58%)"
+                        stopOpacity={0}
+                      />
                     </linearGradient>
                   </defs>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#f3f4f6" vertical={false} />
+                  <CartesianGrid
+                    strokeDasharray="3 3"
+                    stroke="#f3f4f6"
+                    vertical={false}
+                  />
                   <XAxis
                     dataKey="week"
                     tick={{ fontSize: 10, fill: "#9ca3af" }}
@@ -343,14 +414,18 @@ const ProjectsPage = () => {
                     width={24}
                     allowDecimals={false}
                   />
-                  <ChartTooltip  content={<ChartTooltipContent />} />
+                  <ChartTooltip content={<ChartTooltipContent />} />
                   <Area
                     type="monotone"
                     dataKey="Completed"
                     stroke="oklch(27.8% 0.033 256.848)"
                     strokeWidth={2}
                     fill="url(#completionFill)"
-                    dot={{ r: 3, fill: "oklch(78.9% 0.154 211.53)", strokeWidth: 0 }}
+                    dot={{
+                      r: 3,
+                      fill: "oklch(78.9% 0.154 211.53)",
+                      strokeWidth: 0,
+                    }}
                     activeDot={{ r: 5, strokeWidth: 0 }}
                   />
                 </AreaChart>
@@ -361,12 +436,15 @@ const ProjectsPage = () => {
 
         {/* ── Projects table container ─────────────────────────────────── */}
         <div className="bg-slate-50 w-[90%] max-w-[1050px] my-15 rounded-lg p-1 shadow mx-auto">
-
           {/* Header */}
           <div className="flex items-center justify-between">
             <h1 className="text-2xl font-inter text-gray-800 font-bold mt-3 mb-2 mx-2 flex items-center">
               Projects{" "}
-              <img src={ArrowRight} alt="Arrow Right" className="invert-80 h-7 w-7" />
+              <img
+                src={ArrowRight}
+                alt="Arrow Right"
+                className="invert-80 h-7 w-7"
+              />
             </h1>
             <div className="w-fit p-1 rounded-md hover:bg-neutral-100 cursor-pointer mr-2 transition-all duration-200 ease-in-out">
               <img src={Dot} alt="Dot" className="" />
@@ -387,11 +465,21 @@ const ProjectsPage = () => {
                       <span className="ml-2">Id</span>
                     </span>
                   </th>
-                  <th className="w-[120px] border-r border-b border-gray-200 text-center py-2">Project</th>
-                  <th className="w-[100px] border-r border-b border-gray-200 text-center py-2">Status</th>
-                  <th className="w-[200px] border-r border-b border-gray-200 text-center py-2">Progress</th>
-                  <th className="w-[110px] border-r border-b border-gray-200 text-center py-2">Start Date</th>
-                  <th className="w-[110px] border-b border-gray-200 text-center py-2">Est. End Date</th>
+                  <th className="w-[120px] border-r border-b border-gray-200 text-center py-2">
+                    Project
+                  </th>
+                  <th className="w-[100px] border-r border-b border-gray-200 text-center py-2">
+                    Status
+                  </th>
+                  <th className="w-[200px] border-r border-b border-gray-200 text-center py-2">
+                    Progress
+                  </th>
+                  <th className="w-[110px] border-r border-b border-gray-200 text-center py-2">
+                    Start Date
+                  </th>
+                  <th className="w-[110px] border-b border-gray-200 text-center py-2">
+                    Est. End Date
+                  </th>
                 </tr>
               </thead>
               <tbody className="text-[12px] text-gray-600 font-poppins">
@@ -399,15 +487,25 @@ const ProjectsPage = () => {
                   <React.Fragment key={project.id}>
                     <tr
                       className="hover:bg-gray-50 cursor-pointer"
-                      onClick={() => handleProjectAnalyticsNavigation(project.project,project.id)}
+                      onClick={() =>
+                        handleProjectAnalyticsNavigation(
+                          project.project,
+                          project.id,
+                        )
+                      }
                     >
-                      <td className="w-[110px] text-left px-1 py-2" onClick={(e) => e.stopPropagation()}>
+                      <td
+                        className="w-[110px] text-left px-1 py-2"
+                        onClick={(e) => e.stopPropagation()}
+                      >
                         <span className="flex items-center gap-1.5">
                           <Checkbox size="sm" />
                           <span>#PROJECT-{project.id}</span>
                         </span>
                       </td>
-                      <td className="w-[120px] text-center px-2 py-2">{project.project}</td>
+                      <td className="w-[120px] text-center px-2 py-2">
+                        {project.project}
+                      </td>
                       <td className="w-[100px] text-center py-2">
                         {project.status}
                       </td>
@@ -419,8 +517,12 @@ const ProjectsPage = () => {
                           />
                         </div>
                       </td>
-                      <td className="w-[110px] text-center py-2">{project.startDate}</td>
-                      <td className="w-[110px] text-center py-2">{project.estEndDate}</td>
+                      <td className="w-[110px] text-center py-2">
+                        {project.startDate}
+                      </td>
+                      <td className="w-[110px] text-center py-2">
+                        {project.estEndDate}
+                      </td>
                     </tr>
                     {index !== projects.length - 1 && (
                       <tr key={`divider-${project.id}`}>
@@ -441,15 +543,22 @@ const ProjectsPage = () => {
               Showing 1 to {projects.length} of {projects.length} entries
             </div>
             <div className="flex items-center justify-center gap-2 mt-3 mr-2">
-              <span className="text-[12px] font-poppins text-white bg-gray-800 p-2 rounded-lg cursor-pointer">Previous</span>
-              <span className="text-[12px] font-semibold text-gray-600 font-poppins px-4 py-1 bg-white rounded border border-dotted border-gray-300">1</span>
-              <span className="text-[12px] font-poppins text-white bg-gray-800 p-2 px-5 rounded-lg cursor-pointer">Next</span>
+              <span className="text-[12px] font-poppins text-white bg-gray-800 p-2 rounded-lg cursor-pointer">
+                Previous
+              </span>
+              <span className="text-[12px] font-semibold text-gray-600 font-poppins px-4 py-1 bg-white rounded border border-dotted border-gray-300">
+                1
+              </span>
+              <span className="text-[12px] font-poppins text-white bg-gray-800 p-2 px-5 rounded-lg cursor-pointer">
+                Next
+              </span>
             </div>
           </div>
-
         </div>
       </div>
-      {showCreateProjectModal && <ProjectCreateModal  onCancel={handleCloseModal}/>}
+      {showCreateProjectModal && (
+        <ProjectCreateModal onCancel={handleCloseModal} />
+      )}
     </div>
   );
 };

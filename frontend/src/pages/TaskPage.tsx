@@ -94,14 +94,14 @@ const TaskPage = () => {
   return (
     <div className={`grid grid-cols-3 bg-white`}>
       <div
-        className={`w-full h-[calc(100vh-53px)] mt-[53px] overflow-y-auto [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-thumb]:bg-cyan-100 [&::-webkit-scrollbar-track]:bg-gray-100/40 relative ${showCreateModal || showViewTaskModal ? "border-r border-gray-200" : ""} ${showCreateModal ? "col-span-2" : showViewTaskModal ? "col-span-2" : "col-span-3"}`}
+        className={`w-full h-[calc(100vh-53px)] mt-[53px] overflow-y-auto [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-thumb]:bg-cyan-100 [&::-webkit-scrollbar-track]:bg-gray-100/40  transition-width duration-20 ease-in-out relative ${showCreateModal || showViewTaskModal ? "border-r border-gray-200" : ""} ${showCreateModal ? "col-span-2" : showViewTaskModal ? "col-span-2" : "col-span-3"}`}
       >
         <div
           className={`${showCreateModal ? "mx-30" : showViewTaskModal ? "mx-30" : "w-[50%] max-w-[1050px] mx-auto"} my-10`}
         >
           {activeTask && activeTimerRecord ? (
             <Timer
-              value={Number(activeTask.estDuration) }
+              value={Number(activeTask.estDuration)}
               unit={activeTask.estDurationUnit as "minutes" | "hours"}
               label={`#TASK-${activeTask.id}: ${activeTask.task}`}
               timerRecord={activeTimerRecord}
@@ -110,7 +110,7 @@ const TaskPage = () => {
             />
           ) : (
             <div className="">
-             <Timer value={0} unit="hours"/>
+              <Timer value={0} unit="hours" />
             </div>
           )}
         </div>
@@ -119,7 +119,11 @@ const TaskPage = () => {
           <div className="flex items-center justify-between">
             <h1 className="text-2xl font-inter text-gray-800 font-bold mt-3 mb-2 mx-2 flex items-center">
               Next Task{" "}
-              <img src={ArrowRight} alt="Arrow Right" className="invert-80 h-7 w-7" />
+              <img
+                src={ArrowRight}
+                alt="Arrow Right"
+                className="invert-80 h-7 w-7"
+              />
             </h1>
             <div className="w-fit p-1 rounded-md hover:bg-neutral-100 cursor-pointer mr-2 transition-all duration-200 ease-in-out">
               <img src={Dot} alt="Dot" className="" />
@@ -135,40 +139,70 @@ const TaskPage = () => {
                       <span className="ml-2">Id</span>
                     </span>
                   </th>
-                  <th className="w-[320px] border-r border-b border-gray-200 text-center py-2">Task</th>
-                  <th className="w-[100px] border-r border-b border-gray-200 text-center py-2">Status</th>
-                  <th className="w-[100px] border-r border-b border-gray-200 text-center py-2">Project</th>
-                  <th className="w-[110px] border-r border-b border-gray-200 text-center py-2">Duration</th>
-                  <th className="w-[110px] border-r border-b border-gray-200 text-center py-2">Start Date</th>
-                  <th className="w-[110px] border-r border-b border-gray-200 text-center py-2">Due Date</th>
-                  <th className="w-[110px] border-b border-gray-200 text-center py-2">Start Time</th>
+                  <th className="w-[320px] border-r border-b border-gray-200 text-center py-2">
+                    Task
+                  </th>
+                  <th className="w-[100px] border-r border-b border-gray-200 text-center py-2">
+                    Status
+                  </th>
+                  <th className="w-[100px] border-r border-b border-gray-200 text-center py-2">
+                    Project
+                  </th>
+                  <th className="w-[110px] border-r border-b border-gray-200 text-center py-2">
+                    Duration
+                  </th>
+                  <th className="w-[110px] border-r border-b border-gray-200 text-center py-2">
+                    Start Date
+                  </th>
+                  <th className="w-[110px] border-r border-b border-gray-200 text-center py-2">
+                    Due Date
+                  </th>
+                  <th className="w-[110px] border-b border-gray-200 text-center py-2">
+                    Start Time
+                  </th>
                 </tr>
               </thead>
               <tbody className="text-[12px] text-gray-600 font-poppins">
-                {tasks.map((task,index) => (
+                {tasks.map((task, index) => (
                   <React.Fragment key={task.id}>
-                  <tr
-                    key={task.id}
-                    className="hover:bg-gray-50 cursor-pointer"
-                    onClick={() => handleToggleViewTaskModal(task)}
-                  >
-                    <td className="w-[110px] text-left px-1 py-2" onClick={(e) => e.stopPropagation()}>
-                      <span className="flex items-center gap-1.5">
-                        <Checkbox size="sm" />
-                        <span>#TASK-{task.id}</span>
-                      </span>
-                    </td>
-                    <td className="w-[320px] text-center px-2 py-2">{task.task}</td>
-                    <td className="w-[100px] text-center py-2">{task.status}</td>
-                    <td className="w-[100px] text-center py-2">{task.project}</td>
-                    <td className="w-[110px] text-center py-2">
-                      {task.estDuration}{task.estDurationUnit === "hours" ? "h" : "m"}
-                    </td>
-                    <td className="w-[110px] text-center py-2">{task.startDate}</td>
-                    <td className="w-[110px] text-center py-2">{task.dueDate}</td>
-                    <td className="w-[110px] text-center py-2">{task.startTime}</td>
-                  </tr>
-                   {index !== tasks.length - 1 && (
+                    <tr
+                      key={task.id}
+                      className="hover:bg-gray-50 cursor-pointer"
+                      onClick={() => handleToggleViewTaskModal(task)}
+                    >
+                      <td
+                        className="w-[110px] text-left px-1 py-2"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <span className="flex items-center gap-1.5">
+                          <Checkbox size="sm" />
+                          <span>#TASK-{task.id}</span>
+                        </span>
+                      </td>
+                      <td className="w-[320px] text-center px-2 py-2">
+                        {task.task}
+                      </td>
+                      <td className="w-[100px] text-center py-2">
+                        {task.status}
+                      </td>
+                      <td className="w-[100px] text-center py-2">
+                        {task.project}
+                      </td>
+                      <td className="w-[110px] text-center py-2">
+                        {task.estDuration}
+                        {task.estDurationUnit === "hours" ? "h" : "m"}
+                      </td>
+                      <td className="w-[110px] text-center py-2">
+                        {task.startDate}
+                      </td>
+                      <td className="w-[110px] text-center py-2">
+                        {task.dueDate}
+                      </td>
+                      <td className="w-[110px] text-center py-2">
+                        {task.startTime}
+                      </td>
+                    </tr>
+                    {index !== tasks.length - 1 && (
                       <tr key={`divider-${task.id}`}>
                         <td colSpan={9}>
                           <div className="h-px w-full bg-gray-200" />
@@ -186,7 +220,11 @@ const TaskPage = () => {
           <div className="flex items-center justify-between">
             <h1 className="text-2xl font-inter text-gray-800 font-bold mt-3 mb-2 mx-2 flex items-center">
               Today's Tasks{" "}
-              <img src={ArrowRight} alt="Arrow Right" className="invert-80 h-7 w-7" />
+              <img
+                src={ArrowRight}
+                alt="Arrow Right"
+                className="invert-80 h-7 w-7"
+              />
             </h1>
             <div className="w-fit p-1 rounded-md hover:bg-neutral-100 cursor-pointer mr-2 transition-all duration-200 ease-in-out">
               <img src={Dot} alt="Dot" className="" />
@@ -202,45 +240,76 @@ const TaskPage = () => {
                       <span className="ml-2">Id</span>
                     </span>
                   </th>
-                  <th className="w-[320px] border-r border-b border-gray-200 text-center py-2">Task</th>
-                  <th className="w-[100px] border-r border-b border-gray-200 text-center py-2">Status</th>
-                  <th className="w-[100px] border-r border-b border-gray-200 text-center py-2">Project</th>
-                  <th className="w-[110px] border-r border-b border-gray-200 text-center py-2">Duration</th>
-                  <th className="w-[110px] border-r border-b border-gray-200 text-center py-2">Start Date</th>
-                  <th className="w-[110px] border-r border-b border-gray-200 text-center py-2">Due Date</th>
-                  <th className="w-[110px] border-b border-gray-200 text-center py-2">Start Time</th>
+                  <th className="w-[320px] border-r border-b border-gray-200 text-center py-2">
+                    Task
+                  </th>
+                  <th className="w-[100px] border-r border-b border-gray-200 text-center py-2">
+                    Status
+                  </th>
+                  <th className="w-[100px] border-r border-b border-gray-200 text-center py-2">
+                    Project
+                  </th>
+                  <th className="w-[110px] border-r border-b border-gray-200 text-center py-2">
+                    Duration
+                  </th>
+                  <th className="w-[110px] border-r border-b border-gray-200 text-center py-2">
+                    Start Date
+                  </th>
+                  <th className="w-[110px] border-r border-b border-gray-200 text-center py-2">
+                    Due Date
+                  </th>
+                  <th className="w-[110px] border-b border-gray-200 text-center py-2">
+                    Start Time
+                  </th>
                 </tr>
               </thead>
               <tbody className="text-[12px] text-gray-600 font-poppins">
-                {tasks.map((task,index) => (
+                {tasks.map((task, index) => (
                   <React.Fragment key={task.id}>
-                  <tr
-                    key={task.id}
-                    className="hover:bg-gray-50 cursor-pointer"
-                    onClick={() => handleToggleViewTaskModal(task)}
-                  >
-                    <td className="w-[110px] text-left px-1 py-2" onClick={(e) => e.stopPropagation()}>
-                      <span className="flex items-center gap-1.5">
-                        <Checkbox size="sm" />
-                        <span>#TASK-{task.id}</span>
-                      </span>
-                    </td>
-                    <td className="w-[320px] text-center px-2 py-2">{task.task}</td>
-                    <td className="w-[100px] text-center py-2">{task.status}</td>
-                    <td className="w-[100px] text-center py-2">{task.project}</td>
-                    <td className="w-[110px] text-center py-2">{task.estDuration}</td>
-                    <td className="w-[110px] text-center py-2">{task.startDate}</td>
-                    <td className="w-[110px] text-center py-2">{task.dueDate}</td>
-                    <td className="w-[110px] text-center py-2">{task.startTime}</td>
-                  </tr>
-                  {index !== tasks.length - 1 && (
+                    <tr
+                      key={task.id}
+                      className="hover:bg-gray-50 cursor-pointer"
+                      onClick={() => handleToggleViewTaskModal(task)}
+                    >
+                      <td
+                        className="w-[110px] text-left px-1 py-2"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <span className="flex items-center gap-1.5">
+                          <Checkbox size="sm" />
+                          <span>#TASK-{task.id}</span>
+                        </span>
+                      </td>
+                      <td className="w-[320px] text-center px-2 py-2">
+                        {task.task}
+                      </td>
+                      <td className="w-[100px] text-center py-2">
+                        {task.status}
+                      </td>
+                      <td className="w-[100px] text-center py-2">
+                        {task.project}
+                      </td>
+                      <td className="w-[110px] text-center py-2">
+                        {task.estDuration}
+                      </td>
+                      <td className="w-[110px] text-center py-2">
+                        {task.startDate}
+                      </td>
+                      <td className="w-[110px] text-center py-2">
+                        {task.dueDate}
+                      </td>
+                      <td className="w-[110px] text-center py-2">
+                        {task.startTime}
+                      </td>
+                    </tr>
+                    {index !== tasks.length - 1 && (
                       <tr key={`divider-${task.id}`}>
                         <td colSpan={9}>
                           <div className="h-px w-full bg-gray-200" />
                         </td>
                       </tr>
                     )}
-                    </React.Fragment>
+                  </React.Fragment>
                 ))}
               </tbody>
             </table>
@@ -251,7 +320,11 @@ const TaskPage = () => {
           <div className="flex items-center justify-between">
             <h1 className="text-2xl font-inter text-gray-800 font-bold mt-3 mb-2 mx-2 flex items-center">
               This Month{" "}
-              <img src={ArrowRight} alt="Arrow Right" className="invert-80 h-7 w-7" />
+              <img
+                src={ArrowRight}
+                alt="Arrow Right"
+                className="invert-80 h-7 w-7"
+              />
             </h1>
             <div className="w-fit p-1 rounded-md hover:bg-neutral-100 cursor-pointer mr-2 transition-all duration-200 ease-in-out">
               <img src={Dot} alt="Dot" className="" />
@@ -267,38 +340,69 @@ const TaskPage = () => {
                       <span className="ml-2">Id</span>
                     </span>
                   </th>
-                  <th className="w-[320px] border-r border-b border-gray-200 text-center py-2">Task</th>
-                  <th className="w-[100px] border-r border-b border-gray-200 text-center py-2">Status</th>
-                  <th className="w-[100px] border-r border-b border-gray-200 text-center py-2">Project</th>
-                  <th className="w-[110px] border-r border-b border-gray-200 text-center py-2">Duration</th>
-                  <th className="w-[110px] border-r border-b border-gray-200 text-center py-2">Start Date</th>
-                  <th className="w-[110px] border-r border-b border-gray-200 text-center py-2">Due Date</th>
-                  <th className="w-[110px] border-b border-gray-200 text-center py-2">Start Time</th>
+                  <th className="w-[320px] border-r border-b border-gray-200 text-center py-2">
+                    Task
+                  </th>
+                  <th className="w-[100px] border-r border-b border-gray-200 text-center py-2">
+                    Status
+                  </th>
+                  <th className="w-[100px] border-r border-b border-gray-200 text-center py-2">
+                    Project
+                  </th>
+                  <th className="w-[110px] border-r border-b border-gray-200 text-center py-2">
+                    Duration
+                  </th>
+                  <th className="w-[110px] border-r border-b border-gray-200 text-center py-2">
+                    Start Date
+                  </th>
+                  <th className="w-[110px] border-r border-b border-gray-200 text-center py-2">
+                    Due Date
+                  </th>
+                  <th className="w-[110px] border-b border-gray-200 text-center py-2">
+                    Start Time
+                  </th>
                 </tr>
               </thead>
               <tbody className="text-[12px] text-gray-600 font-poppins">
-                {tasks.map((task,index) => (
+                {tasks.map((task, index) => (
                   <React.Fragment key={task.id}>
-                  <tr
-                    key={task.id}
-                    className="hover:bg-gray-50 cursor-pointer"
-                    onClick={() => handleToggleViewTaskModal(task)}
-                  >
-                    <td className="w-[110px] text-left px-1 py-2" onClick={(e) => e.stopPropagation()}>
-                      <span className="flex items-center gap-1.5">
-                        <Checkbox size="sm" />
-                        <span>#TASK-{task.id}</span>
-                      </span>
-                    </td>
-                    <td className="w-[320px] text-center px-2 py-2">{task.task}</td>
-                    <td className="w-[100px] text-center py-2">{task.status}</td>
-                    <td className="w-[100px] text-center py-2">{task.project}</td>
-                    <td className="w-[110px] text-center py-2">{task.estDuration}</td>
-                    <td className="w-[110px] text-center py-2">{task.startDate}</td>
-                    <td className="w-[110px] text-center py-2">{task.dueDate}</td>
-                    <td className="w-[110px] text-center py-2">{task.startTime}</td>
-                  </tr>
-                   {index !== tasks.length - 1 && (
+                    <tr
+                      key={task.id}
+                      className="hover:bg-gray-50 cursor-pointer"
+                      onClick={() => handleToggleViewTaskModal(task)}
+                    >
+                      <td
+                        className="w-[110px] text-left px-1 py-2"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <span className="flex items-center gap-1.5">
+                          <Checkbox size="sm" />
+                          <span>#TASK-{task.id}</span>
+                        </span>
+                      </td>
+                      <td className="w-[320px] text-center px-2 py-2">
+                        {task.task}
+                      </td>
+                      <td className="w-[100px] text-center py-2">
+                        {task.status}
+                      </td>
+                      <td className="w-[100px] text-center py-2">
+                        {task.project}
+                      </td>
+                      <td className="w-[110px] text-center py-2">
+                        {task.estDuration}
+                      </td>
+                      <td className="w-[110px] text-center py-2">
+                        {task.startDate}
+                      </td>
+                      <td className="w-[110px] text-center py-2">
+                        {task.dueDate}
+                      </td>
+                      <td className="w-[110px] text-center py-2">
+                        {task.startTime}
+                      </td>
+                    </tr>
+                    {index !== tasks.length - 1 && (
                       <tr key={`divider-${task.id}`}>
                         <td colSpan={9}>
                           <div className="h-px w-full bg-gray-200" />

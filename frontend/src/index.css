@@ -147,3 +147,11 @@ body {
     @apply font-sans;
   }
 }
+
+.sidebar-expanded{
+  width: 200px;
+}
+
+.sidebar-collapsed{
+  width:53px;
+}
