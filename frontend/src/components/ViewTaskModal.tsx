@@ -67,7 +67,7 @@ const ViewTaskModal = ({
   };
 
   return (
-    <div className="p-4 w-full bg-white h-[calc(100vh-53px)] overflow-y-auto [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-thumb]:bg-cyan-100 [&::-webkit-scrollbar-track]:bg-gray-100/40">
+    <div className="p-4 w-full bg-white h-[calc(100vh-53px)] overflow-y-auto [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-thumb]:bg-cyan-100 [&::-webkit-scrollbar-track]:bg-gray-100/40 view-task-modal sm:w-[400px] sm:border-l sm:border-gray-200 lg:w-full">
       <div>
         <div className="text-lg font-inter font-semibold text-neutral-800">
           <h2>Task ID</h2>
@@ -106,7 +106,11 @@ const ViewTaskModal = ({
                 <tr className="text-[13px] text-neutral-800 font-inter">
                   <th className="w-[100px] border-r text-left px-2 my-1.5">
                     <div className="flex items-center gap-1.5">
-                      <Checkbox size="xs" checked={allSelected} onChange={toggleSelectAll} />
+                      <Checkbox
+                        size="xs"
+                        checked={allSelected}
+                        onChange={toggleSelectAll}
+                      />
                       <span>Id</span>
                     </div>
                   </th>
@@ -209,7 +213,11 @@ const ViewTaskModal = ({
       </div>
 
       <div className="w-full flex items-center justify-end mt-10 gap-2">
-        <Button variant="outline" onClick={onClose} className="px-4 py-4 m-0 text-neutral-800">
+        <Button
+          variant="outline"
+          onClick={onClose}
+          className="px-4 py-4 m-0 text-neutral-800"
+        >
           Close
         </Button>
         <Button className="mt-10 bg-cyan-400 hover:bg-cyan-500 px-4 py-4 transition-all duration-200 ease-in-out cursor-pointer text-white m-0">

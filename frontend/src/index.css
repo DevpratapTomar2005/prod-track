@@ -155,3 +155,11 @@ body {
 .sidebar-collapsed{
   width:53px;
 }
+
+@media (max-width: 640px) {
+
+.task-create-modal, .view-task-modal {
+  width: 100% !important;
+}
+
+}

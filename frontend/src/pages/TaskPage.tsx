@@ -418,12 +418,12 @@ const TaskPage = () => {
       </div>
 
       {showCreateModal && (
-        <div className="col-span-1 mt-[53px]">
+        <div className="col-span-1 mt-[53px] absolute sm:right-0 lg:relative">
           <TaskCreateModal onCancel={closeCreateTaskModal} />
         </div>
       )}
       {showViewTaskModal && (
-        <div className="col-span-1 mt-[53px]">
+        <div className="col-span-1 mt-[53px] absolute sm:right-0 lg:relative">
           <ViewTaskModal
             task={viewTask}
             onClose={closeViewTaskModal}

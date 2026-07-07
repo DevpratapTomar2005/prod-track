@@ -92,7 +92,7 @@ const TaskCreateModal = ({onCancel}: {onCancel: () => void}) => {
   };
 
   return (
-    <div className="p-4 w-full bg-white h-[calc(100vh-53px)] overflow-y-auto relative z-2 [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-thumb]:bg-cyan-100 [&::-webkit-scrollbar-track]:bg-gray-100/40">
+    <div className="p-4 bg-white h-[calc(100vh-53px)] overflow-y-auto relative z-2 [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar]:h-1 [&::-webkit-scrollbar-thumb]:bg-cyan-100 [&::-webkit-scrollbar-track]:bg-gray-100/40 task-create-modal sm:w-[400px] sm:border-l sm:border-gray-200 lg:w-full lg:p-2 lg:border-none">
       <form onSubmit={handleSubmit(onSubmit)}>
         {/* Task name */}
         <div className="mt-5">
@@ -309,7 +309,23 @@ const TaskCreateModal = ({onCancel}: {onCancel: () => void}) => {
               <StaticTimePicker
                 value={startTime}
                 onChange={setStartTime}
+                orientation="portrait"
                 slotProps={{ actionBar: { actions: [] } }}
+                sx={{
+                  width: "100%",
+                  maxWidth: "100%",
+                  "& .MuiPickersLayout-root": {
+                    width: "100%",
+                  },
+                  "& .MuiPickersLayout-contentWrapper": {
+                    width: "100%",
+                  },
+                  "& .MuiClockPicker-root, & .MuiTimeClock-root": {
+                    width: "100%",
+                    maxWidth: 280,
+                    margin: "0 auto",
+                  },
+                }}
               />
             </ThemeProvider>
           </LocalizationProvider>
@@ -422,7 +438,11 @@ const TaskCreateModal = ({onCancel}: {onCancel: () => void}) => {
 
         {/* Footer buttons */}
         <div className="w-full flex items-center justify-end mt-10 gap-2">
-          <Button variant="outline" onClick={onCancel} className="px-2 py-4 m-0 text-neutral-800">
+          <Button
+            variant="outline"
+            onClick={onCancel}
+            className="px-2 py-4 m-0 text-neutral-800"
+          >
             Cancel
           </Button>
           <Button
