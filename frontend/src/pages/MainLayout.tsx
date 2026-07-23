@@ -10,10 +10,10 @@ const MainLayout = () => {
   return (
     <div>
       <div className="flex relative h-screen">
-        <div className="fixed left-0 top-0">
+        <div className="fixed left-0 top-0 md:z-10 lg:z-0 sidebar-layout-div">
           <Sidebar isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
         </div>
-        <div className={`relative overflow-hidden transition-width duration-20 ease-in-out ${isExpanded ? 'ml-[200px] w-[calc(100%-200px)]' : "ml-[53px] w-[calc(100%-53px)]"}`}>
+        <div className={`relative overflow-hidden transition-width duration-20 ease-in-out layout-outlet-div ${isExpanded ? 'lg:ml-[200px] lg:w-[calc(100%-200px)]' : "ml-[53px] w-[calc(100%-53px)]"}`}>
           {location.pathname !== `/${name}/calendar` ? <Topbar isExpanded={isExpanded} /> : null}
           <Outlet />
         </div>

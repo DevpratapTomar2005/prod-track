@@ -224,7 +224,7 @@ const TaskCreateModal = ({onCancel}: {onCancel: () => void}) => {
 
         {/* Start & Due Date */}
         <div className="mt-10 flex items-center gap-4">
-          <div className="w-1/2">
+          <div className="w-1/2 flex flex-col">
             <span className="text-lg font-inter font-semibold text-neutral-800 mb-2">
               Start Date
             </span>
@@ -255,7 +255,7 @@ const TaskCreateModal = ({onCancel}: {onCancel: () => void}) => {
               </PopoverContent>
             </Popover>
           </div>
-          <div className="w-1/2">
+          <div className="w-1/2 flex flex-col">
             <span className="text-lg font-inter font-semibold text-neutral-800 mb-2">
               Due Date
             </span>

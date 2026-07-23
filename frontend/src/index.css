@@ -1,5 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
@@ -14,19 +14,19 @@ body {
 }
 
 .font-inter {
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
 }
 .font-poppins {
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 .font-roboto {
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
 }
 
 @theme inline {
   --font-heading: var(--font-sans);
-  --font-sans: 'Geist Variable', sans-serif;
+  --font-sans: "Geist Variable", sans-serif;
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -148,18 +148,111 @@ body {
   }
 }
 
-.sidebar-expanded{
+.sidebar-expanded {
   width: 200px;
 }
 
-.sidebar-collapsed{
-  width:53px;
+.sidebar-collapsed {
+  width: 53px;
 }
 
 @media (max-width: 640px) {
-
-.task-create-modal, .view-task-modal {
-  width: 100% !important;
+  .task-create-modal,
+  .view-task-modal {
+    width: 100% !important;
+  }
 }
 
+@media (max-width: 900px) {
+  .dashboard-task-matrices {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .first-proj-matrix-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .first-proj-matrix-row-1 {
+    grid-column: span 2;
+  }
+  .first-proj-matrix-row-2,
+  .first-proj-matrix-row-3 {
+    grid-column: span 1 / span 1;
+  }
+}
+
+@media (max-width: 800px) {
+  .top-bar {
+    width: 100% !important;
+  }
+  .dashboard-overall-matricies {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .dashboard-overall-matricies-1 {
+    grid-column: span 2 / span 2;
+  }
+  .dashboard-overall-matricies-2,
+  .dashboard-overall-matricies-3 {
+    grid-column: span 1 / span 1;
+  }
+}
+
+@media (max-width: 650px) {
+  .secnd-proj-matrix-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .secnd-proj-matrix-row-1,
+  .secnd-proj-matrix-row-2 {
+    grid-column: span 1 / span 1;
+  }
+  .secnd-proj-matrix-row-3 {
+    grid-column: span 2 / span 2;
+  }
+}
+
+@media (max-width: 500px) {
+  .dashboard-overall-matricies {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+
+  .dashboard-overall-matricies-1 {
+    grid-column: span 1 / span 1;
+  }
+  .dashboard-overall-matricies-2,
+  .dashboard-overall-matricies-3 {
+    grid-column: span 1 / span 1;
+  }
+  .dashboard-task-matrices {
+    grid-template-columns: repeat(1, minmax(0, 1fr)) !important;
+  }
+  .first-proj-matrix-row {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+  .first-proj-matrix-row-1 {
+    grid-column: span 1;
+  }
+  .first-proj-matrix-row-2,
+  .first-proj-matrix-row-3 {
+    grid-column: span 1 / span 1;
+  }
+  .secnd-proj-matrix-row {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+  .secnd-proj-matrix-row-1,
+  .secnd-proj-matrix-row-2 {
+    grid-column: span 1 / span 1;
+  }
+  .secnd-proj-matrix-row-3 {
+    grid-column: span 1 / span 1;
+  }
+}
+
+@media (max-width: 767px) {
+  .sidebar-layout-div {
+    z-index: 10;
+  }
+  .layout-outlet-div {
+    width: 100%;
+  }
 }

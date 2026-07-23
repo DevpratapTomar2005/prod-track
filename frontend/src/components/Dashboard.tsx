@@ -187,9 +187,9 @@ const Dashboard = () => {
               Overall Matrices
             </h2>
           </div>
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-3 gap-4 dashboard-overall-matricies">
             {/* Timer card */}
-            <div className="bg-white border border-gray-200 rounded-xl p-4 shadow-sm ">
+            <div className="bg-white border border-gray-200 rounded-xl p-4 shadow-sm dashboard-overall-matricies-1">
               <SectionLabel>Current Task</SectionLabel>
               <Timer
                 value={0}
@@ -204,7 +204,7 @@ const Dashboard = () => {
             </div>
 
             {/* User Productivity */}
-            <div className="bg-white border border-gray-200 rounded-xl p-4 shadow-sm">
+            <div className="bg-white border border-gray-200 rounded-xl p-4 shadow-sm dashboard-overall-matricies-2">
               <SectionLabel>Productivity Trend</SectionLabel>
               <CardTitle>User Productivity</CardTitle>
               <CardSubtitle>
@@ -257,7 +257,7 @@ const Dashboard = () => {
             </div>
 
             {/* Actionable Task Focus — Due Widget */}
-            <div className="bg-white border border-gray-200 rounded-xl p-4 shadow-sm">
+            <div className="bg-white border border-gray-200 rounded-xl p-4 shadow-sm dashboard-overall-matricies-3">
               <p className="text-[9px] font-poppins font-semibold tracking-widest text-gray-400 uppercase mb-0.5">
                 {tasksDueSummary.total} · Tasks due today / this week
               </p>
@@ -387,7 +387,7 @@ const Dashboard = () => {
               Tasks Matrices
             </h2>
           </div>
-          <div className="grid grid-cols-4 gap-4">
+          <div className="grid grid-cols-4 gap-4 dashboard-task-matrices">
             {/* Matrix 1 — Today's tasks */}
             <div className="bg-white border border-gray-200 rounded-xl p-4 shadow-sm col-span-1">
               <SectionLabel>Task Matrix · 1</SectionLabel>
@@ -661,9 +661,9 @@ const Dashboard = () => {
           </div>
 
           {/* Row 1 */}
-          <div className="grid grid-cols-4 gap-4 mb-4">
+          <div className="grid md:grid-cols-7 xl:grid-cols-4 gap-4 mb-4 first-proj-matrix-row">
             {/* Weekly velocity */}
-            <div className="bg-white border border-gray-200 rounded-xl p-4 shadow-sm col-span-2">
+            <div className="bg-white border border-gray-200 rounded-xl p-4 shadow-sm md:col-span-3 xl:col-span-2 first-proj-matrix-row-1">
               <SectionLabel>Project Matrix · 1</SectionLabel>
               <CardTitle>Weekly Velocity Across Active Projects</CardTitle>
               <CardSubtitle>Tasks completed per week per project</CardSubtitle>
@@ -744,7 +744,7 @@ const Dashboard = () => {
             </div>
 
             {/* Stuck in progress */}
-            <div className="bg-white border border-gray-200 rounded-xl p-4 shadow-sm col-span-1">
+            <div className="bg-white border border-gray-200 rounded-xl p-4 shadow-sm md:col-span-2 xl:col-span-1 first-proj-matrix-row-2">
               <SectionLabel>Project Matrix · 2</SectionLabel>
               <CardTitle>Tasks Stuck in "In Progress" Too Long</CardTitle>
               <CardSubtitle>
@@ -801,7 +801,7 @@ const Dashboard = () => {
             </div>
 
             {/* Due in 7 days */}
-            <div className="bg-white border border-gray-200 rounded-xl p-4 shadow-sm col-span-1">
+            <div className="bg-white border border-gray-200 rounded-xl p-4 shadow-sm md:col-span-2 xl:col-span-1 first-proj-matrix-row-3">
               <SectionLabel>Project Matrix · 3</SectionLabel>
               <CardTitle>Due in the Next 7 Days</CardTitle>
               <CardSubtitle>
@@ -849,9 +849,9 @@ const Dashboard = () => {
           </div>
 
           {/* Row 2 */}
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-3 gap-4 secnd-proj-matrix-row">
             {/* Hours vs Progress */}
-            <div className="bg-white border border-gray-200 rounded-xl p-4 shadow-sm">
+            <div className="bg-white border border-gray-200 rounded-xl p-4 shadow-sm secnd-proj-matrix-row-1">
               <SectionLabel>Project Matrix · 4</SectionLabel>
               <CardTitle>Hours Invested vs Progress Achieved</CardTitle>
               <CardSubtitle>
@@ -928,7 +928,7 @@ const Dashboard = () => {
             </div>
 
             {/* Project delivery breakdown */}
-            <div className="bg-white border border-gray-200 rounded-xl p-4 shadow-sm">
+            <div className="bg-white border border-gray-200 rounded-xl p-4 shadow-sm secnd-proj-matrix-row-2">
               <SectionLabel>Project Matrix · 5</SectionLabel>
               <CardTitle>Project Delivery Breakdown</CardTitle>
               <CardSubtitle>
@@ -993,7 +993,7 @@ const Dashboard = () => {
             </div>
 
             {/* Most overrun projects */}
-            <div className="bg-white border border-gray-200 rounded-xl p-4 shadow-sm">
+            <div className="bg-white border border-gray-200 rounded-xl p-4 shadow-sm secnd-proj-matrix-row-3">
               <SectionLabel>Project Matrix · 6</SectionLabel>
               <CardTitle>Most Overrun Projects</CardTitle>
               <CardSubtitle>

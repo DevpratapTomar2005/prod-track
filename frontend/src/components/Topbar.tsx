@@ -23,7 +23,7 @@ const Topbar = ({ isExpanded }: { isExpanded: boolean }) => {
 
   return (
     <div
-      className={`p-4 border-b border-gray-200  bg-white fixed top-0 z-3 h-[66px]  ${isExpanded ? "w-[calc(100%-200px)]" : "w-[calc(100%-53px)]"} flex items-center justify-end gap-4 transition-width duration-20 ease-in-out`}
+      className={`p-4 border-b border-gray-200  bg-white fixed top-0 z-3 h-[66px] top-bar  ${isExpanded ? "md:w-full lg:w-[calc(100%-200px)]" : "w-[calc(100%-53px)]"} flex items-center justify-end gap-4 transition-width duration-20 ease-in-out`}
     >
       {location.pathname === `/${name}/tasks` ||
       location.pathname === `/${name}/projects` ? (
