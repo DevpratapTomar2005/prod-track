@@ -28,7 +28,7 @@ const Sidebar = ({isExpanded=true, setIsExpanded}: { isExpanded?: boolean; setIs
           </span>
         </div>
         <div
-          className="p-1 hover:bg-gray-100 cursor-ew-resize rounded-md"
+          className="p-1 hover:bg-gray-100 cursor-ew-resize rounded-md sidebar-toggle"
           onClick={() => setIsExpanded(!isExpanded)}
         >
           <img src={SidebarIcon} alt="sidebar icon" className={`h-5 w-5`} />

@@ -97,7 +97,7 @@ const TaskPage = () => {
         className={`w-full h-[calc(100vh-53px)] mt-[53px] overflow-y-auto [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-thumb]:bg-cyan-100 [&::-webkit-scrollbar-track]:bg-gray-100/40  transition-width duration-20 ease-in-out relative ${showCreateModal || showViewTaskModal ? "border-r border-gray-200" : ""} ${showCreateModal ? "col-span-2" : showViewTaskModal ? "col-span-2" : "col-span-3"}`}
       >
         <div
-          className={`${showCreateModal ? "mx-30" : showViewTaskModal ? "mx-30" : "w-[50%] max-w-[1050px] mx-auto"} my-10`}
+          className={`${showCreateModal ? "mx-30" : showViewTaskModal ? "mx-30" : "w-[50%] max-w-[1050px] mx-auto"} my-10 task-page-timer`}
         >
           {activeTask && activeTimerRecord ? (
             <Timer
@@ -117,7 +117,7 @@ const TaskPage = () => {
 
         <div className="bg-slate-50 w-[90%] max-w-[1050px] my-10 rounded-lg p-1 shadow mx-auto">
           <div className="flex items-center justify-between">
-            <h1 className="text-2xl font-inter text-gray-800 font-bold mt-3 mb-2 mx-2 flex items-center">
+            <h1 className="text-2xl font-inter text-gray-800 font-bold mt-3 mb-2 mx-2 flex items-center table-task-title">
               Next Task{" "}
               <img
                 src={ArrowRight}
@@ -131,7 +131,7 @@ const TaskPage = () => {
           </div>
           <div className="border border-gray-200 rounded-md w-full bg-white overflow-x-auto scroll-smooth [&::-webkit-scrollbar]:h-0.5 [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-track]:bg-gray-100">
             <table className="w-full min-w-[1000px] border-collapse">
-              <thead className="text-sm text-neutral-800 font-inter">
+              <thead className="text-sm text-neutral-800 font-inter table-task-head">
                 <tr>
                   <th className="w-[110px] border-r border-b border-gray-200 text-left px-1 py-2">
                     <span className="flex items-center gap-1.5">
@@ -139,7 +139,7 @@ const TaskPage = () => {
                       <span className="ml-2">Id</span>
                     </span>
                   </th>
-                  <th className="w-[320px] border-r border-b border-gray-200 text-center py-2">
+                  <th className="w-[320px] border-r border-b border-gray-200 text-center py-2 table-task-name-head">
                     Task
                   </th>
                   <th className="w-[100px] border-r border-b border-gray-200 text-center py-2">
@@ -162,7 +162,7 @@ const TaskPage = () => {
                   </th>
                 </tr>
               </thead>
-              <tbody className="text-[12px] text-gray-600 font-poppins">
+              <tbody className="text-[12px] text-gray-600 font-poppins table-task-data">
                 {tasks.map((task, index) => (
                   <React.Fragment key={task.id}>
                     <tr
@@ -179,7 +179,7 @@ const TaskPage = () => {
                           <span>#TASK-{task.id}</span>
                         </span>
                       </td>
-                      <td className="w-[320px] text-center px-2 py-2">
+                      <td className="w-[320px] text-center px-2 py-2 table-task-name-data">
                         {task.task}
                       </td>
                       <td className="w-[100px] text-center py-2">
@@ -218,7 +218,7 @@ const TaskPage = () => {
 
         <div className="bg-slate-50 w-[90%] max-w-[1050px] my-20 rounded-lg p-1 shadow mx-auto">
           <div className="flex items-center justify-between">
-            <h1 className="text-2xl font-inter text-gray-800 font-bold mt-3 mb-2 mx-2 flex items-center">
+            <h1 className="text-2xl font-inter text-gray-800 font-bold mt-3 mb-2 mx-2 flex items-center table-task-title">
               Today's Tasks{" "}
               <img
                 src={ArrowRight}
@@ -232,7 +232,7 @@ const TaskPage = () => {
           </div>
           <div className="border border-gray-200 rounded-md w-full bg-white overflow-x-auto scroll-smooth [&::-webkit-scrollbar]:h-0.5 [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-track]:bg-gray-100">
             <table className="w-full min-w-[1000px] border-collapse">
-              <thead className="text-sm text-neutral-800 font-inter">
+              <thead className="text-sm text-neutral-800 font-inter table-task-head">
                 <tr>
                   <th className="w-[110px] border-r border-b border-gray-200 text-left px-1 py-2">
                     <span className="flex items-center gap-1.5">
@@ -240,7 +240,7 @@ const TaskPage = () => {
                       <span className="ml-2">Id</span>
                     </span>
                   </th>
-                  <th className="w-[320px] border-r border-b border-gray-200 text-center py-2">
+                  <th className="w-[320px] border-r border-b border-gray-200 text-center py-2 table-task-name-head">
                     Task
                   </th>
                   <th className="w-[100px] border-r border-b border-gray-200 text-center py-2">
@@ -263,7 +263,7 @@ const TaskPage = () => {
                   </th>
                 </tr>
               </thead>
-              <tbody className="text-[12px] text-gray-600 font-poppins">
+              <tbody className="text-[12px] text-gray-600 font-poppins table-task-data">
                 {tasks.map((task, index) => (
                   <React.Fragment key={task.id}>
                     <tr
@@ -280,7 +280,7 @@ const TaskPage = () => {
                           <span>#TASK-{task.id}</span>
                         </span>
                       </td>
-                      <td className="w-[320px] text-center px-2 py-2">
+                      <td className="w-[320px] text-center px-2 py-2 table-task-name-data">
                         {task.task}
                       </td>
                       <td className="w-[100px] text-center py-2">
@@ -318,7 +318,7 @@ const TaskPage = () => {
 
         <div className="bg-slate-50 w-[90%] max-w-[1050px] my-10 rounded-lg p-1 shadow mx-auto">
           <div className="flex items-center justify-between">
-            <h1 className="text-2xl font-inter text-gray-800 font-bold mt-3 mb-2 mx-2 flex items-center">
+            <h1 className="text-2xl font-inter text-gray-800 font-bold mt-3 mb-2 mx-2 flex items-center table-task-title">
               This Month{" "}
               <img
                 src={ArrowRight}
@@ -332,7 +332,7 @@ const TaskPage = () => {
           </div>
           <div className="border border-gray-200 rounded-md w-full bg-white overflow-x-auto scroll-smooth [&::-webkit-scrollbar]:h-0.5 [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-track]:bg-gray-100">
             <table className="w-full min-w-[1000px] border-collapse">
-              <thead className="text-sm text-neutral-800 font-inter">
+              <thead className="text-sm text-neutral-800 font-inter table-task-head">
                 <tr>
                   <th className="w-[110px] border-r border-b border-gray-200 text-left px-1 py-2">
                     <span className="flex items-center gap-1.5">
@@ -340,7 +340,7 @@ const TaskPage = () => {
                       <span className="ml-2">Id</span>
                     </span>
                   </th>
-                  <th className="w-[320px] border-r border-b border-gray-200 text-center py-2">
+                  <th className="w-[320px] border-r border-b border-gray-200 text-center py-2 table-task-name-head">
                     Task
                   </th>
                   <th className="w-[100px] border-r border-b border-gray-200 text-center py-2">
@@ -363,7 +363,7 @@ const TaskPage = () => {
                   </th>
                 </tr>
               </thead>
-              <tbody className="text-[12px] text-gray-600 font-poppins">
+              <tbody className="text-[12px] text-gray-600 font-poppins table-task-data">
                 {tasks.map((task, index) => (
                   <React.Fragment key={task.id}>
                     <tr
@@ -380,7 +380,7 @@ const TaskPage = () => {
                           <span>#TASK-{task.id}</span>
                         </span>
                       </td>
-                      <td className="w-[320px] text-center px-2 py-2">
+                      <td className="w-[320px] text-center px-2 py-2 table-task-name-data">
                         {task.task}
                       </td>
                       <td className="w-[100px] text-center py-2">
@@ -423,7 +423,7 @@ const TaskPage = () => {
         </div>
       )}
       {showViewTaskModal && (
-        <div className="col-span-1 mt-[53px] absolute sm:right-0 lg:relative">
+        <div className="col-span-1 mt-[53px] absolute sm:right-0 lg:relative view-task-modal-wrapper">
           <ViewTaskModal
             task={viewTask}
             onClose={closeViewTaskModal}

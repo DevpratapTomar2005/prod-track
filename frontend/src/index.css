@@ -182,6 +182,7 @@ body {
 @media (max-width: 800px) {
   .top-bar {
     width: 100% !important;
+    padding-right: 64px;
   }
   .dashboard-overall-matricies {
     display: grid;
@@ -207,6 +208,26 @@ body {
   }
   .secnd-proj-matrix-row-3 {
     grid-column: span 2 / span 2;
+  }
+  .task-page-timer {
+    width: 75%;
+  }
+  .table-task-title {
+    font-size: 18px;
+  }
+  .table-task-head {
+    font-size: 12px;
+  }
+  .table-task-data {
+    font-size: 10px;
+  }
+  .table-task-name-head,
+  .table-task-name-data {
+    width: 200px;
+  }
+  .view-task-modal-wrapper {
+    right: 0;
+    width: 100%;
   }
 }
 
@@ -252,7 +273,111 @@ body {
   .sidebar-layout-div {
     z-index: 10;
   }
+  .sidebar-toggle {
+    padding: 0px;
+  }
   .layout-outlet-div {
     width: 100%;
+  }
+}
+@media (max-width: 450px) {
+  .sidebar-collapsed {
+    display: none;
+  }
+  .sidebar-toggle-topbar {
+    display: inline;
+  }
+  .top-bar {
+    justify-content: space-between;
+    padding-right: 16px;
+  }
+  .topbar-not-expanded,
+  .layout-outlet-not-expanded {
+    width: 100%;
+  }
+  .layout-outlet-not-expanded {
+    margin-left: 0px;
+  }
+  .table-task-title {
+    font-size: 16px;
+  }
+  .table-task-head {
+    font-size: 10px;
+  }
+  .table-task-data {
+    font-size: 10px;
+  }
+  .table-task-name-head,
+  .table-task-name-data {
+    width: 170px;
+  }
+}
+
+@media (max-width: 430px) {
+  .task-create-modal {
+    padding: 3px;
+    padding-bottom: 7px;
+  }
+  .task-create-modal-form {
+    margin-left: 2px;
+    margin-right: 2px;
+  }
+  .task-create-modal-div {
+    width: 100%;
+  }
+
+  .select-div {
+    flex-direction: column;
+  }
+  .select-div div {
+    width: 100%;
+  }
+
+  .duration-input,
+  .duration-select {
+    grid-column: span 1;
+  }
+  .task-create-modal-footer {
+    justify-content: space-between;
+    padding-right: 0px;
+  }
+  .view-task-modal-details {
+    justify-content: start;
+    flex-wrap: wrap;
+    gap: 30px;
+  }
+  .view-task-modal-details div {
+    width: fit-content;
+  }
+}
+@media (max-width: 350px) {
+  .task-create-modal-form {
+    margin-left: 2px;
+    margin-right: 0px;
+  }
+  .task-create-modal-div {
+    width: 300px;
+  }
+  .date-select-div {
+    flex-wrap: wrap;
+  }
+  .date-select-div div {
+    width: fit-content;
+  }
+  .select-div {
+    flex-direction: column;
+  }
+  .select-div div {
+    width: 100%;
+  }
+
+  .duration-input,
+  .duration-select {
+    grid-column: span 1;
+  }
+  .task-create-modal-footer {
+    padding-left: 0px;
+    justify-content: start;
+    gap: 20px;
   }
 }

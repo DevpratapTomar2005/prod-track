@@ -28,7 +28,7 @@ import {
 import { Input } from "@/components/ui/input";
 import Checkbox from "./ui/Checkbox.tsx";
 
-const TaskCreateModal = ({onCancel}: {onCancel: () => void}) => {
+const TaskCreateModal = ({ onCancel }: { onCancel: () => void }) => {
   const {
     register,
     handleSubmit,
@@ -93,9 +93,12 @@ const TaskCreateModal = ({onCancel}: {onCancel: () => void}) => {
 
   return (
     <div className="p-4 bg-white h-[calc(100vh-53px)] overflow-y-auto relative z-2 [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar]:h-1 [&::-webkit-scrollbar-thumb]:bg-cyan-100 [&::-webkit-scrollbar-track]:bg-gray-100/40 task-create-modal sm:w-[400px] sm:border-l sm:border-gray-200 lg:w-full lg:p-2 lg:border-none">
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="task-create-modal-form"
+      >
         {/* Task name */}
-        <div className="mt-5">
+        <div className="mt-5 task-create-modal-div">
           <label
             htmlFor="task"
             className="text-lg font-inter font-semibold text-neutral-800"
@@ -123,7 +126,7 @@ const TaskCreateModal = ({onCancel}: {onCancel: () => void}) => {
         </div>
 
         {/* Subtask input */}
-        <div className="mt-5">
+        <div className="mt-5 task-create-modal-div">
           <div className="flex items-center gap-1">
             <Input
               type="text"
@@ -152,7 +155,7 @@ const TaskCreateModal = ({onCancel}: {onCancel: () => void}) => {
 
         {/* Subtasks table + delete button attached below at bottom-right */}
         {subtasks.length > 0 && (
-          <div className="mt-5">
+          <div className="mt-5 task-create-modal-div">
             <div className="w-full border rounded-lg">
               <table className="w-full">
                 <thead>
@@ -223,7 +226,7 @@ const TaskCreateModal = ({onCancel}: {onCancel: () => void}) => {
         )}
 
         {/* Start & Due Date */}
-        <div className="mt-10 flex items-center gap-4">
+        <div className="mt-10 flex items-center gap-4 date-select-div">
           <div className="w-1/2 flex flex-col">
             <span className="text-lg font-inter font-semibold text-neutral-800 mb-2">
               Start Date
@@ -332,18 +335,18 @@ const TaskCreateModal = ({onCancel}: {onCancel: () => void}) => {
         </div>
 
         {/* Est. Duration & Status */}
-        <div className="mt-10 flex items-center gap-4">
+        <div className="mt-10 flex items-center gap-4 select-div">
           <div className="w-1/2">
             <span className="text-lg font-inter font-semibold text-neutral-800 mb-2">
               Est. Duration
             </span>
-            <div className="grid grid-cols-5 gap-1">
+            <div className="grid grid-cols-3 gap-1 duration-input">
               <Input
                 type="number"
                 placeholder="Enter estimated duration"
                 defaultValue={1}
                 id="estimatedDuration"
-                className="col-span-2 text-neutral-600"
+                className="col-span-1 text-neutral-600"
                 {...register("estimatedDuration", {
                   required: "Estimated duration is required",
                   min: {
@@ -357,7 +360,7 @@ const TaskCreateModal = ({onCancel}: {onCancel: () => void}) => {
                   required: "Unit is required",
                 })}
               >
-                <SelectTrigger className="w-full col-span-3 text-neutral-600">
+                <SelectTrigger className="w-full col-span-2 text-neutral-600 duration-select">
                   <SelectValue placeholder="Unit" />
                 </SelectTrigger>
                 <SelectContent>
@@ -389,7 +392,7 @@ const TaskCreateModal = ({onCancel}: {onCancel: () => void}) => {
             </Select>
           </div>
         </div>
-        <div className="flex items-center justify-between gap-5">
+        <div className="flex items-center justify-between gap-5 ">
           <div className="w-1/2">
             {errors.estimatedDuration && (
               <p className="text-red-500 text-sm mt-1">
@@ -437,7 +440,7 @@ const TaskCreateModal = ({onCancel}: {onCancel: () => void}) => {
         </div>
 
         {/* Footer buttons */}
-        <div className="w-full flex items-center justify-end mt-10 gap-2">
+        <div className="w-full flex items-center justify-end mt-10 gap-2 task-create-modal-footer">
           <Button
             variant="outline"
             onClick={onCancel}

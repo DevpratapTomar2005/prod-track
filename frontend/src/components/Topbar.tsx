@@ -2,7 +2,15 @@ import Plus from "../assets/plus.svg";
 import { useLocation, useParams } from "react-router";
 import { useDispatch } from "react-redux";
 import { setGlobalModalState } from "../slices/globalModalStateSlice.ts";
-const Topbar = ({ isExpanded }: { isExpanded: boolean }) => {
+import SidebarIcon from "../assets/sidebar_icon.svg";
+
+const Topbar = ({
+  isExpanded,
+  setIsExpanded,
+}: {
+  isExpanded: boolean;
+  setIsExpanded: (arg: boolean) => void;
+}) => {
   const location = useLocation();
   const { name } = useParams();
   const dispatch = useDispatch();
@@ -23,8 +31,14 @@ const Topbar = ({ isExpanded }: { isExpanded: boolean }) => {
 
   return (
     <div
-      className={`p-4 border-b border-gray-200  bg-white fixed top-0 z-3 h-[66px] top-bar  ${isExpanded ? "md:w-full lg:w-[calc(100%-200px)]" : "w-[calc(100%-53px)]"} flex items-center justify-end gap-4 transition-width duration-20 ease-in-out`}
+      className={`p-4 border-b border-gray-200  bg-white fixed top-0 z-3 h-[66px] top-bar  ${isExpanded ? "md:w-full lg:w-[calc(100%-200px)]" : "w-[calc(100%-53px)] topbar-not-expanded"} flex items-center justify-end gap-4 transition-width duration-20 ease-in-out`}
     >
+      <div
+        className="p-1 hover:bg-gray-100 cursor-ew-resize rounded-md hidden sidebar-toggle-topbar "
+        onClick={() => setIsExpanded(!isExpanded)}
+      >
+        <img src={SidebarIcon} alt="sidebar icon" className={`h-5 w-5`} />
+      </div>
       {location.pathname === `/${name}/tasks` ||
       location.pathname === `/${name}/projects` ? (
         <button

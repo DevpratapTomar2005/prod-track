@@ -23,15 +23,16 @@ const ViewTaskModal = ({
   patchTaskTimer,
   activateTask,
 }: ViewTaskModalProps) => {
-  const [subtasks, setSubtasks] = useState<Array<{ id: number; subtask: string }>>(
-    task.subtasks
-  );
+  const [subtasks, setSubtasks] = useState<
+    Array<{ id: number; subtask: string }>
+  >(task.subtasks);
   const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set());
 
   const isSameAsActive = task.id === activeTaskId;
   const timerRecord = getTaskTimer(task.id);
 
-  const allSelected = subtasks.length > 0 && selectedIds.size === subtasks.length;
+  const allSelected =
+    subtasks.length > 0 && selectedIds.size === subtasks.length;
 
   const toggleSelectAll = () => {
     if (allSelected) {
@@ -166,7 +167,7 @@ const ViewTaskModal = ({
         </div>
       )}
 
-      <div className="flex items-center mt-5 justify-between gap-2">
+      <div className="flex items-center mt-5 justify-between gap-2 view-task-modal-details">
         <div className="w-1/3">
           <div className="text-md font-inter font-semibold text-neutral-800 mt-5">
             <h2>Project</h2>
