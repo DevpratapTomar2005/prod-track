@@ -166,7 +166,7 @@ const Dashboard = () => {
       <div className="max-w-[1200px] mx-auto px-6 py-6 space-y-8">
         {/* ── Section header ── */}
         <div>
-          <h1 className="text-2xl font-inter text-gray-800 font-bold mt-5 flex items-center">
+          <h1 className="text-2xl font-inter text-gray-800 font-bold mt-5 flex items-center page-heading">
             Dashboard{" "}
             <img
               src={ArrowRight}
@@ -174,7 +174,7 @@ const Dashboard = () => {
               className="invert-80 h-7 w-7"
             />
           </h1>
-          <p className="text-[11px] text-gray-400 font-poppins">
+          <p className="text-[11px] text-gray-400 font-poppins page-subheading">
             Your productivity overview
           </p>
         </div>

@@ -10,7 +10,6 @@ import MainLayout from "./pages/MainLayout.tsx"
 import TaskPage from "./pages/TaskPage.tsx"
 import ProjectsPage from "./pages/ProjectsPage.tsx"
 import Dashboard from "./components/Dashboard.tsx"
-import ManageAgents from "./components/ManageAgents.tsx"
 import ProjectAnalytics from "./pages/ProjectAnalytics.tsx"
 import EventCalendarPage from "./pages/EventCalendarPage.tsx"
 function App() {
@@ -34,7 +33,6 @@ function App() {
         <Route path="projects/:project-name-id" element={<ProjectAnalytics/>}/>
         
         <Route path="dashboard" element={<Dashboard />} />
-        <Route path="manage-agents" element={<ManageAgents />} />
         <Route path="calendar" element={<EventCalendarPage />} />
       </Route>
     </Routes>

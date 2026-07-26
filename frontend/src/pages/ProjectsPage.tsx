@@ -1,11 +1,11 @@
-import React,{ useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import ArrowRight from "../assets/arrow_right.svg";
 import Checkbox from "../components/ui/Checkbox.tsx";
 import Dot from "../assets/dot.svg";
 import ProjectCreateModal from "../components/ProjectCreateModal.tsx";
 import { useDispatch, useSelector } from "react-redux";
-import {useNavigate, useParams} from "react-router"
-import {resetGlobalModalState} from "../slices/globalModalStateSlice.ts";
+import { useNavigate, useParams } from "react-router";
+import { resetGlobalModalState } from "../slices/globalModalStateSlice.ts";
 // shadcn chart primitives (wraps recharts)
 import {
   ChartContainer,
@@ -43,8 +43,6 @@ interface Project {
 const mayDay = (dateStr: string): number =>
   new Date(dateStr.replace(",", "")).getDate();
 
-
-
 // ─── Gantt Row ────────────────────────────────────────────────────────────────
 
 const GanttRow = ({
@@ -57,43 +55,46 @@ const GanttRow = ({
   maxDay: number;
 }) => {
   const totalDays = maxDay - minDay || 1;
-  const start     = mayDay(project.startDate) - minDay;
-  const end       = mayDay(project.estEndDate) - minDay;
-  const leftPct   = (start / totalDays) * 100;
-  const widthPct  = Math.max(((end - start) / totalDays) * 100, 2);
+  const start = mayDay(project.startDate) - minDay;
+  const end = mayDay(project.estEndDate) - minDay;
+  const leftPct = (start / totalDays) * 100;
+  const widthPct = Math.max(((end - start) / totalDays) * 100, 2);
 
   const colorMap: Record<string, string> = {
-    Done:          "bg-gray-800",
+    Done: "bg-gray-800",
     "In Progress": "bg-cyan-400",
-    "To Do":       "bg-gray-400",
+    "To Do": "bg-gray-400",
   };
 
   return (
-    <div className="flex items-center gap-3 py-[5px] group">
-      <div className="w-[120px] flex-shrink-0 text-[11px] text-gray-500 font-poppins truncate group-hover:text-gray-800 transition-colors">
+    <div className={`grid ${ganttGridCols} gap-3 items-center py-[5px] group`}>
+      <div className="text-[11px] text-gray-500 font-poppins truncate group-hover:text-gray-800 transition-colors">
         {project.project}
       </div>
-      <div className="flex-1 relative h-4">
+      <div className="relative h-4">
         <div className="absolute inset-0 rounded-full bg-gray-100" />
         <div
           className={`absolute top-0 h-4 rounded-full opacity-80 ${colorMap[project.status] ?? "bg-gray-300"}`}
           style={{ left: `${leftPct}%`, width: `${widthPct}%` }}
         />
       </div>
-      <div className="w-[52px] flex-shrink-0 text-[10px] text-gray-400 font-poppins text-right tabular-nums">
+      <div className="text-[10px] text-gray-400 font-poppins text-right tabular-nums">
         {mayDay(project.startDate)}–{mayDay(project.estEndDate)}
       </div>
     </div>
   );
 };
 
+// Shared grid template so the label / timeline / date columns in the ruler
+// and every row line up automatically, at any viewport width.
+const ganttGridCols = "grid-cols-[minmax(64px,120px)_1fr_minmax(36px,52px)]";
 
 // ─── Chart configs ────────────────────────────────────────────────────────────
 
 const statusChartConfig: ChartConfig = {
-  Done:          { label: "Done",        color: "hsl(160 60% 45%)" },
+  Done: { label: "Done", color: "hsl(160 60% 45%)" },
   "In Progress": { label: "In Progress", color: "hsl(217 80% 55%)" },
-  "To Do":       { label: "To Do",       color: "hsl(43  90% 55%)" },
+  "To Do": { label: "To Do", color: "hsl(43  90% 55%)" },
 };
 
 const progressChartConfig: ChartConfig = {
@@ -109,31 +110,99 @@ const completionChartConfig: ChartConfig = {
 const ProjectsPage = () => {
   const [showCreateProjectModal, setShowCreateProjectModal] = useState(false);
   const dispatch = useDispatch();
-  const navigate= useNavigate();
-  const {name} = useParams()
+  const navigate = useNavigate();
+  const { name } = useParams();
   const globalModalState = useSelector((state: any) => state.globalModalState);
   const [projects] = useState<Project[]>([
-    { id: 2001, project: "Project Alpha",      status: "Done",        progress: 100, startDate: "1 May, 2026",  estEndDate: "1 May, 2026"  },
-    { id: 2002, project: "Nexis Quiz App",     status: "In Progress", progress: 90,  startDate: "2 May, 2026",  estEndDate: "4 May, 2026"  },
-    { id: 2003, project: "Fintech Dashboard",  status: "Done",        progress: 100, startDate: "5 May, 2026",  estEndDate: "7 May, 2026"  },
-    { id: 2004, project: "E-commerce Website", status: "To Do",       progress: 0,   startDate: "6 May, 2026",  estEndDate: "8 May, 2026"  },
-    { id: 2995, project: "AI Chatbot",         status: "In Progress", progress: 2,   startDate: "7 May, 2026",  estEndDate: "9 May, 2026"  },
-    { id: 2006, project: "Social Media App",   status: "To Do",        progress: 0, startDate: "8 May, 2026",  estEndDate: "10 May, 2026" },
-    { id: 2007, project: "Portfolio Website",  status: "Done",       progress: 100,   startDate: "9 May, 2026",  estEndDate: "11 May, 2026" },
-    { id: 2008, project: "E-commerce Website", status: "To Do",       progress: 0,   startDate: "10 May, 2026", estEndDate: "12 May, 2026" },
-    { id: 2009, project: "AI Extension",       status: "To Do",       progress: 0,   startDate: "11 May, 2026", estEndDate: "13 May, 2026" },
-    { id: 2010, project: "Social Media App",   status: "To Do",       progress: 0,   startDate: "12 May, 2026", estEndDate: "14 May, 2026" },
+    {
+      id: 2001,
+      project: "Project Alpha",
+      status: "Done",
+      progress: 100,
+      startDate: "1 May, 2026",
+      estEndDate: "1 May, 2026",
+    },
+    {
+      id: 2002,
+      project: "Nexis Quiz App",
+      status: "In Progress",
+      progress: 90,
+      startDate: "2 May, 2026",
+      estEndDate: "4 May, 2026",
+    },
+    {
+      id: 2003,
+      project: "Fintech Dashboard",
+      status: "Done",
+      progress: 100,
+      startDate: "5 May, 2026",
+      estEndDate: "7 May, 2026",
+    },
+    {
+      id: 2004,
+      project: "E-commerce Website",
+      status: "To Do",
+      progress: 0,
+      startDate: "6 May, 2026",
+      estEndDate: "8 May, 2026",
+    },
+    {
+      id: 2995,
+      project: "AI Chatbot",
+      status: "In Progress",
+      progress: 2,
+      startDate: "7 May, 2026",
+      estEndDate: "9 May, 2026",
+    },
+    {
+      id: 2006,
+      project: "Social Media App",
+      status: "To Do",
+      progress: 0,
+      startDate: "8 May, 2026",
+      estEndDate: "10 May, 2026",
+    },
+    {
+      id: 2007,
+      project: "Portfolio Website",
+      status: "Done",
+      progress: 100,
+      startDate: "9 May, 2026",
+      estEndDate: "11 May, 2026",
+    },
+    {
+      id: 2008,
+      project: "E-commerce Website",
+      status: "To Do",
+      progress: 0,
+      startDate: "10 May, 2026",
+      estEndDate: "12 May, 2026",
+    },
+    {
+      id: 2009,
+      project: "AI Extension",
+      status: "To Do",
+      progress: 0,
+      startDate: "11 May, 2026",
+      estEndDate: "13 May, 2026",
+    },
+    {
+      id: 2010,
+      project: "Social Media App",
+      status: "To Do",
+      progress: 0,
+      startDate: "12 May, 2026",
+      estEndDate: "14 May, 2026",
+    },
   ]);
   // ── Derived chart data ─────────────────────────────────────────────────────
 
   useEffect(() => {
     if (globalModalState.type === "createProject" && globalModalState.isOpen) {
       setShowCreateProjectModal(true);
-    }
-    else{
+    } else {
       setShowCreateProjectModal(false);
     }
-   
   }, [globalModalState]);
 
   const handleCloseModal = () => {
@@ -146,9 +215,9 @@ const ProjectsPage = () => {
     return acc;
   }, {});
   const statusColors: Record<string, string> = {
-    Done:          "oklch(27.8% 0.033 256.848)",
+    Done: "oklch(27.8% 0.033 256.848)",
     "In Progress": "oklch(78.9% 0.154 211.53)",
-    "To Do":       "oklch(87.2% 0.01 258.338)",
+    "To Do": "oklch(87.2% 0.01 258.338)",
   };
   // fill embedded in data — Cell is deprecated in Recharts v3+
   const statusPieData = Object.entries(statusCounts).map(([name, value]) => ({
@@ -160,13 +229,16 @@ const ProjectsPage = () => {
   const progressBarData = projects
     .filter((p) => p.progress > 0)
     .map((p) => ({
-      name:     p.project.length > 13 ? p.project.slice(0, 12) + "…" : p.project,
+      name: p.project.length > 13 ? p.project.slice(0, 12) + "…" : p.project,
       progress: p.progress,
     }));
 
-  const allDays = projects.flatMap((p) => [mayDay(p.startDate), mayDay(p.estEndDate)]);
-  const minDay  = Math.min(...allDays);
-  const maxDay  = Math.max(...allDays);
+  const allDays = projects.flatMap((p) => [
+    mayDay(p.startDate),
+    mayDay(p.estEndDate),
+  ]);
+  const minDay = Math.min(...allDays);
+  const maxDay = Math.max(...allDays);
 
   const completionData = [
     { week: "Wk 1", Completed: 1 },
@@ -175,10 +247,14 @@ const ProjectsPage = () => {
     { week: "Wk 4", Completed: 3 },
   ];
 
-  const handleProjectAnalyticsNavigation = (projectName:string, projectId:any) => {
-    navigate(`/${name}/projects/${projectName.replaceAll(" ","-").toLowerCase() + `-${projectId}`}`);
+  const handleProjectAnalyticsNavigation = (
+    projectName: string,
+    projectId: any,
+  ) => {
+    navigate(
+      `/${name}/projects/${projectName.replaceAll(" ", "-").toLowerCase() + `-${projectId}`}`,
+    );
   };
-
 
   // ── Render ─────────────────────────────────────────────────────────────────
   return (
@@ -186,9 +262,9 @@ const ProjectsPage = () => {
       <div className="w-full h-[calc(100vh-53px)] mt-[53px] overflow-y-auto [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-thumb]:bg-cyan-100 [&::-webkit-scrollbar-track]:bg-gray-100/40  transition-width duration-20 ease-in-out">
         {/* ── Row 1: Status breakdown + Progress distribution ──────────── */}
         <div className="w-[90%] max-w-[1050px] mt-10 mx-auto">
-          <div className="grid grid-cols-2 gap-3 mx-1 mb-3">
+          <div className="grid md:grid-cols-2 gap-3 mx-1 mb-3">
             {/* Status donut */}
-            <div className="bg-white border border-gray-200 rounded-md p-4 shadow-sm">
+            <div className="min-w-0 bg-white border border-gray-200 rounded-md p-4 shadow-sm">
               <p className="text-[12px] font-semibold text-gray-700 font-inter">
                 Status breakdown
               </p>
@@ -196,7 +272,7 @@ const ProjectsPage = () => {
                 Projects by current status
               </p>
 
-              <div className="flex items-center gap-3 ">
+              <div className="flex items-center gap-3 proj-status-chart">
                 {/* Donut via shadcn ChartContainer */}
                 <ChartContainer
                   config={statusChartConfig}
@@ -254,7 +330,7 @@ const ProjectsPage = () => {
             </div>
 
             {/* Progress horizontal bar */}
-            <div className="bg-white border border-gray-200 rounded-md p-4 shadow-sm">
+            <div className="min-w-0 bg-white border border-gray-200 rounded-md p-4 shadow-sm">
               <p className="text-[12px] font-semibold text-gray-700 font-inter">
                 Progress distribution
               </p>
@@ -268,7 +344,7 @@ const ProjectsPage = () => {
                 <BarChart
                   data={progressBarData}
                   layout="vertical"
-                  margin={{ top: 0, right: 18, bottom: 0, left: 10 }}
+                  margin={{ top: 0, right: 18, bottom: 0, left: -15 }}
                   barSize={9}
                 >
                   <CartesianGrid
@@ -307,9 +383,9 @@ const ProjectsPage = () => {
           </div>
 
           {/* ── Row 2: Gantt + Completion rate ──────────────────────────── */}
-          <div className="grid grid-cols-2 gap-3 mx-1 mb-3">
+          <div className="grid lg:grid-cols-2 gap-3 mx-1 mb-3">
             {/* Gantt */}
-            <div className="bg-white border border-gray-200 rounded-md p-4 shadow-sm">
+            <div className="min-w-0 bg-white border border-gray-200 rounded-md p-4 shadow-sm">
               <p className="text-[12px] font-semibold text-gray-700 font-inter">
                 Project timeline
               </p>
@@ -333,35 +409,45 @@ const ProjectsPage = () => {
                 ))}
               </div>
 
-              {/* Day ruler */}
-              <div className="flex ml-[132px] mb-1 pr-[56px]">
-                {Array.from(
-                  { length: maxDay - minDay + 1 },
-                  (_, i) => minDay + i,
-                ).map((d) => (
-                  <div
-                    key={d}
-                    className="flex-1 text-[8px] text-gray-300 font-poppins text-center tabular-nums"
-                  >
-                    {d}
+              {/* Scrolls horizontally on narrow screens instead of squishing the
+                  day columns; min-width keeps every day label readable. */}
+              <div className="overflow-x-auto scroll-smooth [&::-webkit-scrollbar]:h-0.5 [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-track]:bg-gray-100">
+                <div className="min-w-[420px]">
+                  {/* Day ruler */}
+                  <div className={`grid ${ganttGridCols} gap-3 mb-1`}>
+                    <div />
+                    <div className="flex">
+                      {Array.from(
+                        { length: maxDay - minDay + 1 },
+                        (_, i) => minDay + i,
+                      ).map((d) => (
+                        <div
+                          key={d}
+                          className="flex-1 text-[8px] text-gray-300 font-poppins text-center tabular-nums"
+                        >
+                          {d}
+                        </div>
+                      ))}
+                    </div>
+                    <div />
                   </div>
-                ))}
-              </div>
 
-              <div className="flex flex-col">
-                {projects.map((p) => (
-                  <GanttRow
-                    key={p.id}
-                    project={p}
-                    minDay={minDay}
-                    maxDay={maxDay}
-                  />
-                ))}
+                  <div className="flex flex-col">
+                    {projects.map((p) => (
+                      <GanttRow
+                        key={p.id}
+                        project={p}
+                        minDay={minDay}
+                        maxDay={maxDay}
+                      />
+                    ))}
+                  </div>
+                </div>
               </div>
             </div>
 
             {/* Completion rate area chart */}
-            <div className="bg-white border border-gray-200 rounded-md p-4 shadow-sm">
+            <div className="min-w-0 bg-white border border-gray-200 rounded-md p-4 shadow-sm">
               <p className="text-[12px] font-semibold text-gray-700 font-inter">
                 Completion rate over time
               </p>
@@ -438,7 +524,7 @@ const ProjectsPage = () => {
         <div className="bg-slate-50 w-[90%] max-w-[1050px] my-15 rounded-lg p-1 shadow mx-auto">
           {/* Header */}
           <div className="flex items-center justify-between">
-            <h1 className="text-2xl font-inter text-gray-800 font-bold mt-3 mb-2 mx-2 flex items-center">
+            <h1 className="text-2xl font-inter text-gray-800 font-bold mt-3 mb-2 mx-2 flex items-center table-task-title">
               Projects{" "}
               <img
                 src={ArrowRight}
@@ -457,7 +543,7 @@ const ProjectsPage = () => {
             style={{ width: "calc(100% - 8px)" }}
           >
             <table className="w-full min-w-[1000px] border-collapse">
-              <thead className="text-sm text-neutral-800 font-inter">
+              <thead className="text-sm text-neutral-800 font-inter table-task-head">
                 <tr>
                   <th className="w-[110px] border-r border-b border-gray-200 text-left px-1 py-2">
                     <span className="flex items-center gap-1.5">
@@ -482,7 +568,7 @@ const ProjectsPage = () => {
                   </th>
                 </tr>
               </thead>
-              <tbody className="text-[12px] text-gray-600 font-poppins">
+              <tbody className="text-[12px] text-gray-600 font-poppins table-task-data">
                 {projects.map((project, index) => (
                   <React.Fragment key={project.id}>
                     <tr
@@ -538,18 +624,18 @@ const ProjectsPage = () => {
           </div>
 
           {/* Pagination */}
-          <div className="flex items-center justify-between my-3 mt-5 mx-2">
-            <div className="text-[10px] text-gray-600 font-poppins">
+          <div className="flex items-center justify-between my-3 mt-5 mx-2 table-footer">
+            <div className="text-[9px] sm:text-[10px] text-gray-600 font-poppins">
               Showing 1 to {projects.length} of {projects.length} entries
             </div>
             <div className="flex items-center justify-center gap-2 mt-3 mr-2">
-              <span className="text-[12px] font-poppins text-white bg-gray-800 p-2 rounded-lg cursor-pointer">
+              <span className="text-[9px] sm:text-[12px] font-poppins text-white bg-gray-800 p-2 rounded-lg cursor-pointer">
                 Previous
               </span>
-              <span className="text-[12px] font-semibold text-gray-600 font-poppins px-4 py-1 bg-white rounded border border-dotted border-gray-300">
+              <span className="text-[9px] sm:text-[12px] font-semibold text-gray-600 font-poppins px-4 py-1 bg-white rounded border border-dotted border-gray-300">
                 1
               </span>
-              <span className="text-[12px] font-poppins text-white bg-gray-800 p-2 px-5 rounded-lg cursor-pointer">
+              <span className="text-[9px] sm:text-[12px] font-poppins text-white bg-gray-800 p-2 px-5 rounded-lg cursor-pointer">
                 Next
               </span>
             </div>

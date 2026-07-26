@@ -311,6 +311,14 @@ body {
   .table-task-name-data {
     width: 170px;
   }
+  .proj-status-chart{
+    flex-direction: column;
+    
+  }
+  .proj-status-chart > div{
+    width: 90%;
+    margin: 0px auto;
+  }
 }
 
 @media (max-width: 430px) {
@@ -349,6 +357,7 @@ body {
   .view-task-modal-details div {
     width: fit-content;
   }
+
 }
 @media (max-width: 350px) {
   .task-create-modal-form {
@@ -379,5 +388,20 @@ body {
     padding-left: 0px;
     justify-content: start;
     gap: 20px;
+  }
+  .table-footer{
+    flex-direction: column;
+  }
+  .page-heading{
+    font-size: 20px;
+  }
+  .proj-name{
+    font-size: 16px;
+  }
+  .proj-id{
+    font-size: 10px;
+  }
+  .proj-status{
+    font-size: 10px;
   }
 }

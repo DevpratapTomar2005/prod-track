@@ -332,7 +332,7 @@ const ProjectAnalytics = () => {
   return (
     <div className="w-full h-[calc(100vh-53px)] mt-[53px] overflow-y-auto [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-thumb]:bg-cyan-100 [&::-webkit-scrollbar-track]:bg-gray-100/40">
       <div className="w-[90%] max-w-[1050px] mt-2 mx-auto">
-        <h1 className="text-2xl font-inter text-gray-800 font-bold mt-10 flex items-center">
+        <h1 className="text-2xl font-inter text-gray-800 font-bold mt-10 flex items-center page-heading">
           Project Analytics{" "}
           <img
             src={ArrowRight}
@@ -340,103 +340,102 @@ const ProjectAnalytics = () => {
             className="invert-80 h-7 w-7"
           />
         </h1>
-        <h3 className="text-[12px] text-gray-400 font-poppins mt-1">
+        <h3 className="text-[12px] text-gray-400 font-poppins mt-1 page-subheading">
           Insights into project progress and task analytics
         </h3>
       </div>
       <div className="border border-gray-200 w-[90%] max-w-[1050px] mx-auto p-4 rounded-md mt-8 flex items-center justify-between shadow-sm">
         <div>
-        <h1 className="text-lg font-inter text-gray-800 font-semibold flex items-center">
-          Project Alpha{" "}
-         
-        </h1>
-        <h3 className="text-[12px] text-gray-400 font-poppins mt-1 bg-gray-50 w-fit p-1 rounded-lg">
-          #PROJECT-2001
-        </h3>
+          <h1 className="text-lg font-inter text-gray-800 font-semibold flex items-center proj-name">
+            Project Alpha{" "}
+          </h1>
+          <h3 className="text-[12px] text-gray-400 font-poppins mt-1 bg-gray-50 w-fit p-1 rounded-lg proj-id">
+            #PROJECT-2001
+          </h3>
         </div>
         <div>
-          <h3 className="text-[13px] text-cyan-400 font-poppins mt-1 bg-green-50 border border-cyan-300 w-fit py-1.5 px-4 rounded-lg ">
-          In Progress
-        </h3>
+          <h3 className="text-[13px] text-cyan-400 font-poppins mt-1 bg-green-50 proj-status border border-cyan-300 w-fit py-1.5 px-4 rounded-lg ">
+            In Progress
+          </h3>
         </div>
       </div>
       <div className="w-[90%] max-w-[1050px] mt-2 mx-auto">
-        <div className="grid grid-cols-3 gap-3 mb-3">
+        <div className="grid grid-cols-1 gap-0 min-[900px]:grid-cols-3 min-[900px]:gap-3 mb-3 mx-1">
           <div className="bg-white border border-gray-200 rounded-md p-4 col-span-2 shadow-sm">
-            
-              <p className="text-[12px] font-semibold text-gray-700 font-inter">
-                Project Velocity
-              </p>
-              <p className="text-[10px] text-gray-400 font-poppins mb-2">
-                Your weekly project velocity
-              </p>
-              <ChartContainer
-                config={completionChartConfig}
-                className="h-[170px] w-full"
+            <p className="text-[12px] font-semibold text-gray-700 font-inter">
+              Project Velocity
+            </p>
+            <p className="text-[10px] text-gray-400 font-poppins mb-2">
+              Your weekly project velocity
+            </p>
+            <ChartContainer
+              config={completionChartConfig}
+              className="h-[170px] w-full"
+            >
+              <AreaChart
+                data={completionData}
+                margin={{ top: 8, right: 8, bottom: 0, left: 0 }}
               >
-                <AreaChart
-                  data={completionData}
-                  margin={{ top: 8, right: 8, bottom: 0, left: 0 }}
-                >
-                  <defs>
-                    <linearGradient
-                      id="completionFill"
-                      x1="0"
-                      y1="0"
-                      x2="0"
-                      y2="1"
-                    >
-                      <stop
-                        offset="5%"
-                        stopColor="hsl(262 70% 58%)"
-                        stopOpacity={0.15}
-                      />
-                      <stop
-                        offset="95%"
-                        stopColor="hsl(262 70% 58%)"
-                        stopOpacity={0}
-                      />
-                    </linearGradient>
-                  </defs>
-                  <CartesianGrid
-                    strokeDasharray="3 3"
-                    stroke="#f3f4f6"
-                    vertical={false}
-                  />
-                  <XAxis
-                    dataKey="week"
-                    tick={{ fontSize: 10, fill: "#9ca3af" }}
-                    tickLine={false}
-                    axisLine={false}
-                  />
-                  <YAxis
-                    tick={{ fontSize: 10, fill: "#9ca3af" }}
-                    tickLine={false}
-                    axisLine={false}
-                    width={24}
-                    allowDecimals={false}
-                  />
-                  <ChartTooltip content={<ChartTooltipContent />} />
-                  <Area
-                    type="linear"
-                    dataKey="Completed"
-                    stroke="oklch(27.8% 0.033 256.848)"
-                    strokeWidth={2}
-                    fill="url(#completionFill)"
-                    activeDot={{ r: 5, strokeWidth: 0 }}
-                  />
-                </AreaChart>
-              </ChartContainer>
-            
+                <defs>
+                  <linearGradient
+                    id="completionFill"
+                    x1="0"
+                    y1="0"
+                    x2="0"
+                    y2="1"
+                  >
+                    <stop
+                      offset="5%"
+                      stopColor="hsl(262 70% 58%)"
+                      stopOpacity={0.15}
+                    />
+                    <stop
+                      offset="95%"
+                      stopColor="hsl(262 70% 58%)"
+                      stopOpacity={0}
+                    />
+                  </linearGradient>
+                </defs>
+                <CartesianGrid
+                  strokeDasharray="3 3"
+                  stroke="#f3f4f6"
+                  vertical={false}
+                />
+                <XAxis
+                  dataKey="week"
+                  tick={{ fontSize: 10, fill: "#9ca3af" }}
+                  tickLine={false}
+                  axisLine={false}
+                />
+                <YAxis
+                  tick={{ fontSize: 10, fill: "#9ca3af" }}
+                  tickLine={false}
+                  axisLine={false}
+                  width={24}
+                  allowDecimals={false}
+                />
+                <ChartTooltip content={<ChartTooltipContent />} />
+                <Area
+                  type="linear"
+                  dataKey="Completed"
+                  stroke="oklch(27.8% 0.033 256.848)"
+                  strokeWidth={2}
+                  fill="url(#completionFill)"
+                  activeDot={{ r: 5, strokeWidth: 0 }}
+                />
+              </AreaChart>
+            </ChartContainer>
           </div>
           {/* Project progress half-donut */}
-          <div className="bg-white border border-gray-200 rounded-md p-4 pb-6 col-span-1 shadow-sm">
-            <p className="text-[12px] font-semibold text-gray-700 font-inter">
-              Project progress
-            </p>
-            <p className="text-[10px] text-gray-400 font-poppins mb-3">
-              Overall completion based on done tasks
-            </p>
+          <div className="bg-white border border-gray-200 rounded-md p-4 pb-6 col-span-1 shadow-sm max-[900px]:flex max-[900px]:justify-between max-[900px]:mt-3 max-[450px]:flex-col">
+            <div>
+              <p className="text-[12px] font-semibold text-gray-700 font-inter">
+                Project progress
+              </p>
+              <p className="text-[10px] text-gray-400 font-poppins mb-3">
+                Overall completion based on done tasks
+              </p>
+            </div>
 
             <div className="flex flex-col items-center justify-center gap-2 px-4">
               <div className="w-full max-w-[300px]">
@@ -449,7 +448,7 @@ const ProjectAnalytics = () => {
             </div>
           </div>
         </div>
-        <div className="grid grid-cols-2 gap-3 mx-1 mb-3">
+        <div className="grid grid-cols-1 min-[900px]:grid-cols-2 gap-3 mx-1 mb-3">
           {/* Status donut */}
           <div className="bg-white border border-gray-200 rounded-md p-4 col-span-1 shadow-sm">
             <p className="text-[12px] font-semibold text-gray-700 font-inter">
@@ -459,7 +458,7 @@ const ProjectAnalytics = () => {
               Tasks by current status
             </p>
 
-            <div className="flex items-center gap-3 ">
+            <div className="flex items-center gap-3 max-[900px]:justify-around max-[450px]:flex-col max-[450px]:justify-between">
               {/* Donut via shadcn ChartContainer */}
               <ChartContainer
                 config={statusChartConfig}
@@ -484,7 +483,7 @@ const ProjectAnalytics = () => {
               </ChartContainer>
 
               {/* Custom legend */}
-              <div className="flex flex-col gap-2.5 flex-1 mr-5">
+              <div className="flex flex-col gap-2.5 flex-1 mr-5 max-[900px]:max-w-[300px] max-[450px]:w-full">
                 {statusPieData.map((s) => (
                   <div
                     key={s.name}
@@ -516,82 +515,80 @@ const ProjectAnalytics = () => {
             </div>
           </div>
           <div className="bg-white border border-gray-200 rounded-md p-4 col-span-1 shadow-sm">
-            
-              <p className="text-[12px] font-semibold text-gray-700 font-inter">
-                Task Completion Stats
-              </p>
-              <p className="text-[10px] text-gray-400 font-poppins mb-2">
-                Tasks completed per week
-              </p>
-              <ChartContainer
-                config={completionChartConfig}
-                className="h-[170px] w-full"
+            <p className="text-[12px] font-semibold text-gray-700 font-inter">
+              Task Completion Stats
+            </p>
+            <p className="text-[10px] text-gray-400 font-poppins mb-2">
+              Tasks completed per week
+            </p>
+            <ChartContainer
+              config={completionChartConfig}
+              className="h-[170px] w-full"
+            >
+              <AreaChart
+                data={completionData}
+                margin={{ top: 8, right: 8, bottom: 0, left: 0 }}
               >
-                <AreaChart
-                  data={completionData}
-                  margin={{ top: 8, right: 8, bottom: 0, left: 0 }}
-                >
-                  <defs>
-                    <linearGradient
-                      id="completionFill"
-                      x1="0"
-                      y1="0"
-                      x2="0"
-                      y2="1"
-                    >
-                      <stop
-                        offset="5%"
-                        stopColor="hsl(262 70% 58%)"
-                        stopOpacity={0.15}
-                      />
-                      <stop
-                        offset="95%"
-                        stopColor="hsl(262 70% 58%)"
-                        stopOpacity={0}
-                      />
-                    </linearGradient>
-                  </defs>
-                  <CartesianGrid
-                    strokeDasharray="3 3"
-                    stroke="#f3f4f6"
-                    vertical={false}
-                  />
-                  <XAxis
-                    dataKey="week"
-                    tick={{ fontSize: 10, fill: "#9ca3af" }}
-                    tickLine={false}
-                    axisLine={false}
-                  />
-                  <YAxis
-                    tick={{ fontSize: 10, fill: "#9ca3af" }}
-                    tickLine={false}
-                    axisLine={false}
-                    width={24}
-                    allowDecimals={false}
-                  />
-                  <ChartTooltip content={<ChartTooltipContent />} />
-                  <Area
-                    type="stepAfter"
-                    dataKey="Completed"
-                    stroke="oklch(27.8% 0.033 256.848)"
-                    strokeWidth={2}
-                    fill="url(#completionFill)"
-                    dot={{
-                      r: 3,
-                      fill: "oklch(78.9% 0.154 211.53)",
-                      strokeWidth: 0,
-                    }}
-                    activeDot={{ r: 5, strokeWidth: 0 }}
-                  />
-                </AreaChart>
-              </ChartContainer>
-            
+                <defs>
+                  <linearGradient
+                    id="completionFill"
+                    x1="0"
+                    y1="0"
+                    x2="0"
+                    y2="1"
+                  >
+                    <stop
+                      offset="5%"
+                      stopColor="hsl(262 70% 58%)"
+                      stopOpacity={0.15}
+                    />
+                    <stop
+                      offset="95%"
+                      stopColor="hsl(262 70% 58%)"
+                      stopOpacity={0}
+                    />
+                  </linearGradient>
+                </defs>
+                <CartesianGrid
+                  strokeDasharray="3 3"
+                  stroke="#f3f4f6"
+                  vertical={false}
+                />
+                <XAxis
+                  dataKey="week"
+                  tick={{ fontSize: 10, fill: "#9ca3af" }}
+                  tickLine={false}
+                  axisLine={false}
+                />
+                <YAxis
+                  tick={{ fontSize: 10, fill: "#9ca3af" }}
+                  tickLine={false}
+                  axisLine={false}
+                  width={24}
+                  allowDecimals={false}
+                />
+                <ChartTooltip content={<ChartTooltipContent />} />
+                <Area
+                  type="stepAfter"
+                  dataKey="Completed"
+                  stroke="oklch(27.8% 0.033 256.848)"
+                  strokeWidth={2}
+                  fill="url(#completionFill)"
+                  dot={{
+                    r: 3,
+                    fill: "oklch(78.9% 0.154 211.53)",
+                    strokeWidth: 0,
+                  }}
+                  activeDot={{ r: 5, strokeWidth: 0 }}
+                />
+              </AreaChart>
+            </ChartContainer>
           </div>
         </div>
       </div>
       <div className="bg-slate-50 w-[90%] max-w-[1050px] my-10 rounded-lg p-1 shadow mx-auto">
         <div className="flex items-center justify-between">
-          <h1 className="text-2xl font-inter text-gray-800 font-bold mt-3 mb-2 mx-2 flex items-center">
+          <h1 className="text-2xl font-inter text-gray-800 font-bold mt-3 mb-2 mx-2 flex items-center table-task-title">
             Tasks{" "}
             <img
               src={ArrowRight}
@@ -605,7 +602,7 @@ const ProjectAnalytics = () => {
         </div>
         <div className="border border-gray-200 rounded-md w-full bg-white overflow-x-auto scroll-smooth [&::-webkit-scrollbar]:h-0.5 [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-track]:bg-gray-100">
           <table className="w-full min-w-[1000px] border-collapse">
-            <thead className="text-sm text-neutral-800 font-inter">
+            <thead className="text-sm text-neutral-800 font-inter table-task-head">
               <tr>
                 <th className="w-[110px] border-r border-b border-gray-200 text-left px-1 py-2">
                   <span className="flex items-center gap-1.5">
@@ -636,7 +633,7 @@ const ProjectAnalytics = () => {
                 </th>
               </tr>
             </thead>
-            <tbody className="text-[12px] text-gray-600 font-poppins">
+            <tbody className="text-[12px] text-gray-600 font-poppins table-task-data">
               {tasks.map((task, index) => (
                 <React.Fragment key={task.id}>
                   <tr key={task.id} className="hover:bg-gray-50 cursor-pointer">
@@ -684,7 +681,7 @@ const ProjectAnalytics = () => {
           </table>
         </div>
       </div>
-       <div className="relative">
+      <div className="relative">
         <ProjectTimeline tasks={tasks} />
       </div>
     </div>

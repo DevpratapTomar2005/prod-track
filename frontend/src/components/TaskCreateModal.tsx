@@ -360,7 +360,7 @@ const TaskCreateModal = ({ onCancel }: { onCancel: () => void }) => {
                   required: "Unit is required",
                 })}
               >
-                <SelectTrigger className="w-full col-span-2 text-neutral-600 duration-select">
+                <SelectTrigger className="w-full max-w-28 col-span-2 text-neutral-600 duration-select">
                   <SelectValue placeholder="Unit" />
                 </SelectTrigger>
                 <SelectContent>
@@ -378,7 +378,7 @@ const TaskCreateModal = ({ onCancel }: { onCancel: () => void }) => {
               Status
             </span>
             <Select {...register("status", { required: "Status is required" })}>
-              <SelectTrigger className="w-full max-w-48 text-neutral-600">
+              <SelectTrigger className="w-full max-w-38 text-neutral-600">
                 <SelectValue placeholder="Select a status" />
               </SelectTrigger>
               <SelectContent>
@@ -420,7 +420,7 @@ const TaskCreateModal = ({ onCancel }: { onCancel: () => void }) => {
             Project
           </span>
           <Select {...register("project", { required: "Project is required" })}>
-            <SelectTrigger className="w-full max-w-48 text-neutral-600">
+            <SelectTrigger className="w-full max-w-40 text-neutral-600">
               <SelectValue placeholder="Select a project" />
             </SelectTrigger>
             <SelectContent>
