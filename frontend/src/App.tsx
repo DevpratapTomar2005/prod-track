@@ -31,7 +31,6 @@ function App() {
         <Route path="tasks" element={<TaskPage />} />
         <Route path="projects" element={<ProjectsPage />} />
         <Route path="projects/:project-name-id" element={<ProjectAnalytics/>}/>
-        
         <Route path="dashboard" element={<Dashboard />} />
         <Route path="calendar" element={<EventCalendarPage />} />
       </Route>

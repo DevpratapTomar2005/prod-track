@@ -23,11 +23,41 @@ import ArrowRight from "../assets/arrow_right.svg";
 // ─── Mock Data ────────────────────────────────────────────────────────────────
 
 const todaysTasks = [
-  { id: 1, title: "Fix login issue", project: "Project Alpha", status: "Done", time: "9:00 AM" },
-  { id: 2, title: "User profile page", project: "Nova Quiz", status: "In Progress", time: "10:30 AM" },
-  { id: 3, title: "Payment gateway UI", project: "J-fintech", status: "Paused", time: "12:00 PM" },
-  { id: 4, title: "Analytics SDK integration", project: "AI Chatbot", status: "In Progress", time: "2:00 PM" },
-  { id: 5, title: "Write API docs", project: "", status: "Expired", time: "4:00 PM" },
+  {
+    id: 1,
+    title: "Fix login issue",
+    project: "Project Alpha",
+    status: "Done",
+    time: "9:00 AM",
+  },
+  {
+    id: 2,
+    title: "User profile page",
+    project: "Nova Quiz",
+    status: "In Progress",
+    time: "10:30 AM",
+  },
+  {
+    id: 3,
+    title: "Payment gateway UI",
+    project: "J-fintech",
+    status: "Paused",
+    time: "12:00 PM",
+  },
+  {
+    id: 4,
+    title: "Analytics SDK integration",
+    project: "AI Chatbot",
+    status: "In Progress",
+    time: "2:00 PM",
+  },
+  {
+    id: 5,
+    title: "Write API docs",
+    project: "",
+    status: "Expired",
+    time: "4:00 PM",
+  },
 ];
 
 const taskStatusData = [
@@ -54,17 +84,61 @@ const avgCompletionCategories = [
 ];
 
 const velocityData = [
-  { week: "Wk 1", "Project Alpha": 3, "Nova Quiz": 2, "AI Chatbot": 1, "Fintech Dashboard": 4 },
-  { week: "Wk 2", "Project Alpha": 5, "Nova Quiz": 3, "AI Chatbot": 2, "Fintech Dashboard": 3 },
-  { week: "Wk 3", "Project Alpha": 4, "Nova Quiz": 4, "AI Chatbot": 4, "Fintech Dashboard": 2 },
-  { week: "Wk 4", "Project Alpha": 6, "Nova Quiz": 2, "AI Chatbot": 3, "Fintech Dashboard": 5 },
+  {
+    week: "Wk 1",
+    "Project Alpha": 3,
+    "Nova Quiz": 2,
+    "AI Chatbot": 1,
+    "Fintech Dashboard": 4,
+  },
+  {
+    week: "Wk 2",
+    "Project Alpha": 5,
+    "Nova Quiz": 3,
+    "AI Chatbot": 2,
+    "Fintech Dashboard": 3,
+  },
+  {
+    week: "Wk 3",
+    "Project Alpha": 4,
+    "Nova Quiz": 4,
+    "AI Chatbot": 4,
+    "Fintech Dashboard": 2,
+  },
+  {
+    week: "Wk 4",
+    "Project Alpha": 6,
+    "Nova Quiz": 2,
+    "AI Chatbot": 3,
+    "Fintech Dashboard": 5,
+  },
 ];
 
 const stuckTasks = [
-  { title: "Implement user auth flow", project: "Project Alpha", status: "In Progress", days: 5 },
-  { title: "Employee onboarding UI", project: "Fintech Dashboard", status: "In Progress", days: 4 },
-  { title: "Integrate analytics SDK", project: "AI Chatbot", status: "In Progress", days: 7 },
-  { title: "Write API documentation", project: "Nova Quiz", status: "In Progress", days: 3 },
+  {
+    title: "Implement user auth flow",
+    project: "Project Alpha",
+    status: "In Progress",
+    days: 5,
+  },
+  {
+    title: "Employee onboarding UI",
+    project: "Fintech Dashboard",
+    status: "In Progress",
+    days: 4,
+  },
+  {
+    title: "Integrate analytics SDK",
+    project: "AI Chatbot",
+    status: "In Progress",
+    days: 7,
+  },
+  {
+    title: "Write API documentation",
+    project: "Nova Quiz",
+    status: "In Progress",
+    days: 3,
+  },
 ];
 
 const dueSoonProjects = [
@@ -103,8 +177,6 @@ const productivityData = [
   { week: "Wk 4", efficiency: 58 },
 ];
 
-
-
 const tasksDueByProject = [
   { project: "Alpha", overdue: 1, today: 0, week: 2 },
   { project: "Nexis", overdue: 2, today: 1, week: 4 },
@@ -125,18 +197,24 @@ const StatusBadge = ({ status }: { status: string }) => {
     Todo: "bg-gray-50 text-gray-500 border border-gray-200",
   };
   return (
-    <span className={`text-[10px] font-poppins font-semibold px-1.5 py-0.5 rounded ${map[status] ?? "bg-gray-100 text-gray-500"}`}>
+    <span
+      className={`text-[10px] font-poppins font-semibold px-1.5 py-0.5 rounded ${map[status] ?? "bg-gray-100 text-gray-500"}`}
+    >
       {status}
     </span>
   );
 };
 
 const SectionLabel = ({ children }: { children: React.ReactNode }) => (
-  <p className="text-[10px] font-poppins font-semibold tracking-widest text-cyan-500 uppercase mb-1">{children}</p>
+  <p className="text-[10px] font-poppins font-semibold tracking-widest text-cyan-500 uppercase mb-1">
+    {children}
+  </p>
 );
 
 const CardTitle = ({ children }: { children: React.ReactNode }) => (
-  <p className="text-[12px] font-inter font-semibold text-gray-800">{children}</p>
+  <p className="text-[12px] font-inter font-semibold text-gray-800">
+    {children}
+  </p>
 );
 
 const CardSubtitle = ({ children }: { children: React.ReactNode }) => (
@@ -151,15 +229,21 @@ const Dashboard = () => {
     elapsedSec: 0,
     startedAt: null,
   });
-  const [activeTaskFilter, setActiveTaskFilter] = useState<"Daily" | "Monthly" | "Yearly">("Daily");
+  const [activeTaskFilter, setActiveTaskFilter] = useState<
+    "Daily" | "Monthly" | "Yearly"
+  >("Daily");
   const [avgFilter, setAvgFilter] = useState<"<1h" | "<2h" | "<3h">("<1h");
 
   const filterMaxHours = avgFilter === "<1h" ? 1 : avgFilter === "<2h" ? 2 : 3;
-  const filteredCategories = avgCompletionCategories.filter((c) => c.avg < filterMaxHours);
+  const filteredCategories = avgCompletionCategories.filter(
+    (c) => c.avg < filterMaxHours,
+  );
 
   const totalTasks = todaysTasks.length;
   const doneTasks = todaysTasks.filter((t) => t.status === "Done").length;
-  const inProgressTasks = todaysTasks.filter((t) => t.status === "In Progress").length;
+  const inProgressTasks = todaysTasks.filter(
+    (t) => t.status === "In Progress",
+  ).length;
 
   return (
     <div className="w-full h-[calc(100vh-53px)] mt-[53px] overflow-y-auto [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-thumb]:bg-cyan-100 [&::-webkit-scrollbar-track]:bg-gray-100/40 bg-white  transition-width duration-20 ease-in-out">
@@ -755,7 +839,7 @@ const Dashboard = () => {
                   <p className="text-[22px] font-inter font-bold text-gray-800 text-center">
                     7
                   </p>
-                  <p className="text-[9px] font-poppins text-gray-400">
+                  <p className="text-[9px] font-poppins text-gray-400 text-center">
                     Stale tasks
                   </p>
                 </div>
@@ -763,7 +847,7 @@ const Dashboard = () => {
                   <p className="text-[22px] font-inter font-bold text-[#ffb940] text-center">
                     5.4
                   </p>
-                  <p className="text-[9px] font-poppins text-gray-400">
+                  <p className="text-[9px] font-poppins text-gray-400 text-center">
                     Avg days idle
                   </p>
                 </div>
@@ -771,7 +855,7 @@ const Dashboard = () => {
                   <p className="text-[22px] font-inter font-bold text-[#fb4848] text-center">
                     3
                   </p>
-                  <p className="text-[9px] font-poppins text-gray-400">
+                  <p className="text-[9px] font-poppins text-gray-400 text-center">
                     Projects affected
                   </p>
                 </div>

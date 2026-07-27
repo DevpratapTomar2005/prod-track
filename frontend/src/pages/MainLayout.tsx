@@ -19,7 +19,7 @@ const MainLayout = () => {
           {location.pathname !== `/${name}/calendar` ? (
             <Topbar isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
           ) : null}
-          <Outlet />
+          <Outlet context={{ isExpanded, setIsExpanded }} />
         </div>
       </div>
     </div>

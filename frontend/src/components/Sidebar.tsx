@@ -5,10 +5,15 @@ import TaskIcon from "../assets/tasks_icon.svg";
 import Logo from "../assets/temp_logo.svg";
 import SidebarIcon from "../assets/sidebar_icon.svg";
 import CalendarIcon from "../assets/calendar.svg";
+import Dot from "../assets/dot.svg";
 
-const Sidebar = ({isExpanded=true, setIsExpanded}: { isExpanded?: boolean; setIsExpanded: (arg: boolean) => void }) => {
-  
-
+const Sidebar = ({
+  isExpanded = true,
+  setIsExpanded,
+}: {
+  isExpanded?: boolean;
+  setIsExpanded: (arg: boolean) => void;
+}) => {
   return (
     <div
       className={`h-screen bg-white border-r border-gray-200 transition-width duration-20 ease-in-out ${isExpanded ? "p-2 sidebar-expanded" : "p-1 sidebar-collapsed"}`}
@@ -16,9 +21,7 @@ const Sidebar = ({isExpanded=true, setIsExpanded}: { isExpanded?: boolean; setIs
       <div
         className={`p-2 flex items-center justify-between mt-1 ${isExpanded ? null : "flex-col-reverse"}`}
       >
-        <div
-          className={`flex items-center ${isExpanded ? null : "hidden"}`}
-        >
+        <div className={`flex items-center ${isExpanded ? null : "hidden"}`}>
           <span className="p-1 bg-black rounded">
             <img src={Logo} alt="logo" className="invert-100 h-5 w-5" />
           </span>
@@ -42,11 +45,7 @@ const Sidebar = ({isExpanded=true, setIsExpanded}: { isExpanded?: boolean; setIs
           }
         >
           <img src={DashboardIcon} alt="Dashboard Icon" className="h-5 w-5" />
-          <p
-            className={`${isExpanded ? null : "hidden"}`}
-          >
-            Dashboard
-          </p>
+          <p className={`${isExpanded ? null : "hidden"}`}>Dashboard</p>
         </NavLink>
         <NavLink
           to="/devpratap/tasks"
@@ -55,11 +54,7 @@ const Sidebar = ({isExpanded=true, setIsExpanded}: { isExpanded?: boolean; setIs
           }
         >
           <img src={TaskIcon} alt="Task Icon" className="h-5 w-5" />
-          <p
-            className={`${isExpanded ? null : "hidden"}`}
-          >
-            Tasks
-          </p>
+          <p className={`${isExpanded ? null : "hidden"}`}>Tasks</p>
         </NavLink>
         <NavLink
           to="/devpratap/projects"
@@ -68,11 +63,7 @@ const Sidebar = ({isExpanded=true, setIsExpanded}: { isExpanded?: boolean; setIs
           }
         >
           <img src={ProjectIcon} alt="Project Icon" className="h-5 w-5" />
-          <p
-            className={`${isExpanded ? null : "hidden"}`}
-          >
-            Projects
-          </p>
+          <p className={`${isExpanded ? null : "hidden"}`}>Projects</p>
         </NavLink>
         <NavLink
           to="/devpratap/calendar"
@@ -81,12 +72,28 @@ const Sidebar = ({isExpanded=true, setIsExpanded}: { isExpanded?: boolean; setIs
           }
         >
           <img src={CalendarIcon} alt="Calendar Icon" className="h-5 w-5" />
-          <p
-            className={`${isExpanded ? null : "hidden"}`}
-          >
-            Calendar
-          </p>
+          <p className={`${isExpanded ? null : "hidden"}`}>Calendar</p>
         </NavLink>
+      </div>
+      <div
+        className={`bg-cyan-100/80 rounded-full ${isExpanded ? "p-2" : "p-1"} hover:cursor-pointer hover:bg-cyan-200/50 flex items-center justify-between absolute bottom-5`}
+      >
+        <div className="flex items-center gap-1">
+          <div className={`p-4 rounded-full bg-blue-500 w-10 h-10`}></div>
+          <div className={`${isExpanded ? "visible" : "hidden"} `}>
+            <h3 className="text-[12px] font-roboto">Devpratap Tomar</h3>
+            <p className="text-[9px] mask-r-from-1 overflow-x-hidden w-[110px] text-gray-800 font-poppins">
+              devpratap.tomar2005@gmail.com
+            </p>
+          </div>
+        </div>
+        <div className={`${isExpanded ? "visible" : "hidden"}`}>
+          <img
+            src={Dot}
+            alt="dots"
+            className="tansform rotate-90 h-4 w-4 mb-2"
+          />
+        </div>
       </div>
     </div>
   );

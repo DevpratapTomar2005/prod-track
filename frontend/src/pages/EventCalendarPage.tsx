@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import { useOutletContext } from "react-router";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
@@ -21,6 +22,14 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import Plus from "../assets/plus.svg";
+import SidebarIcon from "../assets/sidebar_icon.svg";
+
+// ─── Layout context (passed down from MainLayout via <Outlet context={...} />) ─
+
+interface LayoutContext {
+  isExpanded: boolean;
+  setIsExpanded: (arg: boolean) => void;
+}
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -55,8 +64,8 @@ const EventDetailModal = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/1 backdrop-blur-[1px]">
-      <div className="bg-white rounded-xl shadow-lg w-[360px] p-5 font-inter border border-gray-200">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/1 backdrop-blur-[1px] p-4">
+      <div className="bg-white rounded-xl shadow-lg w-full max-w-[360px] max-h-[90vh] overflow-y-auto p-5 font-inter border border-gray-200">
         <div className="flex items-start justify-between mb-3">
           <div
             className="w-3 h-3 rounded-full mt-1 flex-shrink-0"
@@ -567,8 +576,8 @@ const CreateEventModal = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/1 backdrop-blur-[1px]">
-      <div className="bg-white rounded-xl shadow-lg w-[400px] p-5 font-inter border border-gray-200">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/1 backdrop-blur-[1px] p-4">
+      <div className="bg-white rounded-xl shadow-lg w-full max-w-[400px] max-h-[90vh] overflow-y-auto p-5 font-inter border border-gray-200 [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-thumb]:bg-cyan-100 [&::-webkit-scrollbar-track]:bg-gray-100/40">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-[14px] font-semibold text-gray-800">New Event</h2>
           <button
@@ -599,7 +608,7 @@ const CreateEventModal = ({
             <label className="text-[11px] font-medium text-gray-800 font-poppins">
               Start
             </label>
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               <CalendarDatePicker value={startDate} onChange={setStartDate} />
               <TimeSelect value={startTime} onChange={setStartTime} />
             </div>
@@ -610,14 +619,14 @@ const CreateEventModal = ({
             <label className="text-[11px] font-medium text-gray-800 font-poppins">
               End
             </label>
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               <CalendarDatePicker value={endDate} onChange={setEndDate} />
               <TimeSelect value={endTime} onChange={setEndTime} />
             </div>
           </div>
 
           {/* Project + Status */}
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             <div>
               <label className="text-[11px] font-medium text-gray-800 font-poppins">
                 Project
@@ -691,6 +700,7 @@ const CreateEventModal = ({
 const EventCalendarPage = () => {
   const calendarRef = useRef<FullCalendar>(null);
   const dispatch = useDispatch();
+  const { isExpanded, setIsExpanded } = useOutletContext<LayoutContext>();
   const globalModalState = useSelector((state: any) => state.globalModalState);
 
   const [currentViewTitle, setCurrentViewTitle] = useState("");
@@ -817,15 +827,21 @@ const EventCalendarPage = () => {
   ];
 
   return (
-    <div className="w-full h-screen overflow-y-hidden bg-white [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-thumb]:bg-cyan-100 [&::-webkit-scrollbar-track]:bg-gray-100/40  transition-width duration-20 ease-in-out">
+    <div className="w-full h-screen overflow-y-hidden bg-white [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-thumb]:bg-cyan-100 [&::-webkit-scrollbar-track]:bg-gray-100/40  transition-width duration-20 ease-in-out flex flex-col">
       {/* ── Page header ──────────────────────────────────────────────── */}
-      <div className="w-full mx-auto mb-4">
+      <div className="w-full mx-auto mb-4 flex-1 flex flex-col min-h-0">
         {/* ── Calendar card ──────────────────────────────────────────── */}
-        <div className="bg-white h-screen">
+        <div className="bg-white flex-1 flex flex-col min-h-0">
           {/* Toolbar */}
-          <div className="flex items-center justify-between flex-wrap gap-3 h-[66px] p-4 ">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between flex-wrap gap-3 p-4">
             {/* Navigation */}
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 flex-wrap">
+              <div
+                className="p-1 hover:bg-gray-100 cursor-ew-resize rounded-md hidden sidebar-toggle-topbar"
+                onClick={() => setIsExpanded(!isExpanded)}
+              >
+                <img src={SidebarIcon} alt="sidebar icon" className="h-5 w-5" />
+              </div>
               <button
                 onClick={() => navigate("prev")}
                 className="w-7 h-7 flex items-center justify-center rounded-md border border-gray-200 bg-white text-gray-500 hover:bg-gray-50 text-sm transition-colors"
@@ -850,13 +866,13 @@ const EventCalendarPage = () => {
             </div>
 
             {/* View switcher + Add */}
-            <div className="flex items-center gap-2">
-              <div className="flex rounded-md overflow-hidden border border-gray-200 bg-white">
+            <div className="flex items-center gap-2 max-[400px]:gap-1 flex-nowrap w-full sm:w-auto justify-between sm:justify-start overflow-x-auto">
+              <div className="flex rounded-md overflow-hidden border border-gray-200 bg-white shrink-0">
                 {viewButtons.map((v) => (
                   <button
                     key={v.key}
                     onClick={() => switchView(v.key)}
-                    className={`text-[11px] font-poppins px-3 py-1.5 transition-colors ${
+                    className={`text-[11px] max-[400px]:text-[9px] font-poppins px-3 max-[400px]:px-1.5 py-1.5 max-[400px]:py-1 whitespace-nowrap transition-colors ${
                       activeView === v.key
                         ? "bg-gray-800 text-white"
                         : "text-gray-500 hover:bg-gray-50"
@@ -871,10 +887,14 @@ const EventCalendarPage = () => {
                   setCreateModalStart(new Date().toISOString());
                   setShowCreateModal(true);
                 }}
-                className="text-[11px] font-poppins text-white bg-gray-800 rounded-md px-4 py-1.5 hover:bg-gray-700 transition-colors flex items-center gap-1 cursor-pointer"
+                className="text-[11px] max-[400px]:text-[9px] font-poppins text-white bg-gray-800 rounded-md px-4 max-[400px]:px-2 py-1.5 max-[400px]:py-1 hover:bg-gray-700 transition-colors flex items-center gap-1 max-[400px]:gap-0.5 whitespace-nowrap shrink-0 cursor-pointer"
               >
                 <span className="text-[15px] leading-none">
-                  <img src={Plus} alt="Plus" className="h-3.4 w-3 invert-100" />
+                  <img
+                    src={Plus}
+                    alt="Plus"
+                    className="h-3.4 w-3 max-[400px]:h-2.5 max-[400px]:w-2.5 invert-100"
+                  />
                 </span>{" "}
                 Add Event
               </button>
@@ -882,7 +902,7 @@ const EventCalendarPage = () => {
           </div>
 
           {/* FullCalendar */}
-          <div className="h-[calc(100%-66px)]">
+          <div className="flex-1 min-h-0">
             <style>{`
               .fc { font-family: 'Poppins', sans-serif; font-size: 12px; }
               .fc-toolbar { display: none !important; }
