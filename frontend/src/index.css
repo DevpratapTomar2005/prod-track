@@ -24,6 +24,19 @@ body {
   font-family: "Roboto", sans-serif;
 }
 
+body::-webkit-scrollbar {
+  width: 4px;   
+  height: 4px; 
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: #cffafe; 
+}
+
+body::-webkit-scrollbar-track {
+  background-color: rgb(243 244 246 / 0.4); 
+}
+
 @theme inline {
   --font-heading: var(--font-sans);
   --font-sans: "Geist Variable", sans-serif;

@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import type { SubmitHandler } from "react-hook-form";
-import {useNavigate} from "react-router";
+import { useNavigate } from "react-router";
 
 interface LoginInputs {
   email: string;
@@ -14,10 +14,7 @@ const Login = () => {
     handleSubmit,
     getValues,
     formState: { errors },
-    
   } = useForm<LoginInputs>();
-
- 
 
   const onSubmit: SubmitHandler<LoginInputs> = (data) => {
     console.log(data);
@@ -25,25 +22,25 @@ const Login = () => {
   };
 
   return (
-    <div className="flex">
-      <div className="w-full  border-r border-gray-200  min-h-[calc(100vh-61px)]">
-        <div className="m-10 mb-0">
-          <h1 className="font-inter text-8xl font-bold text-neutral-800 px-3">
+    <div className="flex max-[700px]:block">
+      <div className="w-full max-[1050px]:w-1/2 border-r border-gray-200 min-h-[calc(100vh-61px)] max-[700px]:min-h-0 max-[700px]:h-fit max-[700px]:w-full max-[700px]:border-r-0">
+        <div className="m-10 mb-0 max-[850px]:mx-2 max-[700px]:mx-10 max-[400px]:mx-1">
+          <h1 className="font-inter text-8xl max-[1050px]:text-7xl max-[850px]:text-6xl font-bold text-neutral-800 px-3">
             Login!
           </h1>
-          <div className="max-w-[280px] mx-1 h-3 bg-cyan-200"></div>
+          <div className="max-w-[280px] max-[1050px]:w-[220px] max-[850px]:w-[190px] mx-1 h-3 bg-cyan-200"></div>
         </div>
         <div>
-          <p className="text-xl mx-11 mt-5 tracking-wide font-poppins text-gray-500 font-light">
+          <p className="text-xl max-[1050px]:text-lg max-[850px]:text-md max-[850px]:mx-3 max-[700px]:mx-11 max-[400px]:mx-2 mx-11 mt-5 tracking-wide font-poppins text-gray-500 font-light">
             Ready to crush your goals today?
           </p>
         </div>
         <div className="w-[250%] bg-gray-200 h-px  relative left-[-100%] z-0 mt-10"></div>
-        <div className="w-full h-[300px] bg-[repeating-linear-gradient(45deg,transparent,transparent_15px,#e5e7eb_15px,#e5e7eb_16px)]"></div>
-        <div className="w-[250%] bg-gray-200 h-px  relative left-[-100%] mb-0 z-0 "></div>
+        <div className="w-full max-[700px]:h-[50px] h-[300px] bg-[repeating-linear-gradient(45deg,transparent,transparent_15px,#e5e7eb_15px,#e5e7eb_16px)]"></div>
+        <div className="w-[250%] bg-gray-200 h-px  relative left-[-100%] mb-10 z-0 "></div>
       </div>
-      <div className="w-2/3 bg-white relative z-1">
-        <div className="mx-10 mb-6 mt-15">
+      <div className="w-2/3 max-[1050px]:w-1/2 max-[850px]:w-3/5 bg-white relative z-1 max-[700px]:h-fit max-[700px]:w-full">
+        <div className="mx-10 mb-6 mt-15 max-[700px]:mt-10 max-[400px]:mx-4">
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="flex flex-col my-2">
               <label
@@ -98,8 +95,6 @@ const Login = () => {
                     },
                   })}
                 />
-
-                
               </div>
 
               {errors.password && (
@@ -122,7 +117,7 @@ const Login = () => {
             <p className="text-sm mt-3 text-neutral-500 text-center">Or</p>
           </div>
           <div className="mt-3">
-            <button className="group relative flex h-10 w-full max-w-[400px] cursor-pointer items-center justify-center overflow-hidden rounded-[4px] border border-[#747775] bg-white px-3 py-0 text-center font-roboto text-sm font-medium tracking-[0.25px] text-[#1f1f1f] outline-none transition-all duration-200 align-middle whitespace-nowrap disabled:opacity-50">
+            <button className="group relative flex h-10 w-full max-w-[400px] cursor-pointer items-center justify-center overflow-hidden rounded-[4px] border border-[#747775] bg-white px-3 py-0 text-center font-roboto text-sm font-medium tracking-[0.25px] text-[#1f1f1f] outline-none transition-all duration-200 align-middle whitespace-nowrap disabled:opacity-50 mx-auto">
               <div className="absolute inset-0 transition-opacity duration-200 opacity-0 group-hover:bg-[#1f1f1f] group-hover:opacity-[0.08] group-active:bg-[#1f1f1f] group-active:opacity-[0.12]"></div>
 
               <div className="relative flex items-center justify-center">
@@ -151,7 +146,7 @@ const Login = () => {
             </button>
           </div>
         </div>
-        <div className="w-[1000%] bg-gray-200 h-px mb-10 relative left-0"></div>
+        <div className="w-[1000%] bg-gray-200 h-px mb-10 relative left-0 max-[700px]:left-[-10%]"></div>
       </div>
     </div>
   );

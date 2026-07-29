@@ -4,7 +4,7 @@ import type { SubmitHandler } from "react-hook-form";
 import { useParams } from "react-router";
 import EyeOpen from "../assets/eye_open.svg";
 import EyeClose from "../assets/eye_off.svg";
-import {useNavigate} from "react-router";
+import { useNavigate } from "react-router";
 
 interface RegisterInputs {
   firstName?: string;
@@ -29,29 +29,33 @@ const Register = () => {
 
   const onSubmit: SubmitHandler<RegisterInputs> = (data) => {
     console.log(data);
-    navigate(`/${getValues("firstName")??getValues("organizationName")}/dashboard`);
+    navigate(
+      `/${getValues("firstName") ?? getValues("organizationName")}/dashboard`,
+    );
   };
 
   return (
-    <div className="flex ">
-      <div className="w-full border-r border-gray-200 min-h-[calc(100vh-61px)]">
-        <div className="m-10 mb-0">
-          <h1 className="font-inter text-8xl font-bold text-neutral-800 px-3">
+    <div className="flex max-[700px]:block">
+      <div className="w-full max-[1050px]:w-1/2  border-r border-gray-200 min-h-[calc(100vh-61px)] max-[700px]:min-h-0 max-[700px]:h-fit max-[700px]:w-full max-[700px]:border-r-0">
+        <div className="m-10 mb-0 max-[850px]:mx-2 max-[700px]:mx-10 max-[400px]:mx-1">
+          <h1 className="font-inter text-8xl max-[1050px]:text-7xl max-[850px]:text-6xl max-[700px]:8xl font-bold text-neutral-800 px-3">
             Register!
           </h1>
-          <div className="max-w-[385px] mx-1 h-3 bg-cyan-200"></div>
+          <div className="max-w-[385px] max-[1050px]:w-[293px] max-[850px]:w-[240px] mx-1 h-3 bg-cyan-200"></div>
         </div>
         <div>
-          <p className="text-xl mx-11 mt-5 tracking-wide font-poppins text-gray-500 font-light">
+          <p className="text-xl max-[1050px]:text-lg max-[850px]:text-md max-[850px]:mx-3 max-[700px]:mx-11 max-[400px]:mx-2 mx-11 mt-5 tracking-wide font-poppins text-gray-500 font-light">
             Master your time and maximize your output.
           </p>
         </div>
-        <div className="w-[250%] bg-gray-200 h-px relative left-[-100%] z-0 mt-10"></div>
-        <div className={`w-full ${roleType === "org" ? "h-[291px]" : "h-[363px]"} bg-[repeating-linear-gradient(45deg,transparent,transparent_15px,#e5e7eb_15px,#e5e7eb_16px)]`}></div>
-        <div className="w-[250%] bg-gray-200 h-px  relative left-[-100%] mb-10 z-0 "></div>
+        <div className="w-[250%] bg-gray-200 h-px relative left-[-100%] z-0 mt-10 "></div>
+        <div
+          className={`w-full max-[700px]:h-[50px] ${roleType === "org" ? "h-[291px]" : "h-[363px]"} bg-[repeating-linear-gradient(45deg,transparent,transparent_15px,#e5e7eb_15px,#e5e7eb_16px)]`}
+        ></div>
+        <div className="w-[250%] bg-gray-200 h-px  relative left-[-100%] mb-10 z-0"></div>
       </div>
-      <div className="w-2/3 bg-white relative z-1">
-        <div className="mx-10 mb-6 mt-10">
+      <div className="w-2/3 max-[1050px]:w-1/2 max-[850px]:w-3/5 bg-white relative z-1 max-[700px]:h-fit max-[700px]:w-full">
+        <div className="mx-10 mb-6 mt-10 max-[400px]:mx-4">
           <form onSubmit={handleSubmit(onSubmit)}>
             {roleType === "org" && (
               <div className="flex flex-col my-2 gap-1">
@@ -233,7 +237,6 @@ const Register = () => {
               <button
                 type="submit"
                 className="rounded-lg w-full bg-neutral-800 px-10 py-3 font-bold text-white cursor-pointer mt-5 shadow hover:bg-neutral-700 transition-colors duration-150 ease-in-out"
-                
               >
                 Submit
               </button>
@@ -272,7 +275,7 @@ const Register = () => {
             </button>
           </div>
         </div>
-        <div className="w-[1000%] bg-gray-200 h-px mb-10 relative left-0"></div>
+        <div className="w-[1000%] bg-gray-200 h-px mb-10 relative left-0 max-[700px]:left-[-10%]"></div>
       </div>
     </div>
   );
