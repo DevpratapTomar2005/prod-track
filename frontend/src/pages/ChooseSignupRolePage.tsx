@@ -30,7 +30,7 @@ const ChooseSignupRolePage = () => {
               Choose Your <span className=" italic font-medium">"Path."</span>
             </h1>
           </div>
-          <div className="mx-auto max-[350px]:w-[150px] max-[500px]:w-[250px] w-[410px] h-1 bg-cyan-200 "></div>
+          <div className="mx-auto max-[350px]:w-[150px] max-[550px]:w-[250px] w-[410px] h-1 bg-cyan-200 "></div>
         </div>
         <div className="w-[1000%] bg-gray-200 h-px relative left-[-10%] mt-15"></div>
         <div className="w-full grid grid-cols-2 divide-x  h-full overflow-y-hidden max-[760px]:grid-cols-1">
