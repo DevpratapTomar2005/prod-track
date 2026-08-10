@@ -1,0 +1,35 @@
+{
+  "compilerOptions": {
+    /* File Layout */
+    "rootDir": "./",
+    "outDir": "./dist",
+
+    /* Environment Settings */
+    "module": "nodenext",
+    "target": "esnext",
+    "lib": ["esnext"],
+    
+    /* Modern TS Extension Resolution Mapping */
+    "allowImportingTsExtensions": true,
+    "rewriteRelativeImportExtensions": true,
+
+    /* Other Outputs */
+    "sourceMap": true,
+    "declaration": true,
+    "declarationMap": true,
+
+    /* Stricter Typechecking Options */
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+
+    /* Recommended Options */
+    "strict": true,
+    "jsx": "react-jsx",
+    "verbatimModuleSyntax": true,
+    "isolatedModules": true,
+    "noUncheckedSideEffectImports": true,
+    "moduleDetection": "force",
+    "skipLibCheck": true
+  },
+  "include": ["**/*", "src/**/*"]
+}
