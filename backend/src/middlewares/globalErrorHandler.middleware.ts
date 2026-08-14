@@ -1,12 +1,17 @@
-import type { ErrorRequestHandler } from "express";
+import type {
+  ErrorRequestHandler,
+  Request,
+  Response,
+  NextFunction,
+} from "express";
 import { envConfig } from "../config/env.config.ts";
 import { ApiError } from "../utils/ApiError.ts";
 
 export const globalErrorHandler: ErrorRequestHandler = (
   err,
-  req,
-  res,
-  next,
+  _req: Request,
+  res: Response,
+  next: NextFunction,
 ) => {
   let error = err;
 
