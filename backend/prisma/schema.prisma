@@ -1,6 +1,3 @@
-
-
-
 generator client {
   provider = "prisma-client"
   output   = "../generated/prisma"
@@ -11,12 +8,42 @@ datasource db {
 }
 
 model User {
-  id String @id @default(uuid())
-  firstname String
-  lastname String
-  email String @unique
-  password String
-  created_at DateTime @default(now()) 
-  updated_at DateTime @updatedAt
+  id         String     @id @default(uuid())
+  firstname  String
+  lastname   String
+  email      String     @unique
+  password   String
+  sessions   Sessions[]
+  isValid    Boolean    @default(false)
+  otps       Otps[]
+  created_at DateTime   @default(now())
+  updated_at DateTime   @updatedAt
+
+  @@map("users")
 }
 
+model Sessions {
+  id           String   @id @default(uuid())
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId       String
+  userAgent    String
+  refreshToken String
+  revoked      Boolean @default(false)
+  ip           String
+  created_at   DateTime @default(now())
+  updated_at   DateTime @updatedAt
+
+  @@map("sessions")
+}
+
+model Otps {
+  id Int @id @default(autoincrement())
+  email String
+  otp String
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@map("otps")
+}
