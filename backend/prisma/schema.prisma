@@ -8,16 +8,17 @@ datasource db {
 }
 
 model User {
-  id         String     @id @default(uuid())
-  firstname  String
-  lastname   String
-  email      String     @unique
-  password   String
-  sessions   Sessions[]
-  isValid    Boolean    @default(false)
-  otps       Otps[]
-  created_at DateTime   @default(now())
-  updated_at DateTime   @updatedAt
+  id                  String               @id @default(uuid())
+  firstname           String
+  lastname            String
+  email               String               @unique
+  password            String
+  sessions            Sessions[]
+  isValid             Boolean              @default(false)
+  otps                Otps[]
+  passwordResetTokens PasswordResetToken[]
+  created_at          DateTime             @default(now())
+  updated_at          DateTime             @updatedAt
 
   @@map("users")
 }
@@ -46,4 +47,15 @@ model Otps {
   updated_at DateTime @updatedAt
 
   @@map("otps")
+}
+
+model PasswordResetToken {
+  id         Int      @id @default(autoincrement())
+  token      String   @unique
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String
+  expires_at DateTime
+  created_at DateTime @default(now())
+
+  @@map("password_reset_tokens")
 }
