@@ -76,9 +76,9 @@ const ProjectCreateModal = ({ onCancel }: { onCancel: () => void }) => {
               <SelectContent>
                 <SelectGroup>
                   <SelectLabel>Status</SelectLabel>
-                  <SelectItem value="todo">Todo</SelectItem>
-                  <SelectItem value="in progress">In Progress</SelectItem>
-                  <SelectItem value="done">Done</SelectItem>
+                  <SelectItem value="TODO">Todo</SelectItem>
+                  <SelectItem value="IN_PROGRESS">In Progress</SelectItem>
+                  <SelectItem value="DONE">Done</SelectItem>
                 </SelectGroup>
               </SelectContent>
             </Select>

@@ -13,7 +13,7 @@ export function getAccessToken(
   sid: string,
 ): string {
   const payload = { userId, email, sid };
-  return jwt.sign(payload, envConfig.JWT_SECRET, { expiresIn: "1m" });
+  return jwt.sign(payload, envConfig.JWT_SECRET, { expiresIn: "15m" });
 }
 
 export function getRefreshToken(
@@ -22,7 +22,7 @@ export function getRefreshToken(
   sid: string,
 ): string {
   const payload = { userId, email, sid };
-  return jwt.sign(payload, envConfig.JWT_SECRET, { expiresIn: "15m" });
+  return jwt.sign(payload, envConfig.JWT_SECRET, { expiresIn: "1d" });
 }
 
 export function verifyToken(token: string): CustomJwtPayload {

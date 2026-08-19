@@ -7,6 +7,12 @@ datasource db {
   provider = "postgresql"
 }
 
+enum Status {
+  TODO
+  IN_PROGRESS
+  DONE
+}
+
 model User {
   id                  String               @id @default(uuid())
   firstname           String
@@ -17,6 +23,7 @@ model User {
   isValid             Boolean              @default(false)
   otps                Otps[]
   passwordResetTokens PasswordResetToken[]
+  projects            Project[]
   created_at          DateTime             @default(now())
   updated_at          DateTime             @updatedAt
 
@@ -29,7 +36,7 @@ model Sessions {
   userId       String
   userAgent    String
   refreshToken String
-  revoked      Boolean @default(false)
+  revoked      Boolean  @default(false)
   ip           String
   created_at   DateTime @default(now())
   updated_at   DateTime @updatedAt
@@ -38,11 +45,11 @@ model Sessions {
 }
 
 model Otps {
-  id Int @id @default(autoincrement())
-  email String
-  otp String
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId String
+  id         Int      @id @default(autoincrement())
+  email      String
+  otp        String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
@@ -58,4 +65,18 @@ model PasswordResetToken {
   created_at DateTime @default(now())
 
   @@map("password_reset_tokens")
+}
+
+model Project {
+  id         String   @id @default(uuid())
+  name       String
+  start_date DateTime
+  end_date   DateTime
+  status     Status   @default(TODO)
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@map("projects")
 }

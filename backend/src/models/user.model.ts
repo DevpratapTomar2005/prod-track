@@ -1,3 +1,4 @@
+import {type Request } from 'express';
 
 export type UserRegisterBody = {
     firstname: string;
@@ -11,8 +12,17 @@ export type UserLoginBody = {
 }
 
 export type CookieOptions = {
-    httpOnly:boolean,
-    secure:boolean,
-    sameSite: "lax" | "strict" | "none",
-    maxAge:number
+    httpOnly:boolean;
+    secure:boolean;
+    sameSite: "lax" | "strict" | "none";
+    maxAge:number;
+}
+
+
+export interface AuthenticatedRequest extends Request {
+  user?: {
+    userId: string;
+    email: string;
+    sid: string;
+  };
 }
