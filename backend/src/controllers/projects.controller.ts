@@ -54,6 +54,9 @@ const getProjects = asyncHandler(
       where: {
         userId: user.userId,
       },
+      orderBy: {
+        created_at: "desc",
+      },
     });
 
     if (projects.length == 0) {

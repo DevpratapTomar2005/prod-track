@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import Plus from "../assets/plus.svg";
 import { format } from "date-fns";
 import { ChevronDownIcon, Trash2 } from "lucide-react";
@@ -32,11 +32,10 @@ const TaskCreateModal = ({ onCancel }: { onCancel: () => void }) => {
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
   } = useForm();
 
-  const [startDate, setStartDate] = useState<Date | undefined>(new Date());
-  const [dueDate, setDueDate] = useState<Date | undefined>(new Date());
   const [startTime, setStartTime] = useState<Dayjs | null>(dayjs(new Date()));
   const [subtaskInput, setSubtaskInput] = useState("");
   const [subtasks, setSubtasks] = useState<Array<{ id: number; name: string }>>(
@@ -47,7 +46,12 @@ const TaskCreateModal = ({ onCancel }: { onCancel: () => void }) => {
   );
   const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set());
 
-  const onSubmit = (data: any) => console.log(data);
+  const onSubmit = (data: any) =>
+    console.log({
+      ...data,
+      startTime: startTime?.format("HH:mm"),
+      subtasks
+    });
 
   const addSubtask = (
     e: React.MouseEvent | React.KeyboardEvent,
@@ -97,7 +101,6 @@ const TaskCreateModal = ({ onCancel }: { onCancel: () => void }) => {
         onSubmit={handleSubmit(onSubmit)}
         className="task-create-modal-form"
       >
-        {/* Task name */}
         <div className="mt-5 task-create-modal-div">
           <label
             htmlFor="task"
@@ -125,7 +128,6 @@ const TaskCreateModal = ({ onCancel }: { onCancel: () => void }) => {
           )}
         </div>
 
-        {/* Subtask input */}
         <div className="mt-5 task-create-modal-div">
           <div className="flex items-center gap-1">
             <Input
@@ -153,7 +155,6 @@ const TaskCreateModal = ({ onCancel }: { onCancel: () => void }) => {
           </div>
         </div>
 
-        {/* Subtasks table + delete button attached below at bottom-right */}
         {subtasks.length > 0 && (
           <div className="mt-5 task-create-modal-div">
             <div className="w-full border rounded-lg">
@@ -162,7 +163,6 @@ const TaskCreateModal = ({ onCancel }: { onCancel: () => void }) => {
                   <tr className="text-[13px] text-neutral-800 font-inter">
                     <th className="w-[100px] border-r text-left px-2 my-1.5">
                       <div className="flex items-center gap-1.5">
-                        {/* Header checkbox selects / deselects all */}
                         <Checkbox
                           size="xs"
                           checked={allSelected}
@@ -208,7 +208,6 @@ const TaskCreateModal = ({ onCancel }: { onCancel: () => void }) => {
               </table>
             </div>
 
-            {/* Delete button — sits flush below the table at bottom-right, only shown when rows are selected */}
             {selectedIds.size > 0 && (
               <div className="flex justify-end">
                 <button
@@ -225,65 +224,77 @@ const TaskCreateModal = ({ onCancel }: { onCancel: () => void }) => {
           </div>
         )}
 
-        {/* Start & Due Date */}
+        {/* Start & Due Date — now driven by Controller so RHF actually tracks the value */}
         <div className="mt-10 flex items-center gap-4 date-select-div">
           <div className="w-1/2 flex flex-col">
             <span className="text-lg font-inter font-semibold text-neutral-800 mb-2">
               Start Date
             </span>
-            <Popover
-              {...register("startDate", { required: "Start date is required" })}
-            >
-              <PopoverTrigger asChild>
-                <Button
-                  variant="outline"
-                  data-empty={!startDate}
-                  className="w-[160px] justify-between text-left font-normal data-[empty=true]:text-muted-foreground text-neutral-600"
-                >
-                  {startDate ? (
-                    format(startDate, "PPP")
-                  ) : (
-                    <span>Pick a date</span>
-                  )}
-                  <ChevronDownIcon />
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-auto p-0" align="start">
-                <Calendar
-                  mode="single"
-                  selected={startDate}
-                  onSelect={setStartDate}
-                  defaultMonth={startDate}
-                />
-              </PopoverContent>
-            </Popover>
+            <Controller
+              name="startDate"
+              control={control}
+              defaultValue={new Date()}
+              rules={{ required: "Start date is required" }}
+              render={({ field }) => (
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="outline"
+                      data-empty={!field.value}
+                      className="w-[160px] justify-between text-left font-normal data-[empty=true]:text-muted-foreground text-neutral-600"
+                    >
+                      {field.value ? (
+                        format(field.value, "dd/mm/yyyy")
+                      ) : (
+                        <span>Pick a date</span>
+                      )}
+                      <ChevronDownIcon />
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      mode="single"
+                      selected={field.value}
+                      onSelect={field.onChange}
+                      defaultMonth={field.value}
+                    />
+                  </PopoverContent>
+                </Popover>
+              )}
+            />
           </div>
           <div className="w-1/2 flex flex-col">
             <span className="text-lg font-inter font-semibold text-neutral-800 mb-2">
               Due Date
             </span>
-            <Popover
-              {...register("dueDate", { required: "Due date is required" })}
-            >
-              <PopoverTrigger asChild>
-                <Button
-                  variant="outline"
-                  data-empty={!dueDate}
-                  className="w-[160px] justify-between text-left font-normal data-[empty=true]:text-muted-foreground text-neutral-600"
-                >
-                  {dueDate ? format(dueDate, "PPP") : <span>Pick a date</span>}
-                  <ChevronDownIcon />
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-auto p-0" align="start">
-                <Calendar
-                  mode="single"
-                  selected={dueDate}
-                  onSelect={setDueDate}
-                  defaultMonth={dueDate}
-                />
-              </PopoverContent>
-            </Popover>
+            <Controller
+              name="dueDate"
+              control={control}
+              defaultValue={new Date()}
+              rules={{ required: "Due date is required" }}
+              render={({ field }) => (
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="outline"
+                      data-empty={!field.value}
+                      className="w-[160px] justify-between text-left font-normal data-[empty=true]:text-muted-foreground text-neutral-600"
+                    >
+                      {field.value ? format(field.value, "dd/mm/yyyy") : <span>Pick a date</span>}
+                      <ChevronDownIcon />
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      mode="single"
+                      selected={field.value}
+                      onSelect={field.onChange}
+                      defaultMonth={field.value}
+                    />
+                  </PopoverContent>
+                </Popover>
+              )}
+            />
           </div>
         </div>
         <div className="flex items-center gap-5">
@@ -299,7 +310,6 @@ const TaskCreateModal = ({ onCancel }: { onCancel: () => void }) => {
           )}
         </div>
 
-        {/* Start Time */}
         <div className="mt-10">
           <div className="text-lg font-inter font-semibold text-neutral-800 mb-2">
             Start Time
@@ -355,41 +365,53 @@ const TaskCreateModal = ({ onCancel }: { onCancel: () => void }) => {
                   },
                 })}
               />
-              <Select
-                {...register("estimatedDurationUnit", {
-                  required: "Unit is required",
-                })}
-              >
-                <SelectTrigger className="w-full max-w-28 col-span-2 text-neutral-600 duration-select">
-                  <SelectValue placeholder="Unit" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectLabel>Unit</SelectLabel>
-                    <SelectItem value="minutes">minutes</SelectItem>
-                    <SelectItem value="hours">hours</SelectItem>
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
+              <Controller
+                name="estimatedDurationUnit"
+                control={control}
+                defaultValue=""
+                rules={{ required: "Unit is required" }}
+                render={({ field }) => (
+                  <Select value={field.value} onValueChange={field.onChange}>
+                    <SelectTrigger className="w-full max-w-28 col-span-2 text-neutral-600 duration-select">
+                      <SelectValue placeholder="Unit" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        <SelectLabel>Unit</SelectLabel>
+                        <SelectItem value="minutes">minutes</SelectItem>
+                        <SelectItem value="hours">hours</SelectItem>
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
+                )}
+              />
             </div>
           </div>
           <div className="w-1/2">
             <span className="text-lg font-inter font-semibold text-neutral-800 mb-2">
               Status
             </span>
-            <Select {...register("status", { required: "Status is required" })}>
-              <SelectTrigger className="w-full max-w-38 text-neutral-600">
-                <SelectValue placeholder="Select a status" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectLabel>Status</SelectLabel>
-                  <SelectItem value="todo">Todo</SelectItem>
-                  <SelectItem value="in progress">In Progress</SelectItem>
-                  <SelectItem value="done">Done</SelectItem>
-                </SelectGroup>
-              </SelectContent>
-            </Select>
+            <Controller
+              name="status"
+              control={control}
+              defaultValue=""
+              rules={{ required: "Status is required" }}
+              render={({ field }) => (
+                <Select value={field.value} onValueChange={field.onChange}>
+                  <SelectTrigger className="w-full max-w-38 text-neutral-600">
+                    <SelectValue placeholder="Select a status" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectLabel>Status</SelectLabel>
+                      <SelectItem value="todo">Todo</SelectItem>
+                      <SelectItem value="in progress">In Progress</SelectItem>
+                      <SelectItem value="done">Done</SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              )}
+            />
           </div>
         </div>
         <div className="flex items-center justify-between gap-5 ">
@@ -419,19 +441,27 @@ const TaskCreateModal = ({ onCancel }: { onCancel: () => void }) => {
           <span className="text-lg font-inter font-semibold text-neutral-800 mb-2">
             Project
           </span>
-          <Select {...register("project", { required: "Project is required" })}>
-            <SelectTrigger className="w-full max-w-40 text-neutral-600">
-              <SelectValue placeholder="Select a project" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectLabel>Projects</SelectLabel>
-                <SelectItem value="none">None</SelectItem>
-                <SelectItem value="ecommerce">E-Commerce</SelectItem>
-                <SelectItem value="crm">CRM</SelectItem>
-              </SelectGroup>
-            </SelectContent>
-          </Select>
+          <Controller
+            name="project"
+            control={control}
+            defaultValue=""
+            rules={{ required: "Project is required" }}
+            render={({ field }) => (
+              <Select value={field.value} onValueChange={field.onChange}>
+                <SelectTrigger className="w-full max-w-40 text-neutral-600">
+                  <SelectValue placeholder="Select a project" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectLabel>Projects</SelectLabel>
+                    <SelectItem value="none">None</SelectItem>
+                    <SelectItem value="ecommerce">E-Commerce</SelectItem>
+                    <SelectItem value="crm">CRM</SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            )}
+          />
           {errors.project && (
             <p className="text-red-500 text-sm mt-1">
               {errors.project.message as string}
@@ -439,7 +469,6 @@ const TaskCreateModal = ({ onCancel }: { onCancel: () => void }) => {
           )}
         </div>
 
-        {/* Footer buttons */}
         <div className="w-full flex items-center justify-end mt-10 gap-2 task-create-modal-footer">
           <Button
             variant="outline"

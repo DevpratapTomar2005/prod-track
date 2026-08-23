@@ -24,6 +24,7 @@ model User {
   otps                Otps[]
   passwordResetTokens PasswordResetToken[]
   projects            Project[]
+  tasks               Task[]
   created_at          DateTime             @default(now())
   updated_at          DateTime             @updatedAt
 
@@ -75,8 +76,44 @@ model Project {
   status     Status   @default(TODO)
   user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId     String
+  tasks      Task[]
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
   @@map("projects")
+}
+
+model Task {
+  id           String    @id @default(uuid())
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId       String
+  task         String
+  estStartTime DateTime
+  estStartDate DateTime
+  dueDate      DateTime
+  status       Status    @default(TODO)
+  subtasks     Subtask[]
+  project      Project?  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId    String?
+  duration     Decimal
+  unit         String
+  elapsedTime  DateTime?
+  overRun      DateTime?
+  orgStartDate DateTime?
+  orgEndDate   DateTime?
+  created_at   DateTime  @default(now())
+  updated_at   DateTime  @updatedAt
+
+  @@map("tasks")
+}
+
+model Subtask {
+  id         Int      @id @default(autoincrement())
+  subtask    String
+  task       Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  taskId     String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@map("subtasks")
 }
