@@ -28,12 +28,12 @@ const createTask = asyncHandler(
       data: {
         task,
         estStartDate: new Date(startDate),
-        estStartTime: new Date(startTime),
+        estStartTime: startTime as string,
         dueDate: new Date(dueDate),
         duration: Number(duration),
         status,
         unit,
-        projectId: projectId,
+        projectId: projectId || null,
         userId: user.userId,
       },
     });
@@ -61,6 +61,81 @@ const createTask = asyncHandler(
   },
 );
 
+const startTask = asyncHandler(
+  async (req: AuthenticatedRequest, res: Response) => {
+    const { taskId, startTime, endTime, startDate, endDate } = req.body;
+    const user = req.user;
+
+    if (!user) {
+      throw new ApiError(401, "Unauthorized");
+    }
+
+    if (!taskId) {
+      throw new ApiError(400, "Please provide a task id");
+    }
+
+    const [updatedTask] = await prisma.task.updateManyAndReturn({
+      where: {
+        id: taskId as string,
+        userId: user.userId as string,
+      },
+      data: {
+        status: "IN_PROGRESS",
+        orgStartDate: new Date(startDate),
+        orgStartTime: startTime as string,
+      },
+    });
+
+    if (!updatedTask) {
+      throw new ApiError(404, "No tasks found to update");
+    }
+
+    res
+      .status(200)
+      .json(
+        new ApiResponse(200, { task: updatedTask }, "Task has been started"),
+      );
+  },
+);
+
+const endTask = asyncHandler(
+  async (req: AuthenticatedRequest, res: Response) => {
+    const { taskId, endTime, endDate, elapsedTime, overRun } = req.body;
+    const user = req.user;
+
+    if (!user) {
+      throw new ApiError(401, "Unauthorized");
+    }
+
+    if (!taskId) {
+      throw new ApiError(400, "Please provide a task id");
+    }
+
+    const [updatedTask] = await prisma.task.updateManyAndReturn({
+      where: {
+        id: taskId as string,
+        userId: user.userId as string,
+      },
+      data: {
+        status: "DONE",
+        orgEndDate: new Date(endDate),
+        orgEndTime: endTime as string,
+        overRun: overRun as string,
+        elapsedTime: elapsedTime as string,
+      },
+    });
+
+    if (!updatedTask) {
+      throw new ApiError(404, "No tasks found to update");
+    }
+
+    res
+      .status(200)
+      .json(
+        new ApiResponse(200, { task:updatedTask }, "task completed successfully"),
+      );
+  },
+);
 const getTaskById = asyncHandler(
   async (req: AuthenticatedRequest, res: Response) => {
     const taskId = req.params.taskId;
@@ -323,4 +398,6 @@ export default {
   deleteTask,
   deleteTasks,
   getTasksByProject,
+  endTask,
+  startTask
 };

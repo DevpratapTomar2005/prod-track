@@ -3,6 +3,7 @@ import cookieParser from "cookie-parser";
 import { globalErrorHandler } from "./middlewares/globalErrorHandler.middleware.ts";
 import authRoutes from "./routes/auth.routes.ts";
 import projectRoutes from "./routes/projects.routes.ts";
+import taskRoutes from "./routes/tasks.routes.ts";
 
 const app = express();
 
@@ -16,6 +17,7 @@ app.get("/health", (_, res: Response) => {
 
 app.use("/api/auth", authRoutes);
 app.use("/api/project",projectRoutes);
+app.use("/api/task", taskRoutes);
 
 app.use(globalErrorHandler);
 

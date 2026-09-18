@@ -92,7 +92,7 @@ model Task {
   user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId       String
   task         String
-  estStartTime DateTime
+  estStartTime String
   estStartDate DateTime
   dueDate      DateTime
   status       Status    @default(TODO)
@@ -101,10 +101,12 @@ model Task {
   projectId    String?
   duration     Decimal
   unit         String
-  elapsedTime  DateTime?
-  overRun      DateTime?
+  elapsedTime  String?
+  overRun      String?
   orgStartDate DateTime?
   orgEndDate   DateTime?
+  orgStartTime String?
+  orgEndTime   String?
   created_at   DateTime  @default(now())
   updated_at   DateTime  @updatedAt
 
