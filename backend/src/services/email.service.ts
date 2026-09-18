@@ -1,33 +1,39 @@
-import nodemailer from "nodemailer";
+import { Resend } from "resend";
 import { envConfig } from "../config/env.config.ts";
 
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    type: "OAuth2",
-    user: envConfig.GOOGLE_USER,
-    clientId: envConfig.GOOGLE_CLIENT_ID,
-    clientSecret: envConfig.GOOGLE_CLIENT_SECRET,
-    refreshToken: envConfig.GOOGLE_REFRESH_TOKEN,
-  },
-});
+const apiKey = envConfig.RESEND_API_KEY;
+const fromEmail = envConfig.RESEND_EMAIL_FROM;
 
-const verifyTransporter = async () => {
+
+
+const resend = new Resend(apiKey);
+
+
+export const sendEmail = async (to: string, subject: string, html: string) => {
   try {
-    await transporter.verify();
-    console.log("Email service is ready!");
-  } catch (error) {
-    console.error("Email service configuration failed:", error);
+    const { data, error } = await resend.emails.send({
+      from: fromEmail,
+      to,
+      subject,
+      html,
+    });
+
+    if (error) {
+     
+      console.error("Resend API internal error:", JSON.stringify(error, null, 2));
+      return { success: false, error: error.message };
+    }
+
+    return { success: true, data };
+  } catch (err) {
+  
+    console.error("Failed to execute sendEmail service:", err);
+    return { 
+      success: false, 
+      error: err instanceof Error ? err.message : "Unknown connection error" 
+    };
   }
 };
 
-verifyTransporter();
 
-export const sendEmail = async (to: string, subject: string, html: string) => {
-  return await transporter.sendMail({
-    from: envConfig.GOOGLE_USER,
-    to,
-    subject,
-    html,
-  });
-};
+

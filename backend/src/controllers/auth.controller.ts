@@ -25,7 +25,7 @@ const registerUser = asyncHandler(async (req: Request, res: Response) => {
   const existingUser = await prisma.user.findFirst({
     where: {
       email: email,
-    },
+    }
   });
 
   if (existingUser) {
@@ -56,7 +56,11 @@ const registerUser = asyncHandler(async (req: Request, res: Response) => {
     },
   });
 
-  await sendEmail(user.email, "Verification OTP", otpHtml);
+  const emailSent = await sendEmail(user.email, "Verification OTP", otpHtml);
+
+  if (!emailSent.success) {
+    throw new ApiError(400, "Failed to send OTP");
+  }
 
   res
     .status(201)
@@ -251,7 +255,11 @@ const loginUser = asyncHandler(async (req: Request, res: Response) => {
     },
   });
 
-  await sendEmail(user.email, "Login OTP", otpHtml);
+  const emailSent = await sendEmail(user.email, "Login OTP", otpHtml);
+
+  if(!emailSent.success){
+    throw new ApiError(400, "Failed to send OTP");
+  }
 
   res
     .status(200)

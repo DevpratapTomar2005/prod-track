@@ -6,10 +6,8 @@ type EnvConfig = {
   DATABASE_URL: string;
   NODE_ENV: string;
   JWT_SECRET: string;
-  GOOGLE_CLIENT_ID: string;
-  GOOGLE_CLIENT_SECRET: string;
-  GOOGLE_REFRESH_TOKEN: string;
-  GOOGLE_USER: string;
+  RESEND_API_KEY: string;
+  RESEND_EMAIL_FROM: string;
 };
 
 if (!process.env.PORT) {
@@ -24,20 +22,12 @@ if (!process.env.JWT_SECRET) {
   throw new Error("JWT_SECRET is not defined");
 }
 
-if (!process.env.GOOGLE_CLIENT_ID) {
-  throw new Error("GOOGLE_CLIENT_ID is not defined");
+if (!process.env.RESEND_API_KEY) {
+  throw new Error("RESEND_API_KEY is not defined");
 }
 
-if (!process.env.GOOGLE_CLIENT_SECRET) {
-  throw new Error("GOOGLE_CLIENT_SECRET is not defined");
-}
-
-if (!process.env.GOOGLE_REFRESH_TOKEN) {
-  throw new Error("GOOGLE_REFRESH_TOKEN is not defined");
-}
-
-if (!process.env.GOOGLE_USER) {
-  throw new Error("GOOGLE_USER is not defined");
+if (!process.env.RESEND_EMAIL_FROM) {
+  throw new Error("RESEND_EMAIL_FROM is not defined");
 }
 
 export const envConfig: EnvConfig = {
@@ -45,8 +35,6 @@ export const envConfig: EnvConfig = {
   DATABASE_URL: process.env.DATABASE_URL,
   NODE_ENV: process.env.NODE_ENV || "development",
   JWT_SECRET: process.env.JWT_SECRET,
-  GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
-  GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
-  GOOGLE_REFRESH_TOKEN: process.env.GOOGLE_REFRESH_TOKEN,
-  GOOGLE_USER: process.env.GOOGLE_USER,
+  RESEND_API_KEY: process.env.RESEND_API_KEY,
+  RESEND_EMAIL_FROM: process.env.RESEND_EMAIL_FROM,
 };
