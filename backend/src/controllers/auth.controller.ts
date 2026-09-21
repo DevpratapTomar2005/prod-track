@@ -87,7 +87,7 @@ const verifyOtp = asyncHandler(async (req: Request, res: Response) => {
   });
 
   if (!user) {
-    throw new ApiError(404, "Invalid credentials");
+    throw new ApiError(400, "Invalid credentials");
   }
 
   const hashedOtp = crypto.createHash("sha256").update(otp).digest("hex");
